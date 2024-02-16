@@ -7,22 +7,25 @@ namespace ProyectoFinal.Models
     {
         public Usuario()
         {
-            Asistencia = new HashSet<Asistencium>();
-            Calificaciones = new HashSet<Calificacione>();
-            Mensajes = new HashSet<Mensaje>();
-            UsuariosCursos = new HashSet<UsuariosCurso>();
+            Auditoria = new HashSet<Auditorium>();
         }
 
-        public int UserId { get; set; }
-        public string? Nombre { get; set; }
-        public string? Apellido { get; set; }
-        public string? CorreoElectronico { get; set; }
-        public string? Contraseña { get; set; }
-        public string? Rol { get; set; }
+        public int UsuarioId { get; set; }
+        public string Nombre { get; set; } = null!;
+        public string CorreoElectronico { get; set; } = null!;
+        public string Contraseña { get; set; } = null!;
+        public string? FotoPerfil { get; set; }
+        public string? DescripcionBreve { get; set; }
+        public string? Intereses { get; set; }
+        public string? Habilidades { get; set; }
+        public bool? ConfiguracionPrivacidad { get; set; }
+        public bool? ConfiguracionNotificaciones { get; set; }
+        public int? RolId { get; set; }
+        public bool? Permisos { get; set; }
 
-        public virtual ICollection<Asistencium> Asistencia { get; set; }
-        public virtual ICollection<Calificacione> Calificaciones { get; set; }
-        public virtual ICollection<Mensaje> Mensajes { get; set; }
-        public virtual ICollection<UsuariosCurso> UsuariosCursos { get; set; }
+        public virtual Role? Rol { get; set; }
+        public virtual Estudiante? Estudiante { get; set; }
+        public virtual Profesore? Profesore { get; set; }
+        public virtual ICollection<Auditorium> Auditoria { get; set; }
     }
 }

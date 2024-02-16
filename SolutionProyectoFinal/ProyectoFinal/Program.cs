@@ -1,8 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using ProyectoFinal.Configuration;
+using ProyectoFinal.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+string connectionString = builder.Configuration.GetConnectionString("Conex");
+builder.Services.AddDbContext<EduAsyncHubContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
+builder.Services.GetDependencyInjections();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
