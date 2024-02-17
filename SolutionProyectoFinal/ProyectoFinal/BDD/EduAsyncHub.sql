@@ -112,9 +112,9 @@ INSERT INTO Materias (NombreMateria) VALUES
 
 -- Tabla de CarrerasMaterias 
 CREATE TABLE CarrerasMaterias (
+    MateriaCarreraID INT PRIMARY KEY IDENTITY(1,1),
     CarreraID INT,
     MateriaID INT,
-    PRIMARY KEY (CarreraID, MateriaID),
     FOREIGN KEY (CarreraID) REFERENCES Carreras(CarreraID),
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
 );
@@ -128,14 +128,17 @@ INSERT INTO CarrerasMaterias (CarreraID, MateriaID) VALUES
 (5,2), (5,3), (5,4), (5,7), (5,8), (5,9), (5,11), (5,15), (5,18), (5,19), (5,25), (5,28); -- Seguridad informatica
 
 
--- Tabla de ProfesorMateria (relación muchos a muchos)
+-- Modificación Tabla de ProfesorMateria
 CREATE TABLE ProfesorMateria (
+    AsignacionMateriaID INT PRIMARY KEY IDENTITY(1,1),
     ProfesorID INT,
     MateriaID INT,
-    PRIMARY KEY (ProfesorID, MateriaID),
     FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID),
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
 );
+
+select * from ProfesorMateria
+
 
 -- Modificación de la tabla de EstudianteMateria
 CREATE TABLE EstudianteMateria (
@@ -145,6 +148,8 @@ CREATE TABLE EstudianteMateria (
     FOREIGN KEY (EstudianteID) REFERENCES Estudiantes(EstudianteID),
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
 );
+
+select * from EstudianteMateria
 
 -- Tabla de Asignaciones
 CREATE TABLE Asignaciones (
@@ -158,6 +163,8 @@ CREATE TABLE Asignaciones (
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID),
     FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID)
 );
+
+select * from Asignaciones
 
 -- Tabla de RespuestasEstudiantes
 CREATE TABLE RespuestasEstudiantes (
