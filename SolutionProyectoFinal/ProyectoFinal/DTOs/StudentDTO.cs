@@ -17,10 +17,12 @@
         }
 
          public class AllSubjectsStudentRequestDto
-        {
-            public int EstudianteId { get; set; }
+         {
+           public int EstudianteId { get; set; }
 
-        }
+         }
+
+
 
     }
 }

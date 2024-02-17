@@ -1,4 +1,6 @@
-﻿using static ProyectoFinal.DTOs.StudentDTO;
+﻿using ProyectoFinal.Models;
+using static ProyectoFinal.DTOs.StudentDTO;
+using static ProyectoFinal.Services.StudentService;
 
 namespace ProyectoFinal.Interfaces
 {
@@ -9,5 +11,7 @@ namespace ProyectoFinal.Interfaces
         Task EnrollSubjectStudent(EnrollSubjectStudentRequestDto student);
 
         Task<List<object>> SubjectsEnrolledByStudent(AllSubjectsStudentRequestDto student);
+
+        Task<List<object>> GetAllAssignmentsForStudent(AllSubjectsStudentRequestDto student);
     }
 }

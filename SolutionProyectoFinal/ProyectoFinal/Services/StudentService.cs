@@ -54,5 +54,30 @@ namespace ProyectoFinal.Services
             return subjectsEnrolled.Cast<object>().ToList();
         }
 
+        public async Task<List<object>> GetAllAssignmentsForStudent(AllSubjectsStudentRequestDto student)
+        {
+            var assignments = await _context.EstudianteMateria
+                .Where(em => em.EstudianteId == student.EstudianteId &&
+                             em.Materia.Asignaciones.Any()) 
+                .Select(em => new
+                {
+                    MateriaNombre = em.Materia.NombreMateria,
+                    Asignaciones = em.Materia.Asignaciones
+                        .Select(a => new
+                        {
+                            Titulo = a.Titulo,
+                            Descripcion = a.Descripcion,
+                            FechaPublicacion = a.FechaPublicacion,
+                            FechaVencimiento = a.FechaVencimiento
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+
+            return assignments.Cast<object>().ToList();
+        }
+
+
+
     }
 }

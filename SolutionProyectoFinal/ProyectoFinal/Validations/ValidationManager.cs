@@ -104,6 +104,13 @@ namespace ProyectoFinal.Validations
             return subjectTeacherExist;
         }
 
+        public async Task<bool> ValidateStudentSubjectExistAsync(int studentId, int subjectId)
+        {
+            var subjectStudentExist = await _context.EstudianteMateria
+                .AnyAsync(pm => pm.EstudianteId == studentId && pm.MateriaId == subjectId);
+
+            return subjectStudentExist;
+        }
 
 
         public async Task<bool> ValidateEmailExistAsync(string email)
