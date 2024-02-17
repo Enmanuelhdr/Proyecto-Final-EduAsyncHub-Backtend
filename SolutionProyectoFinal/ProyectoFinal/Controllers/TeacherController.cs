@@ -48,5 +48,35 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
             }
         }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpGet("ProfesorMostrarTodasLasMaterias")] 
+        public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsTaughtRequestDto teacher)
+        {
+            var validation = await _validationsManager.ValidateAsync(teacher);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.ProfesorId);
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
+            try
+            {
+                var lista = await _teacherService.AllSubjectsTaught(teacher);
+                return Ok(lista);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
     }
 }

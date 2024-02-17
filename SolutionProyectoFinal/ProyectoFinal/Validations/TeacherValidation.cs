@@ -14,5 +14,13 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.MateriaId).InclusiveBetween(1, 28);
             }
         }
+
+        public class AllSubjectsTaughtValidator : AbstractValidator<AllSubjectsTaughtRequestDto>
+        {
+            public AllSubjectsTaughtValidator()
+            {
+                RuleFor(x => x.ProfesorId).GreaterThan(0);
+            }
+        }
     }
 }

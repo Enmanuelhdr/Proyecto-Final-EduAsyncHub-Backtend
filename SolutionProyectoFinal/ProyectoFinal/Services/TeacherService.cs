@@ -29,5 +29,20 @@ namespace ProyectoFinal.Services
             _context.ProfesorMateria.Add(teacherSubject);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<object>> AllSubjectsTaught(AllSubjectsTaughtRequestDto teacher)
+        {
+            var subjectsTaught = await _context.ProfesorMateria
+                .Where(pm => pm.ProfesorId == teacher.ProfesorId)
+                .Select(pm => new
+                {
+                    materiaId = pm.Materia.MateriaId,
+                    nombreMateria = pm.Materia.NombreMateria
+                })
+                .ToListAsync();
+
+            return subjectsTaught.Cast<object>().ToList();
+        }
+
     }
 }

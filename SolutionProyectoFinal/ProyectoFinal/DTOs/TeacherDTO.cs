@@ -2,6 +2,12 @@
 {
     public class TeacherDTO
     {
+        public class AllSubjectsTaughtRequestDto
+        {
+            public int ProfesorId { get; set; }
+
+        }
+
         public class TeachMatterRequestDto
         {
             public int ProfesorId { get; set; }
