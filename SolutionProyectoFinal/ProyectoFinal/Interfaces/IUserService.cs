@@ -6,5 +6,7 @@ namespace ProyectoFinal.Interfaces
     {
         Task RegisterUser(RegisterUserRequestDto usuario);
 
+        Task<(bool, string)> LoginUser(LoginUserRequestDto request);
+
     }
 }

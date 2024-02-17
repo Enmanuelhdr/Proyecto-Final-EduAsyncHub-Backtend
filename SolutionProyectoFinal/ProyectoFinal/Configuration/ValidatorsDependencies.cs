@@ -10,6 +10,8 @@ namespace ProyectoFinal.Configuration
         {
             //User
             services.AddScoped<IValidator<RegisterUserRequestDto>, RegisterUserValidator>();
+            services.AddScoped<IValidator<LoginUserRequestDto>, LoginUserValidator>();
+
 
         }
     }

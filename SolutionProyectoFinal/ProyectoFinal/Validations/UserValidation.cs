@@ -13,5 +13,13 @@ namespace ProyectoFinal.Validations
             RuleFor(x => x.RolID).InclusiveBetween(1, 3);
         }
     }
-   
+
+    public class LoginUserValidator : AbstractValidator<LoginUserRequestDto>
+    {
+        public LoginUserValidator()
+        {
+            RuleFor(x => x.CorreoElectronico).NotEmpty().EmailAddress();
+            RuleFor(x => x.Contraseña).NotEmpty().MinimumLength(8);
+        }
+    }
 }

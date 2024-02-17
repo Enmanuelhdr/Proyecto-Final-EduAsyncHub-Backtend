@@ -1,5 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 using ProyectoFinal.Interfaces;
+using ProyectoFinal.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 
 namespace ProyectoFinal.Controllers
@@ -15,10 +23,11 @@ namespace ProyectoFinal.Controllers
         {
             _userService = userService;
             _validationsManager = validationsManager;
+
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserRequestDto registerUsuario)
+        [HttpPost("RegistrarUsuarios")]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequestDto registerUsuario)
         {
             var validation = await _validationsManager.ValidateAsync(registerUsuario);
 
@@ -38,6 +47,43 @@ namespace ProyectoFinal.Controllers
             {
                 await _userService.RegisterUser(registerUsuario);
                 return Ok("Usuario registrado exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
+
+        [HttpPost("LoguearUsuarios")]
+        public async Task<IActionResult> LoginUser(LoginUserRequestDto loginUsuario)
+        {
+            var validation = await _validationsManager.ValidateAsync(loginUsuario);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var emailExist = await _validationsManager.ValidateEmailExistAsync(loginUsuario.CorreoElectronico);
+
+            if (!emailExist)
+            {
+                return BadRequest("No existe un usuario creado con este email");
+            }
+
+            try
+            {
+                var (result, token) = await _userService.LoginUser(loginUsuario);
+
+                if(result)
+                {
+
+                    return Ok(token);
+
+                } 
+                
+                else return BadRequest("Usuario o contraseña incorrectos");
             }
 
             catch (Exception ex)

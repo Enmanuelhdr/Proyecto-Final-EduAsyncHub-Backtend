@@ -1,7 +1,19 @@
 Create database EduAsyncHub
+
 use EduAsyncHub
 
--- Modificación de la tabla Usuarios
+-- Tabla de Roles
+CREATE TABLE Roles (
+    RolID INT PRIMARY KEY,
+    NombreRol VARCHAR(50) NOT NULL
+);
+
+-- Inserción de roles
+INSERT INTO Roles (RolID, NombreRol) VALUES
+    (1, 'Estudiante'),
+    (2, 'Profesor'),
+    (3, 'Administrador');
+
 CREATE TABLE Usuarios (
     UsuarioID INT PRIMARY KEY IDENTITY(1,1),
     Nombre VARCHAR(100) NOT NULL,
@@ -18,21 +30,7 @@ CREATE TABLE Usuarios (
     FOREIGN KEY (RolID) REFERENCES Roles(RolID)
 );
 
-
 select * from Usuarios
-
--- Tabla de Roles
-CREATE TABLE Roles (
-    RolID INT PRIMARY KEY,
-    NombreRol VARCHAR(50) NOT NULL
-);
-
--- Inserción de roles
-INSERT INTO Roles (RolID, NombreRol) VALUES
-    (1, 'Estudiante'),
-    (2, 'Profesor'),
-    (3, 'Administrador');
-
 
 -- Tabla de Carreras
 CREATE TABLE Carreras (
@@ -72,35 +70,35 @@ CREATE TABLE Materias (
 );
 
 -- Inserción de materias
-INSERT INTO Materias (MateriaID, NombreMateria) VALUES
-    (1, 'Programación Avanzada'),
-    (2, 'Bases de Datos'),
-    (3, 'Redes de Computadoras'),
-    (4, 'Seguridad en Sistemas'),
-    (5, 'Desarrollo Web'),
-    (6, 'Inteligencia Artificial'),
-    (7, 'Sistemas Operativos'),
-    (8, 'Diseño de Algoritmos'),
-    (9, 'Ciberseguridad'),
-    (10, 'Desarrollo de Aplicaciones Móviles'),
-    (11, 'Cloud Computing'),
-    (12, 'Análisis de Datos'),
-    (13, 'Ingeniería de Software'),
-    (14, 'Realidad Virtual'),
-    (15, 'Cómputo Cuántico'),
-    (16, 'Desarrollo Ágil'),
-    (17, 'Machine Learning'),
-    (18, 'Blockchain'),
-    (19, 'Diseño de Redes'),
-    (20,'Programación Funcional'),
-    (21, 'Arquitectura de Software'),
-    (22, 'Computación en la Nube'),
-    (23, 'Big Data'),
-    (24, 'Robótica'),
-    (25, 'Ciberdefensa'),
-    (26, 'Interacción Humano-Computadora'),
-    (27, 'Computación Gráfica'),
-    (28, 'IoT (Internet of Things)');
+INSERT INTO Materias (NombreMateria) VALUES
+    ('Programación Avanzada'),
+    ('Bases de Datos'),
+    ('Redes de Computadoras'),
+    ('Seguridad en Sistemas'),
+    ('Desarrollo Web'),
+    ('Inteligencia Artificial'),
+    ('Sistemas Operativos'),
+    ('Diseño de Algoritmos'),
+    ('Ciberseguridad'),
+    ('Desarrollo de Aplicaciones Móviles'),
+    ('Cloud Computing'),
+    ('Análisis de Datos'),
+    ('Ingeniería de Software'),
+    ('Realidad Virtual'),
+    ('Cómputo Cuántico'),
+    ('Desarrollo Ágil'),
+    ('Machine Learning'),
+    ('Blockchain'),
+    ('Diseño de Redes'),
+    ('Programación Funcional'),
+    ('Arquitectura de Software'),
+    ('Computación en la Nube'),
+    ('Big Data'),
+    ('Robótica'),
+    ('Ciberdefensa'),
+    ('Interacción Humano-Computadora'),
+    ('Computación Gráfica'),
+    ('IoT (Internet of Things)');
 
 -- Tabla de CarrerasMaterias 
 CREATE TABLE CarrerasMaterias (

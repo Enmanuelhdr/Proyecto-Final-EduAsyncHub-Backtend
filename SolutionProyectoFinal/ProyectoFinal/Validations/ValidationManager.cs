@@ -17,13 +17,16 @@ namespace ProyectoFinal.Validations
 
             public ValidationsManager(
                 EduAsyncHubContext context,
-                IValidator<RegisterUserRequestDto> validatorRegisterUser
+                IValidator<RegisterUserRequestDto> validatorRegisterUser,
+                IValidator<LoginUserRequestDto> validatorLoginUser
+
                 )
-            {
+        {
                 _context = context;
                 _dictionary = new()
             {
                 { typeof(RegisterUserRequestDto), validatorRegisterUser },
+                { typeof(LoginUserRequestDto), validatorLoginUser }
             };
             }
 
