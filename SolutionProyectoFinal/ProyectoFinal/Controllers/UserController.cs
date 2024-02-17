@@ -39,6 +39,7 @@ namespace ProyectoFinal.Controllers
             {
                 await _userService.RegisterUser(registerUsuario);
                 return Ok("Usuario registrado exitosamente.");
+ 
             }
 
             catch (Exception ex)

@@ -48,6 +48,9 @@ INSERT INTO Carreras (CarreraID, NombreCarrera) VALUES
     (4, 'Redes y Comunicaciones'),
     (5, 'Seguridad Informática');
 
+    INSERT INTO Carreras  (CarreraID, NombreCarrera) VALUES (6, 'No matriculado');
+
+	select * from Carreras
 
 -- Tabla de Estudiantes
 CREATE TABLE Estudiantes (
@@ -57,6 +60,9 @@ CREATE TABLE Estudiantes (
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
     FOREIGN KEY (CarreraID) REFERENCES Carreras(CarreraID)
 );
+
+	select * from Estudiantes
+
 
 -- Tabla de Profesores
 CREATE TABLE Profesores (

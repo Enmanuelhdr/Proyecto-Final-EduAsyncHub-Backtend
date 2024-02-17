@@ -29,7 +29,6 @@ namespace ProyectoFinal.Services
         {
             usuario.Contraseña = ConvertSha256(usuario.Contraseña);
 
-            // Mapea el DTO a la entidad Usuario
             var user = new Usuario
             {
                 Nombre = usuario.Nombre,
@@ -39,9 +38,35 @@ namespace ProyectoFinal.Services
                 Permisos = false,
             };
 
-            // Agrega el usuario a la base de datos
             _context.Usuarios.Add(user);
             await _context.SaveChangesAsync();
+
+            int id = await _context.Usuarios.Where(x => x.CorreoElectronico == usuario.CorreoElectronico).Select(x => x.UsuarioId).FirstOrDefaultAsync();
+
+            if(usuario.RolID == 1)
+            {
+                var stundent = new Estudiante
+                {
+                    UsuarioId = id,
+                    CarreraId = 6
+                };
+
+                _context.Estudiantes.Add(stundent);
+            }
+
+            else if (usuario.RolID == 2)
+            {
+                var teacher = new Profesore
+                {
+                    UsuarioId = id,
+                };
+
+                _context.Profesores.Add(teacher);
+
+            }
+
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task<(bool, string)> LoginUser(LoginUserRequestDto request)
