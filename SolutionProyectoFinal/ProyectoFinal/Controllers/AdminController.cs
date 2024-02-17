@@ -75,5 +75,50 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
+        [HttpGet("ObtenerUsuarios")]
+        public async Task<IActionResult> GetAllUsuarios()
+        {
+            try
+            {
+                var usuarios = await _adminService.GetAllUsuarios();
+                return Ok(usuarios);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
+
+        [HttpGet("ObtenerEstudiantes")]
+        public async Task<IActionResult> GetEstudiantes()
+        {
+            try
+            {
+                var estudiantes = await _adminService.GetEstudiantes();
+                return Ok(estudiantes);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
+
+        [HttpGet("ObtenerProfesores")]
+        public async Task<IActionResult> GetProfesores()
+        {
+            try
+            {
+                var profesores = await _adminService.GetProfesores();
+                return Ok(profesores);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
     }
 }

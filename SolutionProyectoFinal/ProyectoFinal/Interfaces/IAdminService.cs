@@ -1,4 +1,5 @@
-﻿using static ProyectoFinal.DTOs.UsuarioDTO;
+﻿using ProyectoFinal.Models;
+using static ProyectoFinal.DTOs.UsuarioDTO;
 
 namespace ProyectoFinal.Interfaces
 {
@@ -7,5 +8,11 @@ namespace ProyectoFinal.Interfaces
         Task EditAnyUserAdmin(int id, UpdateUserRequestDto usuario);
 
         Task DeleteAnyUserAdmin(DeleteUserRequestDto usuario);
+
+        Task<List<Usuario>> GetAllUsuarios();
+
+        Task<List<Usuario>> GetEstudiantes();
+
+        Task<List<Usuario>> GetProfesores();
     }
 }

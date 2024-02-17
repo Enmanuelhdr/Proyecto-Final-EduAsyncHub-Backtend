@@ -44,7 +44,29 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Usuario>> GetAllUsuarios()
+        {
+            var usuarios = await _context.Usuarios.ToListAsync();
+            return usuarios;
+        }
 
+        public async Task<List<Usuario>> GetEstudiantes()
+        {
+            var estudiantes = await _context.Usuarios
+                .Where(u => u.Rol.NombreRol == "Estudiante")
+                .ToListAsync();
+
+            return estudiantes;
+        }
+
+        public async Task<List<Usuario>> GetProfesores()
+        {
+            var estudiantes = await _context.Usuarios
+                .Where(u => u.Rol.NombreRol == "Profesor")
+                .ToListAsync();
+
+            return estudiantes;
+        }
 
     }
 }
