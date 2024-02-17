@@ -32,5 +32,10 @@
             public bool Permisos { get; set; }
         }
 
+        public class DeleteUserRequestDto
+        {
+           public int UserId { get; set; }
+        }
+
     }
 }

@@ -11,8 +11,8 @@ namespace ProyectoFinal.Configuration
             //User
             services.AddScoped<IValidator<RegisterUserRequestDto>, RegisterUserValidator>();
             services.AddScoped<IValidator<LoginUserRequestDto>, LoginUserValidator>();
-
-
+            services.AddScoped<IValidator<UpdateUserRequestDto>, UpdateUserValidator>();
+            services.AddScoped<IValidator<DeleteUserRequestDto>, DeleteUserValidator>();
         }
     }
 }

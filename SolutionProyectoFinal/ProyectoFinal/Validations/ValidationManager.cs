@@ -18,7 +18,12 @@ namespace ProyectoFinal.Validations
             public ValidationsManager(
                 EduAsyncHubContext context,
                 IValidator<RegisterUserRequestDto> validatorRegisterUser,
-                IValidator<LoginUserRequestDto> validatorLoginUser
+                IValidator<LoginUserRequestDto> validatorLoginUser,
+                IValidator<UpdateUserRequestDto> validatorUpdateUser,
+                IValidator<DeleteUserRequestDto> validatorDeleteUser
+
+
+
 
                 )
         {
@@ -26,7 +31,9 @@ namespace ProyectoFinal.Validations
                 _dictionary = new()
             {
                 { typeof(RegisterUserRequestDto), validatorRegisterUser },
-                { typeof(LoginUserRequestDto), validatorLoginUser }
+                { typeof(LoginUserRequestDto), validatorLoginUser },
+                { typeof(UpdateUserRequestDto), validatorUpdateUser },
+                { typeof(DeleteUserRequestDto), validatorDeleteUser }
             };
             }
 
@@ -46,12 +53,21 @@ namespace ProyectoFinal.Validations
                 throw new InvalidOperationException($"Validator not registered for type {typeof(T)}. Please register a validator for this type.");
             }
 
-            public async Task<bool> ValidateEmailExistAsync(string email)
+        public async Task<bool> ValidateUserExistAsync(int userId)
+        {
+            var accountExists = await _context.Usuarios.AnyAsync(account => account.UsuarioId == userId);
+
+            return accountExists;
+        }
+
+        public async Task<bool> ValidateEmailExistAsync(string email)
             {
                 var emailExists = await _context.Usuarios.AnyAsync(account => account.CorreoElectronico == email);
 
                 return emailExists;
             }
+
+
 
     }
 }

@@ -9,6 +9,7 @@ namespace ProyectoFinal.Configuration
         public static void GetDependencyInjections(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IValidationsManager, ValidationsManager>();
 
             services.ValidatorsInjections();

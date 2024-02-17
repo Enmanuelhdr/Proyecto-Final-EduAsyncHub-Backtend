@@ -1,13 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Interfaces;
-using ProyectoFinal.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 
 namespace ProyectoFinal.Controllers
@@ -27,7 +19,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpPost("RegistrarUsuarios")]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequestDto registerUsuario)
+        public async Task<IActionResult> RegisterUser(RegisterUserRequestDto registerUsuario)
         {
             var validation = await _validationsManager.ValidateAsync(registerUsuario);
 
@@ -79,11 +71,11 @@ namespace ProyectoFinal.Controllers
                 if(result)
                 {
 
-                    return Ok(token);
+                    return Ok(new { Token = token });
 
-                } 
-                
-                else return BadRequest("Usuario o contraseña incorrectos");
+                }
+
+                else return BadRequest(new { Result = token});
             }
 
             catch (Exception ex)

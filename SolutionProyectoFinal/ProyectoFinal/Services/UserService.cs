@@ -36,6 +36,7 @@ namespace ProyectoFinal.Services
                 CorreoElectronico = usuario.CorreoElectronico,
                 Contraseña = usuario.Contraseña,
                 RolId = usuario.RolID,
+                Permisos = false,
             };
 
             // Agrega el usuario a la base de datos

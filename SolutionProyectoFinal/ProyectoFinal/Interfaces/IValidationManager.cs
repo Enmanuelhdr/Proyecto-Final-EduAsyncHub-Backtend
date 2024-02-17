@@ -9,5 +9,7 @@ namespace ProyectoFinal.Interfaces
 
         Task<bool> ValidateEmailExistAsync(string email);
 
+        Task<bool> ValidateUserExistAsync(int userId);
+
     }
 }
