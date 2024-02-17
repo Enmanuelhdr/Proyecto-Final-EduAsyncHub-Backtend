@@ -24,5 +24,13 @@ namespace ProyectoFinal.Validations
 
             }
         }
+
+        public class AllSubjectsStudentValidator : AbstractValidator<AllSubjectsStudentRequestDto>
+        {
+            public AllSubjectsStudentValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+            }
+        }
     }
 }

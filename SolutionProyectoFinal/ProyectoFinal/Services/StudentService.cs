@@ -39,5 +39,20 @@ namespace ProyectoFinal.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<object>> SubjectsEnrolledByStudent(AllSubjectsStudentRequestDto student)
+        {
+            var subjectsEnrolled = await _context.EstudianteMateria
+                .Where(em => em.EstudianteId == student.EstudianteId)
+                .Select(em => new
+                {
+                    materiaId = em.Materia.MateriaId,
+                    nombreMateria = em.Materia.NombreMateria
+                })
+                .ToListAsync();
+
+            return subjectsEnrolled.Cast<object>().ToList();
+        }
+
     }
 }

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Interfaces;
+using ProyectoFinal.Services;
 using static ProyectoFinal.DTOs.StudentDTO;
+using static ProyectoFinal.DTOs.TeacherDTO;
 
 namespace ProyectoFinal.Controllers
 {
@@ -73,6 +75,36 @@ namespace ProyectoFinal.Controllers
             {
                 await _studentService.EnrollSubjectStudent(student);
                 return Ok("El estudiante se ha inscrito a la materia exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
+
+        //[Authorize(Roles = "Estudiante")]
+        [HttpGet("EstudianteMostrarTodasLasMaterias")]
+        public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsStudentRequestDto student)
+        {
+            var validation = await _validationsManager.ValidateAsync(student);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(student.EstudianteId);
+
+            if (!studentExists)
+            {
+                return BadRequest("El estudiante no existe.");
+            }
+
+            try
+            {
+                var lista = await _studentService.SubjectsEnrolledByStudent(student);
+                return Ok(lista);
             }
 
             catch (Exception ex)

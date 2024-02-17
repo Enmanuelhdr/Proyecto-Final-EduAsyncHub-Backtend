@@ -16,5 +16,11 @@
 
         }
 
+         public class AllSubjectsStudentRequestDto
+        {
+            public int EstudianteId { get; set; }
+
+        }
+
     }
 }

@@ -7,5 +7,7 @@ namespace ProyectoFinal.Interfaces
         Task EnrollCareerStudent(EnrollCareerStudentRequestDto student);
 
         Task EnrollSubjectStudent(EnrollSubjectStudentRequestDto student);
+
+        Task<List<object>> SubjectsEnrolledByStudent(AllSubjectsStudentRequestDto student);
     }
 }

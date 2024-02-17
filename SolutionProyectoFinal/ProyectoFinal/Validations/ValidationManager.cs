@@ -27,7 +27,9 @@ namespace ProyectoFinal.Validations
                 IValidator<EnrollCareerStudentRequestDto> validateEnrollCareerStudent,
                 IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent,
                 IValidator<TeachMatterRequestDto> validateTeachMatter,
-                IValidator<AllSubjectsTaughtRequestDto> validateAllSubjectsTaught
+                IValidator<AllSubjectsTaughtRequestDto> validateAllSubjectsTaught,
+                IValidator<AllSubjectsStudentRequestDto> validatellSubjectsStudent
+
 
 
 
@@ -50,7 +52,8 @@ namespace ProyectoFinal.Validations
                 { typeof(EnrollCareerStudentRequestDto), validateEnrollCareerStudent },
                 { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent },
                 { typeof(TeachMatterRequestDto), validateTeachMatter },
-                { typeof(AllSubjectsTaughtRequestDto), validateAllSubjectsTaught }
+                { typeof(AllSubjectsTaughtRequestDto), validateAllSubjectsTaught },
+                { typeof(AllSubjectsStudentRequestDto), validatellSubjectsStudent }
 
             };
             }
