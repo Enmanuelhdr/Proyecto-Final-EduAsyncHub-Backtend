@@ -8,5 +8,7 @@ namespace ProyectoFinal.Interfaces
         Task TeachMatterSubject(TeachMatterRequestDto teachMatter);
 
         Task<List<object>> AllSubjectsTaught(AllSubjectsTaughtRequestDto teacher);
+
+        Task CreateTask(TaskPublishRequestDto newTask);
     }
 }

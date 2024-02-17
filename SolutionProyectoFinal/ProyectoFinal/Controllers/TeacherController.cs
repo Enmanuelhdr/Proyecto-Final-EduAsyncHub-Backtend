@@ -50,7 +50,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Profesor")]
-        [HttpGet("ProfesorMostrarTodasLasMaterias")] 
+        [HttpGet("ProfesorMostrarMaterias")] 
         public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsTaughtRequestDto teacher)
         {
             var validation = await _validationsManager.ValidateAsync(teacher);
@@ -71,6 +71,43 @@ namespace ProyectoFinal.Controllers
             {
                 var lista = await _teacherService.AllSubjectsTaught(teacher);
                 return Ok(lista);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpPost("CrearTarea")]
+        public async Task<IActionResult> CreateTask(TaskPublishRequestDto task)
+        {
+            var validation = await _validationsManager.ValidateAsync(task);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(task.ProfesorId);
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
+            var subjectExists = await _validationsManager.ValidateTeacherSubjectExistAsync(task.ProfesorId, task.MateriaId);
+
+            if (!subjectExists)
+            {
+                return BadRequest("El profesor no tiene asignada esta materia o no existe.");
+            }
+
+            try
+            {
+                await _teacherService.CreateTask(task);
+                return Ok("Se ha publicado la tarea exitosamente.");
             }
 
             catch (Exception ex)

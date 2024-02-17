@@ -28,7 +28,8 @@ namespace ProyectoFinal.Validations
                 IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent,
                 IValidator<TeachMatterRequestDto> validateTeachMatter,
                 IValidator<AllSubjectsTaughtRequestDto> validateAllSubjectsTaught,
-                IValidator<AllSubjectsStudentRequestDto> validatellSubjectsStudent
+                IValidator<AllSubjectsStudentRequestDto> validatellSubjectsStudent,
+                IValidator<TaskPublishRequestDto> validateTaskPublish
 
 
 
@@ -53,7 +54,8 @@ namespace ProyectoFinal.Validations
                 { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent },
                 { typeof(TeachMatterRequestDto), validateTeachMatter },
                 { typeof(AllSubjectsTaughtRequestDto), validateAllSubjectsTaught },
-                { typeof(AllSubjectsStudentRequestDto), validatellSubjectsStudent }
+                { typeof(AllSubjectsStudentRequestDto), validatellSubjectsStudent },
+                { typeof(TaskPublishRequestDto), validateTaskPublish }
 
             };
             }
@@ -94,6 +96,15 @@ namespace ProyectoFinal.Validations
 
             return teacherExist;
         }
+        public async Task<bool> ValidateTeacherSubjectExistAsync(int professorId, int subjectId)
+        {
+            var subjectTeacherExist = await _context.ProfesorMateria
+                .AnyAsync(pm => pm.ProfesorId == professorId && pm.MateriaId == subjectId);
+
+            return subjectTeacherExist;
+        }
+
+
 
         public async Task<bool> ValidateEmailExistAsync(string email)
             {

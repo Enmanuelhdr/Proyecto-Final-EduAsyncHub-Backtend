@@ -22,5 +22,17 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.ProfesorId).GreaterThan(0);
             }
         }
+
+        public class TaskPublishValidator : AbstractValidator<TaskPublishRequestDto>
+        {
+            public TaskPublishValidator()
+            {
+                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.MateriaId).InclusiveBetween(1, 28);
+                RuleFor(x => x.Titulo).NotEmpty().Length(1, 100);
+                RuleFor(x => x.Descripcion).NotEmpty().Length(1, 500);
+                RuleFor(x => x.FechaVencimiento).NotEmpty();
+            }
+        }
     }
 }

@@ -44,5 +44,20 @@ namespace ProyectoFinal.Services
             return subjectsTaught.Cast<object>().ToList();
         }
 
+        public async Task CreateTask(TaskPublishRequestDto newTask)
+        {
+            var task = new Asignacione
+            {
+                MateriaId = newTask.MateriaId,
+                ProfesorId = newTask.ProfesorId,
+                Titulo = newTask.Titulo,
+                Descripcion = newTask.Descripcion,
+                FechaVencimiento = newTask.FechaVencimiento
+            };
+
+            _context.Asignaciones.Add(task);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
