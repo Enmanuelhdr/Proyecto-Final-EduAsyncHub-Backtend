@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Interfaces;
 using static ProyectoFinal.DTOs.UsuarioDTO;
@@ -18,6 +19,7 @@ namespace ProyectoFinal.Controllers
             _validationsManager = validationsManager;
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPut("EditarUsuarioAdmin/{id}")]
         public async Task<IActionResult> EditAnyUserAdmin(int id, UpdateUserRequestDto usuario)
         {
@@ -47,6 +49,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpDelete("EliminarUsuarioAdmin")]
         public async Task<IActionResult> DeleteAnyUserAdmin(DeleteUserRequestDto usuario)
         {
@@ -76,6 +79,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet("ObtenerUsuarios")]
         public async Task<IActionResult> GetAllUsuarios()
         {
@@ -91,6 +95,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet("ObtenerEstudiantes")]
         public async Task<IActionResult> GetEstudiantes()
         {
@@ -106,6 +111,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet("ObtenerProfesores")]
         public async Task<IActionResult> GetProfesores()
         {
