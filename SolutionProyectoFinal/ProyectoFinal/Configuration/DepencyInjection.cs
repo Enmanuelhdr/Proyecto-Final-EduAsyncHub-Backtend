@@ -10,6 +10,8 @@ namespace ProyectoFinal.Configuration
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IStudentService, StudentService>();
+
             services.AddScoped<IValidationsManager, ValidationsManager>();
 
             services.ValidatorsInjections();

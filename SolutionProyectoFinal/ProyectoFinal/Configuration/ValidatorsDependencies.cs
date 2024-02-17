@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
 using ProyectoFinal.Validations;
 using static ProyectoFinal.DTOs.UsuarioDTO;
+using static ProyectoFinal.DTOs.StudentDTO;
+using static ProyectoFinal.Validations.StudentValidation;
+
 
 namespace ProyectoFinal.Configuration
 {
@@ -14,6 +17,8 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<UpdateUserRequestDto>, UpdateUserValidator>();
             services.AddScoped<IValidator<DeleteUserRequestDto>, DeleteUserValidator>();
             services.AddScoped<IValidator<AssignPermissionsUserRequestDto>, AssignUserValidator>();
+            services.AddScoped<IValidator<EnrollCareerStudentRequestDto>, EnrollCareerStudentValidator>();
+
 
         }
     }

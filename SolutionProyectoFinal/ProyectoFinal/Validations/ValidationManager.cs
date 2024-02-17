@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using static ProyectoFinal.DTOs.UsuarioDTO;
+using static ProyectoFinal.DTOs.StudentDTO;
 using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 
@@ -21,7 +22,9 @@ namespace ProyectoFinal.Validations
                 IValidator<LoginUserRequestDto> validatorLoginUser,
                 IValidator<UpdateUserRequestDto> validatorUpdateUser,
                 IValidator<DeleteUserRequestDto> validatorDeleteUser,
-                IValidator<AssignPermissionsUserRequestDto> validateAssignPermissions
+                IValidator<AssignPermissionsUserRequestDto> validateAssignPermissions,
+                IValidator<EnrollCareerStudentRequestDto> validateEnrollCareerStudent
+
 
 
 
@@ -37,6 +40,7 @@ namespace ProyectoFinal.Validations
                 { typeof(UpdateUserRequestDto), validatorUpdateUser },
                 { typeof(DeleteUserRequestDto), validatorDeleteUser },
                 { typeof(AssignPermissionsUserRequestDto), validateAssignPermissions },
+                { typeof(EnrollCareerStudentRequestDto), validateEnrollCareerStudent }
 
             };
             }
@@ -62,6 +66,13 @@ namespace ProyectoFinal.Validations
             var accountExists = await _context.Usuarios.AnyAsync(account => account.UsuarioId == userId);
 
             return accountExists;
+        }
+
+        public async Task<bool> ValidateStudentExistAsync(int studentId)
+        {
+            var studentExist = await _context.Estudiantes.AnyAsync(u => u.EstudianteId == studentId);
+
+            return studentExist;
         }
 
         public async Task<bool> ValidateEmailExistAsync(string email)
