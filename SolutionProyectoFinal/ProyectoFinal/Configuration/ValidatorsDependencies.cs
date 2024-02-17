@@ -3,6 +3,8 @@ using ProyectoFinal.Validations;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 using static ProyectoFinal.DTOs.StudentDTO;
 using static ProyectoFinal.Validations.StudentValidation;
+using static ProyectoFinal.DTOs.TeacherDTO;
+using static ProyectoFinal.Validations.TeacherValidation;
 
 
 namespace ProyectoFinal.Configuration
@@ -19,6 +21,8 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<AssignPermissionsUserRequestDto>, AssignUserValidator>();
             services.AddScoped<IValidator<EnrollCareerStudentRequestDto>, EnrollCareerStudentValidator>();
             services.AddScoped<IValidator<EnrollSubjectStudentRequestDto>, EnrollSubjectStudentValidator>();
+            services.AddScoped<IValidator<TeachMatterRequestDto>, TeachMatterValidator>();
+
 
 
 

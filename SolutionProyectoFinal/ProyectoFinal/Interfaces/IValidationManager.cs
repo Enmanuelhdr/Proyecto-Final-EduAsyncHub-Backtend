@@ -13,6 +13,8 @@ namespace ProyectoFinal.Interfaces
 
         Task<bool> ValidateStudentExistAsync(int studentId);
 
+        Task<bool> ValidateTeacherExistAsync(int teacherId);
+
 
     }
 }

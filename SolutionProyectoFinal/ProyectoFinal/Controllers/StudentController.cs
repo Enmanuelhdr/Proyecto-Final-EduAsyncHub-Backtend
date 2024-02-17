@@ -36,13 +36,13 @@ namespace ProyectoFinal.Controllers
 
             if (!studentExists)
             {
-                return BadRequest("El usuario no existe.");
+                return BadRequest("El estudiante no existe.");
             }
 
             try
             {
                 await _studentService.EnrollCareerStudent(student);
-                return Ok("Usuario se ha matriculado en la carrera exitosamente.");
+                return Ok("El estudiante se ha matriculado en la carrera exitosamente.");
             }
 
             catch (Exception ex)
@@ -66,13 +66,13 @@ namespace ProyectoFinal.Controllers
 
             if (!studentExists)
             {
-                return BadRequest("El usuario no existe.");
+                return BadRequest("El estudiante no existe.");
             }
 
             try
             {
                 await _studentService.EnrollSubjectStudent(student);
-                return Ok("Usuario se ha inscrito a la materia exitosamente.");
+                return Ok("El estudiante se ha inscrito a la materia exitosamente.");
             }
 
             catch (Exception ex)

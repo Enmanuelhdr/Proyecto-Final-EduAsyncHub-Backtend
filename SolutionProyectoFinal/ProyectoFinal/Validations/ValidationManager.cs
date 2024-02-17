@@ -5,6 +5,7 @@ using static ProyectoFinal.DTOs.UsuarioDTO;
 using static ProyectoFinal.DTOs.StudentDTO;
 using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
+using static ProyectoFinal.DTOs.TeacherDTO;
 
 
 namespace ProyectoFinal.Validations
@@ -24,7 +25,9 @@ namespace ProyectoFinal.Validations
                 IValidator<DeleteUserRequestDto> validatorDeleteUser,
                 IValidator<AssignPermissionsUserRequestDto> validateAssignPermissions,
                 IValidator<EnrollCareerStudentRequestDto> validateEnrollCareerStudent,
-                IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent
+                IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent,
+                IValidator<TeachMatterRequestDto> validateTeachMatter
+
 
 
 
@@ -43,7 +46,8 @@ namespace ProyectoFinal.Validations
                 { typeof(DeleteUserRequestDto), validatorDeleteUser },
                 { typeof(AssignPermissionsUserRequestDto), validateAssignPermissions },
                 { typeof(EnrollCareerStudentRequestDto), validateEnrollCareerStudent },
-                { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent }
+                { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent },
+                { typeof(TeachMatterRequestDto), validateTeachMatter }
 
             };
             }
@@ -76,6 +80,13 @@ namespace ProyectoFinal.Validations
             var studentExist = await _context.Estudiantes.AnyAsync(u => u.EstudianteId == studentId);
 
             return studentExist;
+        }
+
+        public async Task<bool> ValidateTeacherExistAsync(int teacherId)
+        {
+            var teacherExist = await _context.Profesores.AnyAsync(u => u.ProfesorId == teacherId);
+
+            return teacherExist;
         }
 
         public async Task<bool> ValidateEmailExistAsync(string email)
