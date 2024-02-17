@@ -14,6 +14,8 @@ INSERT INTO Roles (RolID, NombreRol) VALUES
     (2, 'Profesor'),
     (3, 'Administrador');
 
+	select * from Roles
+
 CREATE TABLE Usuarios (
     UsuarioID INT PRIMARY KEY IDENTITY(1,1),
     Nombre VARCHAR(100) NOT NULL,

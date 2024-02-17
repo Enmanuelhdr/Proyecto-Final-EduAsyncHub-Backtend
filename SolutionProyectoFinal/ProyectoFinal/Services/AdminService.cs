@@ -44,6 +44,17 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task AsignPermissions(AssignPermissionsUserRequestDto permissionsRequest)
+        {
+            permissionsRequest.Permissions = true;
+
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.UsuarioId == permissionsRequest.UserId);
+
+            user.Permisos = permissionsRequest.Permissions;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Usuario>> GetAllUsuarios()
         {
             var usuarios = await _context.Usuarios.ToListAsync();

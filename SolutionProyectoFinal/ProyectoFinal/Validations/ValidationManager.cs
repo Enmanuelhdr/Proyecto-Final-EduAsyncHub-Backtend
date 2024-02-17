@@ -20,7 +20,9 @@ namespace ProyectoFinal.Validations
                 IValidator<RegisterUserRequestDto> validatorRegisterUser,
                 IValidator<LoginUserRequestDto> validatorLoginUser,
                 IValidator<UpdateUserRequestDto> validatorUpdateUser,
-                IValidator<DeleteUserRequestDto> validatorDeleteUser
+                IValidator<DeleteUserRequestDto> validatorDeleteUser,
+                IValidator<AssignPermissionsUserRequestDto> validateAssignPermissions
+
 
 
 
@@ -33,7 +35,9 @@ namespace ProyectoFinal.Validations
                 { typeof(RegisterUserRequestDto), validatorRegisterUser },
                 { typeof(LoginUserRequestDto), validatorLoginUser },
                 { typeof(UpdateUserRequestDto), validatorUpdateUser },
-                { typeof(DeleteUserRequestDto), validatorDeleteUser }
+                { typeof(DeleteUserRequestDto), validatorDeleteUser },
+                { typeof(AssignPermissionsUserRequestDto), validateAssignPermissions },
+
             };
             }
 

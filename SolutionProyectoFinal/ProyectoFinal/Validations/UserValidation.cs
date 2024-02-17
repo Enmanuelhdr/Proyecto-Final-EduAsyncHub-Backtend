@@ -42,4 +42,13 @@ namespace ProyectoFinal.Validations
             RuleFor(x => x.UserId).GreaterThan(0);
         }
     }
+
+    public class AssignUserValidator : AbstractValidator<AssignPermissionsUserRequestDto>
+    {
+        public AssignUserValidator()
+        {
+            RuleFor(x => x.UserId).GreaterThan(0);
+            RuleFor(x => x.Permissions).NotNull();
+        }
+    }
 }

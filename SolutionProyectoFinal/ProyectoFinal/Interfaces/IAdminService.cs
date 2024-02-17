@@ -14,5 +14,7 @@ namespace ProyectoFinal.Interfaces
         Task<List<Usuario>> GetEstudiantes();
 
         Task<List<Usuario>> GetProfesores();
+
+        Task AsignPermissions(AssignPermissionsUserRequestDto permissionsRequest);
     }
 }

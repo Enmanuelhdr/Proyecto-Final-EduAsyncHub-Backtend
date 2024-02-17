@@ -37,5 +37,11 @@
            public int UserId { get; set; }
         }
 
+        public class AssignPermissionsUserRequestDto
+        {
+            public int UserId { get; set; }
+            public bool Permissions { get; set; }
+        }
+
     }
 }
