@@ -69,6 +69,12 @@ namespace ProyectoFinal.Services
 
         }
 
+        public async Task<List<Usuario>> GetAllUsuarios()
+        {
+            var usuarios = await _context.Usuarios.ToListAsync();
+            return usuarios;
+        }
+
         public async Task<(bool, string)> LoginUser(LoginUserRequestDto request)
         {
             var claveEncriptada = ConvertSha256(request.Contraseña);
