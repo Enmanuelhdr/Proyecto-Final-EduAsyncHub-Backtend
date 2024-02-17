@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Context
@@ -19,8 +22,11 @@ namespace ProyectoFinal.Context
         public virtual DbSet<Auditorium> Auditoria { get; set; } = null!;
         public virtual DbSet<Calificacione> Calificaciones { get; set; } = null!;
         public virtual DbSet<Carrera> Carreras { get; set; } = null!;
+        public virtual DbSet<CarrerasMateria> CarrerasMaterias { get; set; } = null!;
         public virtual DbSet<Estudiante> Estudiantes { get; set; } = null!;
+        public virtual DbSet<EstudianteMaterium> EstudianteMateria { get; set; } = null!;
         public virtual DbSet<Materia> Materias { get; set; } = null!;
+        public virtual DbSet<ProfesorMaterium> ProfesorMateria { get; set; } = null!;
         public virtual DbSet<Profesore> Profesores { get; set; } = null!;
         public virtual DbSet<RespuestasEstudiante> RespuestasEstudiantes { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
@@ -28,8 +34,11 @@ namespace ProyectoFinal.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=ADALBERTO\\SQLEXPRESS;Database=EduAsyncHub;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -162,23 +171,28 @@ namespace ProyectoFinal.Context
                 entity.Property(e => e.NombreCarrera)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
 
-                entity.HasMany(d => d.Materia)
-                    .WithMany(p => p.Carreras)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "CarrerasMateria",
-                        l => l.HasOne<Materia>().WithMany().HasForeignKey("MateriaId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__CarrerasM__Mater__60A75C0F"),
-                        r => r.HasOne<Carrera>().WithMany().HasForeignKey("CarreraId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__CarrerasM__Carre__5FB337D6"),
-                        j =>
-                        {
-                            j.HasKey("CarreraId", "MateriaId").HasName("PK__Carreras__3E93A859C640093D");
+            modelBuilder.Entity<CarrerasMateria>(entity =>
+            {
+                entity.HasKey(e => e.MateriaCarreraId)
+                    .HasName("PK__Carreras__DB6CB47D42B2CBFE");
 
-                            j.ToTable("CarrerasMaterias");
+                entity.Property(e => e.MateriaCarreraId).HasColumnName("MateriaCarreraID");
 
-                            j.IndexerProperty<int>("CarreraId").HasColumnName("CarreraID");
+                entity.Property(e => e.CarreraId).HasColumnName("CarreraID");
 
-                            j.IndexerProperty<int>("MateriaId").HasColumnName("MateriaID");
-                        });
+                entity.Property(e => e.MateriaId).HasColumnName("MateriaID");
+
+                entity.HasOne(d => d.Carrera)
+                    .WithMany(p => p.CarrerasMateria)
+                    .HasForeignKey(d => d.CarreraId)
+                    .HasConstraintName("FK__CarrerasM__Carre__0F624AF8");
+
+                entity.HasOne(d => d.Materia)
+                    .WithMany(p => p.CarrerasMateria)
+                    .HasForeignKey(d => d.MateriaId)
+                    .HasConstraintName("FK__CarrerasM__Mater__10566F31");
             });
 
             modelBuilder.Entity<Estudiante>(entity =>
@@ -201,23 +215,28 @@ namespace ProyectoFinal.Context
                     .WithOne(p => p.Estudiante)
                     .HasForeignKey<Estudiante>(d => d.UsuarioId)
                     .HasConstraintName("FK__Estudiant__Usuar__5629CD9C");
+            });
 
-                entity.HasMany(d => d.Materia)
-                    .WithMany(p => p.Estudiantes)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "EstudianteMaterium",
-                        l => l.HasOne<Materia>().WithMany().HasForeignKey("MateriaId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Estudiant__Mater__68487DD7"),
-                        r => r.HasOne<Estudiante>().WithMany().HasForeignKey("EstudianteId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Estudiant__Estud__6754599E"),
-                        j =>
-                        {
-                            j.HasKey("EstudianteId", "MateriaId").HasName("PK__Estudian__6FA69AE0968FAC8E");
+            modelBuilder.Entity<EstudianteMaterium>(entity =>
+            {
+                entity.HasKey(e => e.InscripcionMateriaId)
+                    .HasName("PK__Estudian__6352D9CD2BA52A8A");
 
-                            j.ToTable("EstudianteMateria");
+                entity.Property(e => e.InscripcionMateriaId).HasColumnName("InscripcionMateriaID");
 
-                            j.IndexerProperty<int>("EstudianteId").HasColumnName("EstudianteID");
+                entity.Property(e => e.EstudianteId).HasColumnName("EstudianteID");
 
-                            j.IndexerProperty<int>("MateriaId").HasColumnName("MateriaID");
-                        });
+                entity.Property(e => e.MateriaId).HasColumnName("MateriaID");
+
+                entity.HasOne(d => d.Estudiante)
+                    .WithMany(p => p.EstudianteMateria)
+                    .HasForeignKey(d => d.EstudianteId)
+                    .HasConstraintName("FK__Estudiant__Estud__03F0984C");
+
+                entity.HasOne(d => d.Materia)
+                    .WithMany(p => p.EstudianteMateria)
+                    .HasForeignKey(d => d.MateriaId)
+                    .HasConstraintName("FK__Estudiant__Mater__04E4BC85");
             });
 
             modelBuilder.Entity<Materia>(entity =>
@@ -227,6 +246,28 @@ namespace ProyectoFinal.Context
                 entity.Property(e => e.NombreMateria)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ProfesorMaterium>(entity =>
+            {
+                entity.HasKey(e => e.AsignacionMateriaId)
+                    .HasName("PK__Profesor__9A018F135DCBF710");
+
+                entity.Property(e => e.AsignacionMateriaId).HasColumnName("AsignacionMateriaID");
+
+                entity.Property(e => e.MateriaId).HasColumnName("MateriaID");
+
+                entity.Property(e => e.ProfesorId).HasColumnName("ProfesorID");
+
+                entity.HasOne(d => d.Materia)
+                    .WithMany(p => p.ProfesorMateria)
+                    .HasForeignKey(d => d.MateriaId)
+                    .HasConstraintName("FK__ProfesorM__Mater__0C85DE4D");
+
+                entity.HasOne(d => d.Profesor)
+                    .WithMany(p => p.ProfesorMateria)
+                    .HasForeignKey(d => d.ProfesorId)
+                    .HasConstraintName("FK__ProfesorM__Profe__0B91BA14");
             });
 
             modelBuilder.Entity<Profesore>(entity =>
@@ -245,23 +286,6 @@ namespace ProyectoFinal.Context
                     .WithOne(p => p.Profesore)
                     .HasForeignKey<Profesore>(d => d.UsuarioId)
                     .HasConstraintName("FK__Profesore__Usuar__5AEE82B9");
-
-                entity.HasMany(d => d.Materia)
-                    .WithMany(p => p.Profesors)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "ProfesorMaterium",
-                        l => l.HasOne<Materia>().WithMany().HasForeignKey("MateriaId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProfesorM__Mater__6477ECF3"),
-                        r => r.HasOne<Profesore>().WithMany().HasForeignKey("ProfesorId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProfesorM__Profe__6383C8BA"),
-                        j =>
-                        {
-                            j.HasKey("ProfesorId", "MateriaId").HasName("PK__Profesor__4D23E9F0961E1055");
-
-                            j.ToTable("ProfesorMateria");
-
-                            j.IndexerProperty<int>("ProfesorId").HasColumnName("ProfesorID");
-
-                            j.IndexerProperty<int>("MateriaId").HasColumnName("MateriaID");
-                        });
             });
 
             modelBuilder.Entity<RespuestasEstudiante>(entity =>

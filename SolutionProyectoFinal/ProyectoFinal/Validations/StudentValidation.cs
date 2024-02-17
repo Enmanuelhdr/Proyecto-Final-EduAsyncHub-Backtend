@@ -14,5 +14,15 @@ namespace ProyectoFinal.Validations
 
             }
         }
+
+        public class EnrollSubjectStudentValidator : AbstractValidator<EnrollSubjectStudentRequestDto>
+        {
+            public EnrollSubjectStudentValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.MateriaId).InclusiveBetween(1, 28);
+
+            }
+        }
     }
 }

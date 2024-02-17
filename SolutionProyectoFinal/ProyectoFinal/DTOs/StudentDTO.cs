@@ -9,5 +9,12 @@
 
         }
 
+        public class EnrollSubjectStudentRequestDto
+        {
+            public int EstudianteId { get; set; }
+            public int MateriaId { get; set; }
+
+        }
+
     }
 }

@@ -23,7 +23,9 @@ namespace ProyectoFinal.Validations
                 IValidator<UpdateUserRequestDto> validatorUpdateUser,
                 IValidator<DeleteUserRequestDto> validatorDeleteUser,
                 IValidator<AssignPermissionsUserRequestDto> validateAssignPermissions,
-                IValidator<EnrollCareerStudentRequestDto> validateEnrollCareerStudent
+                IValidator<EnrollCareerStudentRequestDto> validateEnrollCareerStudent,
+                IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent
+
 
 
 
@@ -40,7 +42,8 @@ namespace ProyectoFinal.Validations
                 { typeof(UpdateUserRequestDto), validatorUpdateUser },
                 { typeof(DeleteUserRequestDto), validatorDeleteUser },
                 { typeof(AssignPermissionsUserRequestDto), validateAssignPermissions },
-                { typeof(EnrollCareerStudentRequestDto), validateEnrollCareerStudent }
+                { typeof(EnrollCareerStudentRequestDto), validateEnrollCareerStudent },
+                { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent }
 
             };
             }

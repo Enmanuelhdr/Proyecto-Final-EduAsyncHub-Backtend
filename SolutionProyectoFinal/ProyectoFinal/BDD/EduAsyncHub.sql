@@ -71,6 +71,8 @@ CREATE TABLE Profesores (
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
 
+select * from Profesores
+
 -- Tabla de Materias
 CREATE TABLE Materias (
     MateriaID INT PRIMARY KEY IDENTITY(1,1),
@@ -135,11 +137,11 @@ CREATE TABLE ProfesorMateria (
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
 );
 
--- Tabla de EstudianteMateria (relación muchos a muchos)
+-- Modificación de la tabla de EstudianteMateria
 CREATE TABLE EstudianteMateria (
+    InscripcionMateriaID INT PRIMARY KEY IDENTITY(1,1),
     EstudianteID INT,
     MateriaID INT,
-    PRIMARY KEY (EstudianteID, MateriaID),
     FOREIGN KEY (EstudianteID) REFERENCES Estudiantes(EstudianteID),
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
 );

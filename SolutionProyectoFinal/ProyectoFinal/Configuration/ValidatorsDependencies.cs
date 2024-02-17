@@ -18,6 +18,8 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<DeleteUserRequestDto>, DeleteUserValidator>();
             services.AddScoped<IValidator<AssignPermissionsUserRequestDto>, AssignUserValidator>();
             services.AddScoped<IValidator<EnrollCareerStudentRequestDto>, EnrollCareerStudentValidator>();
+            services.AddScoped<IValidator<EnrollSubjectStudentRequestDto>, EnrollSubjectStudentValidator>();
+
 
 
         }

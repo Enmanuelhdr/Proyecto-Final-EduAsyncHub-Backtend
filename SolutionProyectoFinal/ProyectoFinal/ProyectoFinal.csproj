@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="BDD\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

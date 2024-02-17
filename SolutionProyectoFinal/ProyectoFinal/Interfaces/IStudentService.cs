@@ -4,6 +4,8 @@ namespace ProyectoFinal.Interfaces
 {
     public interface IStudentService
     {
-        Task EnrollCareerStudent(EnrollCareerStudentRequestDto request);
+        Task EnrollCareerStudent(EnrollCareerStudentRequestDto student);
+
+        Task EnrollSubjectStudent(EnrollSubjectStudentRequestDto student);
     }
 }
