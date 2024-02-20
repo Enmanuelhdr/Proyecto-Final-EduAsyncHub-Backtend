@@ -32,5 +32,17 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.EstudianteId).GreaterThan(0);
             }
         }
+
+        public class SubmitAssignmentValidator : AbstractValidator<SubmitAssignmentRequestDto>
+        {
+            public SubmitAssignmentValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.AsignacionId).GreaterThan(0);
+                RuleFor(x => x.Respuesta).NotEmpty();
+            }
+        }
+
+
     }
 }

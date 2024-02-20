@@ -143,5 +143,35 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
             }
         }
+
+        //[Authorize(Roles = "Estudiante")]
+        [HttpPost("EnviarTarea")]
+        public async Task<IActionResult> SubmitAssignment(SubmitAssignmentRequestDto student)
+        {
+            var validation = await _validationsManager.ValidateAsync(student);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(student.EstudianteId);
+
+            if (!studentExists)
+            {
+                return BadRequest("El estudiante no existe.");
+            }
+
+            try
+            {
+                await _studentService.SubmitAssignment(student);
+                return Ok("La tarea se ha enviado exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
     }
 }

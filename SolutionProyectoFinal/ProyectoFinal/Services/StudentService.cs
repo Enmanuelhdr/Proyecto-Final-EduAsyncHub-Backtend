@@ -77,5 +77,20 @@ namespace ProyectoFinal.Services
 
             return assignments.Cast<object>().ToList();
         }
+
+        public async Task SubmitAssignment(SubmitAssignmentRequestDto submitAssignment)
+        {
+            var assignment = new RespuestasEstudiante
+            {
+                EstudianteId = submitAssignment.EstudianteId,
+                AsignacionId = submitAssignment.AsignacionId,
+                Respuesta = submitAssignment.Respuesta
+            };
+
+            _context.RespuestasEstudiantes.Add(assignment);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }
