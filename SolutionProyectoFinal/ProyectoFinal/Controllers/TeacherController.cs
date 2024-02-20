@@ -50,7 +50,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Profesor")]
-        [HttpGet("MostrarMaterias")] 
+        [HttpGet("MostrarMisMateriasImpartidas")] 
         public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsTaughtRequestDto teacher)
         {
             var validation = await _validationsManager.ValidateAsync(teacher);
@@ -117,7 +117,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Profesor")]
-        [HttpPost("EditarTarea")]
+        [HttpPut("EditarTarea")]
         public async Task<IActionResult> UpdateTask(TaskUpdatehRequestDto updateTask)
         {
             var validation = await _validationsManager.ValidateAsync(updateTask);

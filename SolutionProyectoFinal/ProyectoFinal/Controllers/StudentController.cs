@@ -84,7 +84,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpGet("MostrarTodasLasMaterias")]
+        [HttpGet("MostrarMisMaterias")]
         public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsStudentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
@@ -115,7 +115,7 @@ namespace ProyectoFinal.Controllers
 
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpGet("MostrarTodasTareas")]
+        [HttpGet("MostrarMisTareas")]
         public async Task<IActionResult> GetAllAssignmentsForStudent([FromQuery] AllSubjectsStudentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
@@ -175,7 +175,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpPost("EditarTarea")]
+        [HttpPut("EditarTarea")]
         public async Task<IActionResult> EditAssignment(EditAssignmentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
