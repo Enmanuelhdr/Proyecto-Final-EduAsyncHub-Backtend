@@ -203,5 +203,28 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex);
             }
         }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpPut("CalificarTarea")]
+        public async Task<IActionResult> QualificationAssignments(QualificationsAssignmentsRequestDTO qualificationAssignments)
+        {
+            var validation = await _validationsManager.ValidateAsync(qualificationAssignments);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            try
+            {
+                await _teacherService.QualificationsAssignments(qualificationAssignments);
+                return Ok("Se ha calificado la tarea exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex);
+            }
+        }
     }
 }

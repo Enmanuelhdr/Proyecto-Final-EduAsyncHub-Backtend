@@ -80,5 +80,18 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
 
         }
+
+        public async Task QualificationsAssignments(QualificationsAssignmentsRequestDTO qualificationAssignments)
+        {
+
+            var assignmentsSelect = await _context.RespuestasEstudiantes.FirstOrDefaultAsync(u => u.RespuestaId == qualificationAssignments.RespuestaId);
+
+
+            assignmentsSelect.Calificacion = qualificationAssignments.Calificacion;
+            assignmentsSelect.ComentariosProfesor = qualificationAssignments.Comentarios;
+
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

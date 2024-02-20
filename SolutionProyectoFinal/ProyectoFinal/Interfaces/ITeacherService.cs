@@ -15,5 +15,7 @@ namespace ProyectoFinal.Interfaces
 
         Task DeleteTask(TaskDeleteRequestDto deleteTask);
 
+        Task QualificationsAssignments(QualificationsAssignmentsRequestDTO qualificationsAssignments);
+
     }
 }

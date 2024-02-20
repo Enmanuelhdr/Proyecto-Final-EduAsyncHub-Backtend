@@ -43,5 +43,15 @@
             public int ProfesorId { get; set; }
 
         }
+
+        public class QualificationsAssignmentsRequestDTO
+        {
+            public int RespuestaId { get; set; }
+            public int EstudianteId { get; set; }
+            public int Calificacion { get; set; }
+            public string Comentarios { get; set; }
+
+
+        }
     }
 }

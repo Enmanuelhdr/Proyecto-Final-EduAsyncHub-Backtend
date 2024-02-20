@@ -58,5 +58,17 @@ namespace ProyectoFinal.Validations
             }
         }
 
+        public class QualificationsAssignmentsValidator : AbstractValidator<QualificationsAssignmentsRequestDTO>
+        {
+            public QualificationsAssignmentsValidator()
+            {
+                RuleFor(x => x.RespuestaId).GreaterThan(0);
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.Calificacion).GreaterThan(0).InclusiveBetween(0,100);
+                RuleFor(x => x.Comentarios).NotEmpty();
+
+            }
+        }
+
     }
 }
