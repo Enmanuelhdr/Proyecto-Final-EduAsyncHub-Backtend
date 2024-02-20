@@ -53,6 +53,15 @@ namespace ProyectoFinal.Validations
             }
         }
 
+        public class DeleteAssignmentValidator : AbstractValidator<DeleteAssignmentRequestDto>
+        {
+            public DeleteAssignmentValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.AsignacionId).GreaterThan(0);
+            }
+        }
+
 
     }
 }

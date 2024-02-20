@@ -102,5 +102,15 @@ namespace ProyectoFinal.Services
 
 
         }
+
+        public async Task DeleteAssignment(DeleteAssignmentRequestDto deleteAssignment)
+        {
+
+            var assignmentSelect = await _context.RespuestasEstudiantes.FirstOrDefaultAsync(u => u.AsignacionId == deleteAssignment.AsignacionId && u.EstudianteId == deleteAssignment.EstudianteId);
+
+            _context.RespuestasEstudiantes.Remove(assignmentSelect);
+            await _context.SaveChangesAsync();
+
+        }
     }
 }

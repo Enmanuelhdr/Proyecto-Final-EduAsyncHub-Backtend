@@ -33,7 +33,9 @@ namespace ProyectoFinal.Validations
                 IValidator<TaskUpdatehRequestDto> validateTaskUpdate,
                 IValidator<TaskDeleteRequestDto> validateTaskDelete,
                 IValidator<SubmitAssignmentRequestDto> validatorSubmitAssignment,
-                IValidator<EditAssignmentRequestDto> validatorEditAssignment
+                IValidator<EditAssignmentRequestDto> validatorEditAssignment,
+                IValidator<DeleteAssignmentRequestDto> validatorDeleteAssignment
+
 
 
 
@@ -67,7 +69,8 @@ namespace ProyectoFinal.Validations
                 { typeof(TaskUpdatehRequestDto), validateTaskUpdate },
                 { typeof(TaskDeleteRequestDto), validateTaskDelete },
                 { typeof(SubmitAssignmentRequestDto), validatorSubmitAssignment },
-                { typeof(EditAssignmentRequestDto), validatorEditAssignment }
+                { typeof(EditAssignmentRequestDto), validatorEditAssignment },
+                { typeof(DeleteAssignmentRequestDto), validatorDeleteAssignment }
 
 
 

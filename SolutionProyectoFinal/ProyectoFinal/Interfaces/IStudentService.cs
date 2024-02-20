@@ -17,5 +17,7 @@ namespace ProyectoFinal.Interfaces
         Task SubmitAssignment(SubmitAssignmentRequestDto submitAssignment);
 
         Task EditAssignment(EditAssignmentRequestDto editAssignment);
+
+        Task DeleteAssignment(DeleteAssignmentRequestDto deleteAssignment);
     }
 }
