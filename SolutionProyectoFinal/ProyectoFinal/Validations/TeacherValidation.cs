@@ -34,5 +34,16 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.FechaVencimiento).NotEmpty();
             }
         }
+
+        public class TaskUpdateValidator : AbstractValidator<TaskUpdatehRequestDto>
+        {
+            public TaskUpdateValidator()
+            {
+                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.Titulo).NotEmpty().Length(1, 100);
+                RuleFor(x => x.Descripcion).NotEmpty().Length(1, 500);
+                RuleFor(x => x.FechaVencimiento).NotEmpty();
+            }
+        }
     }
 }

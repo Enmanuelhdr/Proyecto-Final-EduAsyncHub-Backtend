@@ -59,5 +59,16 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateTask(TaskUpdatehRequestDto updateTask)
+        {
+
+            var taskSelect = await _context.Asignaciones.FirstOrDefaultAsync(u => u.AsignacionId == updateTask.TareaId);
+
+            taskSelect.Titulo = updateTask.Titulo;
+            taskSelect.Descripcion = updateTask.Descripcion;
+            taskSelect.FechaVencimiento = updateTask.FechaVencimiento;
+        
+            await _context.SaveChangesAsync();
+        }
     }
 }

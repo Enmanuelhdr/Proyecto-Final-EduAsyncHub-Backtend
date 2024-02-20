@@ -112,7 +112,51 @@ namespace ProyectoFinal.Controllers
 
             catch (Exception ex)
             {
-                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+                return StatusCode(500, "Error interno del servidor: " + ex);
+            }
+        }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpPost("EditarTarea")]
+        public async Task<IActionResult> UpdateTask(TaskUpdatehRequestDto updateTask)
+        {
+            var validation = await _validationsManager.ValidateAsync(updateTask);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(updateTask.ProfesorId);
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
+            var subjectExists = await _validationsManager.ValidateTeacherSubjectExistAsync(updateTask.ProfesorId, updateTask.MateriaId);
+
+            if (!subjectExists)
+            {
+                return BadRequest("El profesor no tiene asignada esta materia o no existe.");
+            }
+
+            var taskExists = await _validationsManager.ValidateTaskExistAsync(updateTask.TareaId);
+
+            if (!taskExists)
+            {
+                return BadRequest("No existe nignuna tarea con este id relacionado.");
+            }
+
+            try
+            {
+                await _teacherService.UpdateTask(updateTask);
+                return Ok("Se ha editado la tarea exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex);
             }
         }
     }

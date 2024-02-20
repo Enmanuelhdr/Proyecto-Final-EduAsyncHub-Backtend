@@ -10,5 +10,8 @@ namespace ProyectoFinal.Interfaces
         Task<List<object>> AllSubjectsTaught(AllSubjectsTaughtRequestDto teacher);
 
         Task CreateTask(TaskPublishRequestDto newTask);
+
+        Task UpdateTask(TaskUpdatehRequestDto updateTask);
+
     }
 }
