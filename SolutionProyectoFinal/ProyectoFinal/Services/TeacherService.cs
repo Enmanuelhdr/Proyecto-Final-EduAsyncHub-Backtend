@@ -70,5 +70,15 @@ namespace ProyectoFinal.Services
         
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteTask(TaskDeleteRequestDto deleteTask)
+        {
+
+            var taskSelect = await _context.Asignaciones.FindAsync(deleteTask.TareaId);
+
+            _context.Asignaciones.Remove(taskSelect);
+            await _context.SaveChangesAsync();
+
+        }
     }
 }

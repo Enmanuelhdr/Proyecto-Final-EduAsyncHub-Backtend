@@ -13,5 +13,7 @@ namespace ProyectoFinal.Interfaces
 
         Task UpdateTask(TaskUpdatehRequestDto updateTask);
 
+        Task DeleteTask(TaskDeleteRequestDto deleteTask);
+
     }
 }

@@ -30,7 +30,9 @@ namespace ProyectoFinal.Validations
                 IValidator<AllSubjectsTaughtRequestDto> validateAllSubjectsTaught,
                 IValidator<AllSubjectsStudentRequestDto> validatellSubjectsStudent,
                 IValidator<TaskPublishRequestDto> validateTaskPublish,
-                IValidator<TaskUpdatehRequestDto> validateTaskUpdate
+                IValidator<TaskUpdatehRequestDto> validateTaskUpdate,
+                IValidator<TaskDeleteRequestDto> validateTaskDelete
+
 
 
 
@@ -58,7 +60,8 @@ namespace ProyectoFinal.Validations
                 { typeof(AllSubjectsTaughtRequestDto), validateAllSubjectsTaught },
                 { typeof(AllSubjectsStudentRequestDto), validatellSubjectsStudent },
                 { typeof(TaskPublishRequestDto), validateTaskPublish },
-                { typeof(TaskUpdatehRequestDto), validateTaskUpdate }
+                { typeof(TaskUpdatehRequestDto), validateTaskUpdate },
+                { typeof(TaskDeleteRequestDto), validateTaskDelete }
 
 
 

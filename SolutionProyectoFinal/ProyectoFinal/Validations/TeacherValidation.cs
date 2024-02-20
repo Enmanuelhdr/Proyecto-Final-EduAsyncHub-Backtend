@@ -39,11 +39,24 @@ namespace ProyectoFinal.Validations
         {
             public TaskUpdateValidator()
             {
+                RuleFor(x => x.TareaId).GreaterThan(0);
                 RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.MateriaId).GreaterThan(0);
                 RuleFor(x => x.Titulo).NotEmpty().Length(1, 100);
                 RuleFor(x => x.Descripcion).NotEmpty().Length(1, 500);
                 RuleFor(x => x.FechaVencimiento).NotEmpty();
             }
         }
+
+        public class TaskDeleteValidator : AbstractValidator<TaskDeleteRequestDto>
+        {
+            public TaskDeleteValidator()
+            {
+                RuleFor(x => x.TareaId).GreaterThan(0);
+                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.MateriaId).GreaterThan(0);
+            }
+        }
+
     }
 }

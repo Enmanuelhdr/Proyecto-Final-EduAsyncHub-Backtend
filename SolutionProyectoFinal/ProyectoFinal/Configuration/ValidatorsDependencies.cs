@@ -26,6 +26,8 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<AllSubjectsStudentRequestDto>, AllSubjectsStudentValidator>();
             services.AddScoped<IValidator<TaskPublishRequestDto>, TaskPublishValidator>();
             services.AddScoped<IValidator<TaskUpdatehRequestDto>, TaskUpdateValidator>();
+            services.AddScoped<IValidator<TaskDeleteRequestDto>, TaskDeleteValidator>();
+
 
 
 

@@ -159,5 +159,49 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex);
             }
         }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpDelete("EliminarTarea")]
+        public async Task<IActionResult> DeleteTask(TaskDeleteRequestDto deleteTask)
+        {
+            var validation = await _validationsManager.ValidateAsync(deleteTask);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(deleteTask.ProfesorId);
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
+            var subjectExists = await _validationsManager.ValidateTeacherSubjectExistAsync(deleteTask.ProfesorId, deleteTask.MateriaId);
+
+            if (!subjectExists)
+            {
+                return BadRequest("El profesor no tiene asignada esta materia o no existe.");
+            }
+
+            var taskExists = await _validationsManager.ValidateTaskExistAsync(deleteTask.TareaId);
+
+            if (!taskExists)
+            {
+                return BadRequest("No existe nignuna tarea con este id relacionado.");
+            }
+
+            try
+            {
+                await _teacherService.DeleteTask(deleteTask);
+                return Ok("Se ha eliminado la tarea exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex);
+            }
+        }
     }
 }

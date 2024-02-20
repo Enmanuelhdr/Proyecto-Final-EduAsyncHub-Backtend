@@ -35,5 +35,13 @@
 
             public DateTime? FechaVencimiento { get; set; }
         }
+
+        public class TaskDeleteRequestDto
+        {
+            public int TareaId { get; set; }
+            public int MateriaId { get; set; }
+            public int ProfesorId { get; set; }
+
+        }
     }
 }
