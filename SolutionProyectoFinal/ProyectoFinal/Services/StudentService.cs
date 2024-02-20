@@ -91,6 +91,16 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task EditAssignment(EditAssignmentRequestDto editAssignment)
+        {
 
+            var assignmentSelect = await _context.RespuestasEstudiantes.FirstOrDefaultAsync(u => u.AsignacionId == editAssignment.AsignacionId && u.EstudianteId == editAssignment.EstudianteId);
+
+            assignmentSelect.Respuesta = editAssignment.Respuesta;
+
+            await _context.SaveChangesAsync();
+
+
+        }
     }
 }

@@ -14,6 +14,8 @@ namespace ProyectoFinal.Interfaces
 
         Task<List<object>> GetAllAssignmentsForStudent(AllSubjectsStudentRequestDto student);
 
-        Task SubmitAssignment(SubmitAssignmentRequestDto student);
+        Task SubmitAssignment(SubmitAssignmentRequestDto submitAssignment);
+
+        Task EditAssignment(EditAssignmentRequestDto editAssignment);
     }
 }

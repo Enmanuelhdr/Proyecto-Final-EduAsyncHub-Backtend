@@ -43,6 +43,16 @@ namespace ProyectoFinal.Validations
             }
         }
 
+        public class EditAssignmentValidator : AbstractValidator<EditAssignmentRequestDto>
+        {
+            public EditAssignmentValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.AsignacionId).GreaterThan(0);
+                RuleFor(x => x.Respuesta).NotEmpty();
+            }
+        }
+
 
     }
 }
