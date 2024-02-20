@@ -28,6 +28,7 @@ namespace ProyectoFinal.Validations
     {
         public UpdateUserValidator()
         {
+            RuleFor(x => x.UsuarioID).GreaterThan(0);
             RuleFor(x => x.Nombre).NotEmpty().Length(1, 100);
             RuleFor(x => x.CorreoElectronico).NotEmpty().EmailAddress();
             RuleFor(x => x.Contraseña).NotEmpty().MinimumLength(8);

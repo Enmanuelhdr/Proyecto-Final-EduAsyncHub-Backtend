@@ -17,9 +17,9 @@ namespace ProyectoFinal.Services
             _context = dbContext;
         }
 
-        public async Task EditAnyUserAdmin(int id, UpdateUserRequestDto usuario)
+        public async Task EditAnyUserAdmin(UpdateUserRequestDto usuario)
         {
-            var user = await _context.Usuarios.FindAsync(id);
+            var user = await _context.Usuarios.FindAsync(usuario.UsuarioID);
 
             user.Nombre = usuario.Nombre;
             user.CorreoElectronico = usuario.CorreoElectronico;

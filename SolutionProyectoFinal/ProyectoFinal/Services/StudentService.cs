@@ -3,6 +3,7 @@ using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using static ProyectoFinal.DTOs.StudentDTO;
+using static ProyectoFinal.DTOs.TeacherDTO;
 
 namespace ProyectoFinal.Services
 {
@@ -76,8 +77,5 @@ namespace ProyectoFinal.Services
 
             return assignments.Cast<object>().ToList();
         }
-
-
-
     }
 }

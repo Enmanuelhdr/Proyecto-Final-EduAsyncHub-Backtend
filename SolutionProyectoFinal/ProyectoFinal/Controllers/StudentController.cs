@@ -24,7 +24,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpPut("EstudianteInscribirCarreras")]
+        [HttpPut("InscribirCarreras")]
         public async Task<IActionResult> EnrollCareerStudent(EnrollCareerStudentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
@@ -54,7 +54,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpPost("EstudianteInscribirMaterias")]
+        [HttpPost("InscribirMaterias")]
         public async Task<IActionResult> EnrollSubjectStudent(EnrollSubjectStudentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
@@ -84,7 +84,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpGet("EstudianteMostrarTodasLasMaterias")]
+        [HttpGet("MostrarTodasLasMaterias")]
         public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsStudentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
@@ -115,7 +115,7 @@ namespace ProyectoFinal.Controllers
 
 
         //[Authorize(Roles = "Estudiante")]
-        [HttpGet("EstudianteMostrarTodasTareas")]
+        [HttpGet("MostrarTodasTareas")]
         public async Task<IActionResult> GetAllAssignmentsForStudent([FromQuery] AllSubjectsStudentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);

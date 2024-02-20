@@ -19,6 +19,7 @@
 
         public class UpdateUserRequestDto
         {
+            public int UsuarioID { get; set; }
             public string Nombre { get; set; }
             public string CorreoElectronico { get; set; }
             public string Contraseña { get; set; }

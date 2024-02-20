@@ -20,8 +20,8 @@ namespace ProyectoFinal.Controllers
         }
 
         [Authorize(Roles = "Administrador")]
-        [HttpPut("EditarUsuarioAdmin/{id}")]
-        public async Task<IActionResult> EditAnyUserAdmin(int id, UpdateUserRequestDto usuario)
+        [HttpPut("EditarUsuario")]
+        public async Task<IActionResult> EditAnyUserAdmin(UpdateUserRequestDto usuario)
         {
             var validation = await _validationsManager.ValidateAsync(usuario);
 
@@ -30,16 +30,24 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var userExists = await _validationsManager.ValidateUserExistAsync(id);
+            var userExists = await _validationsManager.ValidateUserExistAsync(usuario.UsuarioID);
 
             if (!userExists)
             {
                 return BadRequest("El usuario no existe.");
             }
 
+            var emailExist = await _validationsManager.ValidateEmailExistAsync(usuario.CorreoElectronico);
+
+            if (emailExist)
+            {
+                return BadRequest("Ya existe un usuario creado con este email");
+            }
+
+
             try
             {
-                await _adminService.EditAnyUserAdmin(id, usuario);
+                await _adminService.EditAnyUserAdmin(usuario);
                 return Ok("Usuario editado exitosamente.");
             }
 
@@ -50,7 +58,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [Authorize(Roles = "Administrador")]
-        [HttpDelete("EliminarUsuarioAdmin")]
+        [HttpDelete("EliminarUsuario")]
         public async Task<IActionResult> DeleteAnyUserAdmin(DeleteUserRequestDto usuario)
         {
             var validation = await _validationsManager.ValidateAsync(usuario);
