@@ -10,5 +10,7 @@ namespace ProyectoFinal.Interfaces
         Task<Estudiante> GetStudentForId(StudentFilterRequestDto studentFilter);
 
         Task<Profesore> GetTeacherForId(TeacherFilterRequestDto teacherFilter);
+
+        Task<Carrera> GetCareerForId(CareerFilterRequestDto careerFilter);
     }
 }

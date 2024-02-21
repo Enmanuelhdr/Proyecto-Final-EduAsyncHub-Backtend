@@ -41,6 +41,7 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<UserFilterRequestDto>, UserFilterValidator>();
             services.AddScoped<IValidator<StudentFilterRequestDto>, StudentFilterValidator>();
             services.AddScoped<IValidator<TeacherFilterRequestDto>, TeacherFilterValidator>();
+            services.AddScoped<IValidator<CareerFilterRequestDto>, CareerFilterValidator>();
 
 
 

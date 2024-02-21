@@ -17,6 +17,10 @@
             public int TeacherId { get; set; }
         }
 
+        public class CareerFilterRequestDto
+        {
+            public int CareerId { get; set; }
+        }
 
     }
 }

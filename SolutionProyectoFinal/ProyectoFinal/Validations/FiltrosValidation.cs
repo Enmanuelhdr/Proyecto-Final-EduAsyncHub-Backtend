@@ -29,5 +29,13 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.TeacherId).GreaterThan(0);
             }
         }
+
+        public class CareerFilterValidator : AbstractValidator<CareerFilterRequestDto>
+        {
+            public CareerFilterValidator()
+            {
+                RuleFor(x => x.CareerId).InclusiveBetween(1,28);
+            }
+        }
     }
 }

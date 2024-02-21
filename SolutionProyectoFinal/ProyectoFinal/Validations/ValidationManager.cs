@@ -44,7 +44,9 @@ namespace ProyectoFinal.Validations
                 IValidator<ViewAssitanceRequestDto> validatorViewAssistance,
                 IValidator<UserFilterRequestDto> validatorFilterUser,
                 IValidator<StudentFilterRequestDto> validatorFilterStudent,
-                IValidator<TeacherFilterRequestDto> validatorFilterTeacher
+                IValidator<TeacherFilterRequestDto> validatorFilterTeacher,
+                IValidator<CareerFilterRequestDto> validatorFilterCareer
+
 
 
 
@@ -97,7 +99,8 @@ namespace ProyectoFinal.Validations
                 { typeof(ViewAssitanceRequestDto), validatorViewAssistance },
                 { typeof(UserFilterRequestDto), validatorFilterUser },
                 { typeof(StudentFilterRequestDto), validatorFilterStudent },
-                { typeof(TeacherFilterRequestDto), validatorFilterTeacher }
+                { typeof(TeacherFilterRequestDto), validatorFilterTeacher },
+                { typeof(CareerFilterRequestDto), validatorFilterCareer }
 
 
 

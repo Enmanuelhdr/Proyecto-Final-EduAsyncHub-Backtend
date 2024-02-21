@@ -36,5 +36,12 @@ namespace ProyectoFinal.Services
             return teacher;
         }
 
+        public async Task<Carrera> GetCareerForId(CareerFilterRequestDto careerFilter)
+        {
+            var career = await _context.Carreras.FirstOrDefaultAsync(u => u.CarreraId == careerFilter.CareerId);
+
+            return career;
+        }
+
     }
 }

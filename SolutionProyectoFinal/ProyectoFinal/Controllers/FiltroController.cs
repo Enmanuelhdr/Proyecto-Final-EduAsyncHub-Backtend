@@ -104,5 +104,27 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
+        [HttpGet("ObtenerCarreraPorID")]
+        public async Task<IActionResult> GetCareerForId([FromQuery] CareerFilterRequestDto careerFilter)
+        {
+            var validation = await _validationsManager.ValidateAsync(careerFilter);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            try
+            {
+                var career = await _filtrosService.GetCareerForId(careerFilter);
+                return Ok(career);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
     }
 }
