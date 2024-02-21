@@ -14,5 +14,7 @@ namespace ProyectoFinal.Interfaces
         Task<Carrera> GetCareerForId(CareerFilterRequestDto careerFilter);
 
         Task<Materia> GetSubjectForId(SubjectFilterRequestDto subjectFilter);
+
+        Task<Asignacione> GetAssignmentForId(AssignmentsFilterRequestDto assignmentFilter);
     }
 }

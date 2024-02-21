@@ -50,5 +50,12 @@ namespace ProyectoFinal.Services
             return subject;
         }
 
+        public async Task<Asignacione> GetAssignmentForId(AssignmentsFilterRequestDto assignmentFilter)
+        {
+            var assignment = await _context.Asignaciones.FirstOrDefaultAsync(u => u.AsignacionId == assignmentFilter.AssignmentsId);
+
+            return assignment;
+        }
+
     }
 }

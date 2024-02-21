@@ -148,5 +148,27 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
+        [HttpGet("ObtenerAsignacionPorID")]
+        public async Task<IActionResult> GetAssignmentForId([FromQuery] AssignmentsFilterRequestDto assignmentFilter)
+        {
+            var validation = await _validationsManager.ValidateAsync(assignmentFilter);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            try
+            {
+                var assignment = await _filtrosService.GetAssignmentForId(assignmentFilter);
+                return Ok(assignment);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
     }
 }

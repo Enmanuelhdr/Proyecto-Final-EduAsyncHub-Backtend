@@ -27,5 +27,10 @@
             public int SubjectId { get; set; }
         }
 
+        public class AssignmentsFilterRequestDto
+        {
+            public int AssignmentsId { get; set; }
+        }
+
     }
 }
