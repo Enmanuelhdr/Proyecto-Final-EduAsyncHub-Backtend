@@ -13,5 +13,21 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.UserId).GreaterThan(0);
             }
         }
+
+        public class StudentFilterValidator : AbstractValidator<StudentFilterRequestDto>
+        {
+            public StudentFilterValidator()
+            {
+                RuleFor(x => x.StudentId).GreaterThan(0);
+            }
+        }
+
+        public class TeacherFilterValidator : AbstractValidator<TeacherFilterRequestDto>
+        {
+            public TeacherFilterValidator()
+            {
+                RuleFor(x => x.TeacherId).GreaterThan(0);
+            }
+        }
     }
 }

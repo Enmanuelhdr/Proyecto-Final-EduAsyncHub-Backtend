@@ -6,5 +6,9 @@ namespace ProyectoFinal.Interfaces
     public interface IFiltrosService
     {
         Task<Usuario> GetUserForId(UserFilterRequestDto userFilter);
+
+        Task<Estudiante> GetStudentForId(StudentFilterRequestDto studentFilter);
+
+        Task<Profesore> GetTeacherForId(TeacherFilterRequestDto teacherFilter);
     }
 }
