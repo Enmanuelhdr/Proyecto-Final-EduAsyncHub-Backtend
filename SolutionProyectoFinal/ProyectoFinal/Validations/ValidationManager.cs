@@ -37,7 +37,9 @@ namespace ProyectoFinal.Validations
                 IValidator<DeleteAssignmentRequestDto> validatorDeleteAssignment,
                 IValidator<QualificationsAssignmentsRequestDTO> validatorQualificationsAssignments,
                 IValidator<AssistancePublishRequestDto> validatorAssistance,
-                IValidator<QualificationsStudentRequestDto> validatorQualificationStudent
+                IValidator<QualificationsStudentRequestDto> validatorQualificationStudent,
+                IValidator<ViewQualificationsRequestDto> validatorViewQualification
+
 
 
 
@@ -80,7 +82,9 @@ namespace ProyectoFinal.Validations
                 { typeof(DeleteAssignmentRequestDto), validatorDeleteAssignment },
                 { typeof(QualificationsAssignmentsRequestDTO), validatorQualificationsAssignments },
                 { typeof(AssistancePublishRequestDto), validatorAssistance },
-                { typeof(QualificationsStudentRequestDto), validatorQualificationStudent }
+                { typeof(QualificationsStudentRequestDto), validatorQualificationStudent },
+                { typeof(ViewQualificationsRequestDto), validatorViewQualification }
+
 
 
 

@@ -19,5 +19,7 @@ namespace ProyectoFinal.Interfaces
         Task EditAssignment(EditAssignmentRequestDto editAssignment);
 
         Task DeleteAssignment(DeleteAssignmentRequestDto deleteAssignment);
+
+        Task<List<object>> ViewQualifications(ViewQualificationsRequestDto viewQualifications);
     }
 }

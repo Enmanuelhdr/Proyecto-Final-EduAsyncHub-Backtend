@@ -63,5 +63,13 @@ namespace ProyectoFinal.Validations
         }
 
 
+        public class ViewQualificationsValidator : AbstractValidator<ViewQualificationsRequestDto>
+        {
+            public ViewQualificationsValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+            }
+        }
+
     }
 }

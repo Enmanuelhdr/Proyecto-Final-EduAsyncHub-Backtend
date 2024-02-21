@@ -112,5 +112,19 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
 
         }
+
+        public async Task<List<object>> ViewQualifications(ViewQualificationsRequestDto viewQualifications)
+        { 
+            var qualifications = await _context.Calificaciones
+                .Where(c => c.EstudianteId == viewQualifications.EstudianteId)
+                .Select(c => new
+                {
+                    Materia = c.Materia.NombreMateria,
+                    Calificacion = c.Calificacion,
+                })
+                .ToListAsync();
+                
+            return qualifications.Cast<object>().ToList();
+        }
     }
 }

@@ -45,6 +45,11 @@
 
         }
 
+        public class ViewQualificationsRequestDto
+        {
+            public int EstudianteId { get; set; }
+
+        }
 
 
     }

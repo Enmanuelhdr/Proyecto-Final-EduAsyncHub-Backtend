@@ -33,6 +33,7 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<QualificationsAssignmentsRequestDTO>, QualificationsAssignmentsValidator>();
             services.AddScoped<IValidator<AssistancePublishRequestDto>, AssistancePublishValidator>();
             services.AddScoped<IValidator<QualificationsStudentRequestDto>, QualificationsStudentValidator>();
+            services.AddScoped<IValidator<ViewQualificationsRequestDto>, ViewQualificationsValidator>();
 
 
 

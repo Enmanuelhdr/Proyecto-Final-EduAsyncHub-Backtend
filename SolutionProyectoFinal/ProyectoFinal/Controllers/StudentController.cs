@@ -232,5 +232,36 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
             }
         }
+
+        //[Authorize(Roles = "Estudiante")]
+        [HttpGet("VerMisCalificaciones")]
+        public async Task<IActionResult> ViewQualifications([FromQuery] ViewQualificationsRequestDto student)
+        {
+            var validation = await _validationsManager.ValidateAsync(student);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(student.EstudianteId);
+
+            if (!studentExists)
+            {
+                return BadRequest("El estudiante no existe.");
+            }
+
+            try
+            {
+                var lista = await _studentService.ViewQualifications(student);
+                return Ok(lista);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
+
     }
 }
