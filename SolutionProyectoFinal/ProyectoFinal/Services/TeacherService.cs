@@ -67,7 +67,7 @@ namespace ProyectoFinal.Services
             taskSelect.Titulo = updateTask.Titulo;
             taskSelect.Descripcion = updateTask.Descripcion;
             taskSelect.FechaVencimiento = updateTask.FechaVencimiento;
-        
+
             await _context.SaveChangesAsync();
         }
 
@@ -106,6 +106,22 @@ namespace ProyectoFinal.Services
             };
 
             _context.Asistencia.Add(assistancePublish);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent)
+        {
+
+            var qualificationPublish = new Calificacione
+            {
+                EstudianteId = qualificationsStudent.EstudianteId,
+                MateriaId = qualificationsStudent.MateriaId,
+                ProfesorId = qualificationsStudent.ProfesorId,
+                Calificacion = qualificationsStudent.Calificacion,
+                FechaPublicacion = DateTime.Now
+            };
+
+            _context.Calificaciones.Add(qualificationPublish);
             await _context.SaveChangesAsync();
         }
     }

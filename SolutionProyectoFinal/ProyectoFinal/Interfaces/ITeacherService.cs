@@ -19,5 +19,7 @@ namespace ProyectoFinal.Interfaces
 
         Task PublishAssistance(AssistancePublishRequestDto assistance);
 
+        Task QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent);
+
     }
 }

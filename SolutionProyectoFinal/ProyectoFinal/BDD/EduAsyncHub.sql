@@ -209,6 +209,8 @@ CREATE TABLE Calificaciones (
     FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID)
 );
 
+select * from Asistencia
+
 
 -- Tabla de Auditoria
 CREATE TABLE Auditoria (

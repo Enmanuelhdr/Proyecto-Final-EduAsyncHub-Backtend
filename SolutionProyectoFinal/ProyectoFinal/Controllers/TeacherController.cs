@@ -50,7 +50,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Profesor")]
-        [HttpGet("MostrarMisMateriasImpartidas")] 
+        [HttpGet("MostrarMisMateriasImpartidas")]
         public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsTaughtRequestDto teacher)
         {
             var validation = await _validationsManager.ValidateAsync(teacher);
@@ -229,7 +229,7 @@ namespace ProyectoFinal.Controllers
 
         //[Authorize(Roles = "Profesor")]
         [HttpPost("PublicarAsistencia")]
-         
+
         public async Task<IActionResult> PublishAssistance(AssistancePublishRequestDto assistance)
         {
             var validation = await _validationsManager.ValidateAsync(assistance);
@@ -259,6 +259,43 @@ namespace ProyectoFinal.Controllers
                 return Ok("Se ha publicado la asistencia exitosamente.");
 
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex);
+            }
+        }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpPost("PublicarCalificacionesTotales")]
+        public async Task<IActionResult> QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent)
+        {
+            var validation = await _validationsManager.ValidateAsync(qualificationsStudent);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(qualificationsStudent.ProfesorId);
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(qualificationsStudent.EstudianteId);
+
+            if (!studentExists)
+            {
+                return BadRequest("El estudiante no existe.");
+            }
+
+            try
+            {
+                await _teacherService.QualificationsStudents(qualificationsStudent);
+                return Ok("Se ha publicado la calificación exitosamente.");
+            }
+
             catch (Exception ex)
             {
                 return StatusCode(500, "Error interno del servidor: " + ex);
