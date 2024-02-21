@@ -37,5 +37,13 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.CareerId).InclusiveBetween(1,28);
             }
         }
+
+        public class SubjectFilterValidator : AbstractValidator<SubjectFilterRequestDto>
+        {
+            public SubjectFilterValidator()
+            {
+                RuleFor(x => x.SubjectId).InclusiveBetween(1,28);
+            }
+        }
     }
 }

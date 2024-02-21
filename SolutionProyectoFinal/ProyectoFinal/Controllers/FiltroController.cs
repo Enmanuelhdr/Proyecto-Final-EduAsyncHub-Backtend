@@ -126,5 +126,27 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
+        [HttpGet("ObtenerMateriaPorID")]
+        public async Task<IActionResult> GetSubjectForId([FromQuery] SubjectFilterRequestDto subjectFilter)
+        {
+            var validation = await _validationsManager.ValidateAsync(subjectFilter);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            try
+            {
+                var subject = await _filtrosService.GetSubjectForId(subjectFilter);
+                return Ok(subject);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
     }
 }

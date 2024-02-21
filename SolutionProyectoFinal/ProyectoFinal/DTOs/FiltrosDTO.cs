@@ -22,5 +22,10 @@
             public int CareerId { get; set; }
         }
 
+        public class SubjectFilterRequestDto
+        {
+            public int SubjectId { get; set; }
+        }
+
     }
 }

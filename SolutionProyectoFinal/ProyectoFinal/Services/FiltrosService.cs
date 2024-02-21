@@ -43,5 +43,12 @@ namespace ProyectoFinal.Services
             return career;
         }
 
+        public async Task<Materia> GetSubjectForId(SubjectFilterRequestDto subjectFilter)
+        {
+            var subject = await _context.Materias.FirstOrDefaultAsync(u => u.MateriaId == subjectFilter.SubjectId);
+
+            return subject;
+        }
+
     }
 }
