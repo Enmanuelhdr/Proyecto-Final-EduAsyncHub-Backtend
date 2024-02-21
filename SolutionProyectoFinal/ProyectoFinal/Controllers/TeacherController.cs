@@ -226,5 +226,43 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex);
             }
         }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpPost("PublicarAsistencia")]
+         
+        public async Task<IActionResult> PublishAssistance(AssistancePublishRequestDto assistance)
+        {
+            var validation = await _validationsManager.ValidateAsync(assistance);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(assistance.ProfesorId);
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(assistance.EstudianteId);
+
+            if (!studentExists)
+            {
+                return BadRequest("El estudiante no existe.");
+            }
+
+            try
+            {
+                await _teacherService.PublishAssistance(assistance);
+                return Ok("Se ha publicado la asistencia exitosamente.");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex);
+            }
+        }
     }
 }

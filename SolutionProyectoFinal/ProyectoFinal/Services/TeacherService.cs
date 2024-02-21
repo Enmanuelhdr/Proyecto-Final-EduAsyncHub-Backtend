@@ -93,5 +93,20 @@ namespace ProyectoFinal.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task PublishAssistance(AssistancePublishRequestDto assistance)
+        {
+            var assistancePublish = new Asistencium
+            {
+                EstudianteId = assistance.EstudianteId,
+                MateriaId = assistance.MateriaId,
+                ProfesorId = assistance.ProfesorId,
+                FechaAsistencia = DateTime.Now,
+                Asistio = assistance.Asistio
+            };
+
+            _context.Asistencia.Add(assistancePublish);
+            await _context.SaveChangesAsync();
+        }
     }
 }

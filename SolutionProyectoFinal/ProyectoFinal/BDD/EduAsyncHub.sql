@@ -178,6 +178,8 @@ CREATE TABLE RespuestasEstudiantes (
     FOREIGN KEY (AsignacionID) REFERENCES Asignaciones(AsignacionID)
 );
 
+select * from RespuestasEstudiantes
+
 -- Tabla de Asistencia
 CREATE TABLE Asistencia (
     AsistenciaID INT PRIMARY KEY IDENTITY(1,1),
@@ -190,6 +192,8 @@ CREATE TABLE Asistencia (
     FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID),
     FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID)
 );
+
+select * from Asistencia
 
 
 -- Tabla de Calificaciones

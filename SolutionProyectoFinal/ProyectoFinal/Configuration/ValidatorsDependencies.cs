@@ -31,6 +31,7 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<EditAssignmentRequestDto>, EditAssignmentValidator>();
             services.AddScoped<IValidator<DeleteAssignmentRequestDto>, DeleteAssignmentValidator>();
             services.AddScoped<IValidator<QualificationsAssignmentsRequestDTO>, QualificationsAssignmentsValidator>();
+            services.AddScoped<IValidator<AssistancePublishRequestDto>, AssistancePublishValidator>();
 
 
 

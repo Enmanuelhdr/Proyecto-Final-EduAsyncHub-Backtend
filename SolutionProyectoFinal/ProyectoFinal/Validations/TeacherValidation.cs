@@ -70,5 +70,17 @@ namespace ProyectoFinal.Validations
             }
         }
 
+        public class AssistancePublishValidator : AbstractValidator<AssistancePublishRequestDto>
+        {
+            public AssistancePublishValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.MateriaId).GreaterThan(0);
+                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.Asistio).NotNull();
+                
+            }
+        }
+
     }
 }

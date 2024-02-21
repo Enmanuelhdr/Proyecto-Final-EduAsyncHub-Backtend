@@ -17,5 +17,7 @@ namespace ProyectoFinal.Interfaces
 
         Task QualificationsAssignments(QualificationsAssignmentsRequestDTO qualificationsAssignments);
 
+        Task PublishAssistance(AssistancePublishRequestDto assistance);
+
     }
 }

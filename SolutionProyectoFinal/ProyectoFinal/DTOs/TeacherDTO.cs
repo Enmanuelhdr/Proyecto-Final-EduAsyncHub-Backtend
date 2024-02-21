@@ -53,5 +53,13 @@
 
 
         }
+
+        public class AssistancePublishRequestDto
+        {
+            public int EstudianteId { get; set; }
+            public int MateriaId { get; set; }
+            public int ProfesorId { get; set; }
+            public bool Asistio { get; set; }
+        }
     }
 }
