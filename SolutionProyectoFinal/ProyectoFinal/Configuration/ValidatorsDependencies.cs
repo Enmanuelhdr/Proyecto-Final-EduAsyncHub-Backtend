@@ -5,6 +5,9 @@ using static ProyectoFinal.DTOs.StudentDTO;
 using static ProyectoFinal.Validations.StudentValidation;
 using static ProyectoFinal.DTOs.TeacherDTO;
 using static ProyectoFinal.Validations.TeacherValidation;
+using static ProyectoFinal.DTOs.FiltrosDTO;
+using static ProyectoFinal.Validations.FiltrosValidation;
+
 
 
 namespace ProyectoFinal.Configuration
@@ -35,6 +38,7 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IValidator<QualificationsStudentRequestDto>, QualificationsStudentValidator>();
             services.AddScoped<IValidator<ViewQualificationsRequestDto>, ViewQualificationsValidator>();
             services.AddScoped<IValidator<ViewAssitanceRequestDto>, ViewAssitanceValidator>();
+            services.AddScoped<IValidator<UserFilterRequestDto>, UserFilterValidator>();
 
 
 

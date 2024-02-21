@@ -6,6 +6,8 @@ using static ProyectoFinal.DTOs.StudentDTO;
 using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using static ProyectoFinal.DTOs.TeacherDTO;
+using static ProyectoFinal.DTOs.FiltrosDTO;
+
 
 
 namespace ProyectoFinal.Validations
@@ -39,7 +41,9 @@ namespace ProyectoFinal.Validations
                 IValidator<AssistancePublishRequestDto> validatorAssistance,
                 IValidator<QualificationsStudentRequestDto> validatorQualificationStudent,
                 IValidator<ViewQualificationsRequestDto> validatorViewQualification,
-                IValidator<ViewAssitanceRequestDto> validatorViewAssistance
+                IValidator<ViewAssitanceRequestDto> validatorViewAssistance,
+                IValidator<UserFilterRequestDto> validatorFilterUser
+
 
 
 
@@ -86,7 +90,8 @@ namespace ProyectoFinal.Validations
                 { typeof(AssistancePublishRequestDto), validatorAssistance },
                 { typeof(QualificationsStudentRequestDto), validatorQualificationStudent },
                 { typeof(ViewQualificationsRequestDto), validatorViewQualification },
-                { typeof(ViewAssitanceRequestDto), validatorViewAssistance }
+                { typeof(ViewAssitanceRequestDto), validatorViewAssistance },
+                { typeof(UserFilterRequestDto), validatorFilterUser }
 
 
 

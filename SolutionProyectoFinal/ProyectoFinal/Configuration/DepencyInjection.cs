@@ -12,6 +12,8 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IFiltrosService, FiltrosService>();
+
 
             services.AddScoped<IValidationsManager, ValidationsManager>();
 
