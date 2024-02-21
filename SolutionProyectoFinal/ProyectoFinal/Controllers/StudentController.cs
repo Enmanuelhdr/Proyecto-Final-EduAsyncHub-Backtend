@@ -263,5 +263,35 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        //[Authorize(Roles = "Estudiante")]
+        [HttpGet("VerMisAsistencias")]
+        public async Task<IActionResult> ViewAssitance([FromQuery] ViewAssitanceRequestDto student)
+        {
+            var validation = await _validationsManager.ValidateAsync(student);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(student.EstudianteId);
+
+            if (!studentExists)
+            {
+                return BadRequest("El estudiante no existe.");
+            }
+
+            try
+            {
+                var lista = await _studentService.ViewAssitance(student);
+                return Ok(lista);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
+
     }
 }

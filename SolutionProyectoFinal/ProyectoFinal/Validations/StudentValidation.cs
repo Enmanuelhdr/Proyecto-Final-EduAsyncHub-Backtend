@@ -71,5 +71,13 @@ namespace ProyectoFinal.Validations
             }
         }
 
+        public class ViewAssitanceValidator : AbstractValidator<ViewAssitanceRequestDto>
+        {
+            public ViewAssitanceValidator()
+            {
+                RuleFor(x => x.EstudianteId).GreaterThan(0);
+            }
+        }
+
     }
 }

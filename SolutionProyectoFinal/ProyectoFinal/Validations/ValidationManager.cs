@@ -38,7 +38,9 @@ namespace ProyectoFinal.Validations
                 IValidator<QualificationsAssignmentsRequestDTO> validatorQualificationsAssignments,
                 IValidator<AssistancePublishRequestDto> validatorAssistance,
                 IValidator<QualificationsStudentRequestDto> validatorQualificationStudent,
-                IValidator<ViewQualificationsRequestDto> validatorViewQualification
+                IValidator<ViewQualificationsRequestDto> validatorViewQualification,
+                IValidator<ViewAssitanceRequestDto> validatorViewAssistance
+
 
 
 
@@ -83,7 +85,8 @@ namespace ProyectoFinal.Validations
                 { typeof(QualificationsAssignmentsRequestDTO), validatorQualificationsAssignments },
                 { typeof(AssistancePublishRequestDto), validatorAssistance },
                 { typeof(QualificationsStudentRequestDto), validatorQualificationStudent },
-                { typeof(ViewQualificationsRequestDto), validatorViewQualification }
+                { typeof(ViewQualificationsRequestDto), validatorViewQualification },
+                { typeof(ViewAssitanceRequestDto), validatorViewAssistance }
 
 
 

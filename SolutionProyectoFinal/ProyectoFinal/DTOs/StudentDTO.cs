@@ -51,6 +51,11 @@
 
         }
 
+        public class ViewAssitanceRequestDto
+        {
+            public int EstudianteId { get; set; }
+
+        }
 
     }
 }

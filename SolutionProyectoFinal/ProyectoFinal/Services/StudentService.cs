@@ -126,5 +126,37 @@ namespace ProyectoFinal.Services
                 
             return qualifications.Cast<object>().ToList();
         }
+
+        public async Task<List<object>> ViewAssitance(ViewAssitanceRequestDto viewAssitance)
+        {
+            var assistanceDetails = await _context.Asistencia
+                .Where(a => a.EstudianteId == viewAssitance.EstudianteId)
+                .Select(a => new
+                {
+                    Materia = a.Materia.NombreMateria,
+                    Fecha = a.FechaAsistencia,
+                    AsistenciaStatus = a.Asistio == true ? "Asistió" : "No Asistió"
+                })
+                .ToListAsync();
+
+            var totalAssistances = await _context.Asistencia
+                .CountAsync(a => a.EstudianteId == viewAssitance.EstudianteId && a.Asistio == true);
+
+            var totalInassitances = await _context.Asistencia
+                .CountAsync(a => a.EstudianteId == viewAssitance.EstudianteId && a.Asistio == false);
+
+            var result = new
+            {
+                AssistanceDetails = assistanceDetails,
+                TotalAssistances = totalAssistances,
+                TotalInassitances = totalInassitances
+            };
+
+            return new List<object> { result };
+        }
+
+
+
+
     }
 }
