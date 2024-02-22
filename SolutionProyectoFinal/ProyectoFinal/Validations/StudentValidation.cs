@@ -39,7 +39,6 @@ namespace ProyectoFinal.Validations
             {
                 RuleFor(x => x.EstudianteId).GreaterThan(0);
                 RuleFor(x => x.AsignacionId).GreaterThan(0);
-                RuleFor(x => x.Respuesta).NotEmpty();
             }
         }
 

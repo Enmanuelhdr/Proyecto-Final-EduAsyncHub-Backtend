@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="BDD\" />
+    <Folder Include="Archivos\" />
   </ItemGroup>
 
 </Project>

@@ -1,19 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
+using System.Data;
+using System;
 using static ProyectoFinal.DTOs.StudentDTO;
 using static ProyectoFinal.DTOs.TeacherDTO;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace ProyectoFinal.Services
 {
     public class StudentService : IStudentService
     {
         private readonly EduAsyncHubContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public StudentService(EduAsyncHubContext dbContext)
+        public StudentService(EduAsyncHubContext dbContext, IWebHostEnvironment hostingEnvironment)
         {
             _context = dbContext;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task EnrollCareerStudent(EnrollCareerStudentRequestDto student)
@@ -83,9 +89,20 @@ namespace ProyectoFinal.Services
             var assignment = new RespuestasEstudiante
             {
                 EstudianteId = submitAssignment.EstudianteId,
-                AsignacionId = submitAssignment.AsignacionId,
-                Respuesta = submitAssignment.Respuesta
+                AsignacionId = submitAssignment.AsignacionId
             };
+
+            if (submitAssignment.Archivo != null)
+            {
+                var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Archivos", submitAssignment.Archivo.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await submitAssignment.Archivo.CopyToAsync(stream);
+                }
+
+                assignment.Respuesta = filePath;
+            }
 
             _context.RespuestasEstudiantes.Add(assignment);
             await _context.SaveChangesAsync();

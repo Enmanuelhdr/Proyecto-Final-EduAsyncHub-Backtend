@@ -26,7 +26,8 @@
         {
             public int EstudianteId { get; set; }
             public int AsignacionId { get; set; }
-            public string Respuesta { get; set; }
+            public IFormFile Archivo { get; set; }
+
 
         }
 

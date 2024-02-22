@@ -146,7 +146,7 @@ namespace ProyectoFinal.Controllers
 
         //[Authorize(Roles = "Estudiante")]
         [HttpPost("EnviarTarea")]
-        public async Task<IActionResult> SubmitAssignment(SubmitAssignmentRequestDto student)
+        public async Task<IActionResult> SubmitAssignment([FromForm] SubmitAssignmentRequestDto student)
         {
             var validation = await _validationsManager.ValidateAsync(student);
 
