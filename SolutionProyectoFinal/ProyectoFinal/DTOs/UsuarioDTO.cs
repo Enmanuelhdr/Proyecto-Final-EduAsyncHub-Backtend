@@ -31,6 +31,22 @@
             public bool ConfiguracionNotificaciones { get; set; }
             public int RolID { get; set; }
             public bool Permisos { get; set; }
+
+        }
+
+        public class UpdateProfileRequestDto
+        {
+            public int UsuarioID { get; set; }
+            public string Nombre { get; set; }
+            public string CorreoElectronico { get; set; }
+            public string Contraseña { get; set; }
+            public string DescripcionBreve { get; set; }
+            public string Intereses { get; set; }
+            public string Habilidades { get; set; }
+            public bool ConfiguracionPrivacidad { get; set; }
+            public bool ConfiguracionNotificaciones { get; set; }
+
+            public IFormFile Foto { get; set; }
         }
 
         public class DeleteUserRequestDto

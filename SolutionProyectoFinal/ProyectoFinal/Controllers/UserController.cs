@@ -85,5 +85,34 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [HttpPut("ActualizarPerfil")]
+        public async Task<IActionResult> UpdateUser([FromForm] UpdateProfileRequestDto updateUser)
+        {
+            var validation = await _validationsManager.ValidateAsync(updateUser);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            var userExists = await _validationsManager.ValidateUserExistAsync(updateUser.UsuarioID);
+
+            if (!userExists)
+            {
+                return BadRequest("El usuario no existe.");
+            }
+
+            try
+            {
+                await _userService.UpdateProfile(updateUser);
+                return Ok("Usuario actualizado exitosamente.");
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
+
     }
 }

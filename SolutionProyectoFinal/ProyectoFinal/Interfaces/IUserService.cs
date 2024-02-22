@@ -8,6 +8,8 @@ namespace ProyectoFinal.Interfaces
 
         Task<(bool, string)> LoginUser(LoginUserRequestDto request);
 
+        Task UpdateProfile(UpdateProfileRequestDto request);
+
 
     }
 }

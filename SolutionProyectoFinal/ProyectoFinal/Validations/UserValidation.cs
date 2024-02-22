@@ -52,4 +52,20 @@ namespace ProyectoFinal.Validations
             RuleFor(x => x.Permissions).NotNull();
         }
     }
+
+    public class UpdateProfileValidator : AbstractValidator<UpdateProfileRequestDto>
+    {
+        public UpdateProfileValidator()
+        {
+            RuleFor(x => x.UsuarioID).GreaterThan(0);
+            RuleFor(x => x.Nombre).NotEmpty().Length(1, 100);
+            RuleFor(x => x.DescripcionBreve).NotEmpty().Length(1, 100);
+            RuleFor(x => x.Intereses).NotEmpty().Length(1, 100);
+            RuleFor(x => x.Habilidades).NotEmpty().Length(1, 100);
+            RuleFor(x => x.CorreoElectronico).NotEmpty().EmailAddress();
+            RuleFor(x => x.Contraseña).NotEmpty().MinimumLength(8);
+            RuleFor(x => x.ConfiguracionPrivacidad).NotNull();
+            RuleFor(x => x.ConfiguracionNotificaciones).NotNull();
+        }
+    }
 }

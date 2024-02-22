@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using static ProyectoFinal.DTOs.UsuarioDTO;
+using static ProyectoFinal.DTOs.StudentDTO;
 
 namespace ProyectoFinal.Services
 {
@@ -16,11 +17,12 @@ namespace ProyectoFinal.Services
     {
         private readonly EduAsyncHubContext _context;
         private readonly string Key;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-
-        public UserService(EduAsyncHubContext dbContext, IConfiguration config)
+        public UserService(EduAsyncHubContext dbContext, IWebHostEnvironment hostingEnvironment, IConfiguration config)
         {
             _context = dbContext;
+            _hostingEnvironment = hostingEnvironment;
             Key = config.GetSection("settings:Key").Value;
 
         }
@@ -108,6 +110,38 @@ namespace ProyectoFinal.Services
             {
                 return (false, "Login inválido");
             }
+        }
+
+        public async Task UpdateProfile(UpdateProfileRequestDto updateUser)
+        {
+            var userSelect = await _context.Usuarios.FirstOrDefaultAsync(u => u.UsuarioId == updateUser.UsuarioID);
+
+            var user = new Usuario
+            {
+                Nombre = updateUser.Nombre,
+                CorreoElectronico = updateUser.CorreoElectronico,
+                Contraseña = updateUser.Contraseña,
+                DescripcionBreve = updateUser.DescripcionBreve,
+                Intereses = updateUser.Intereses,
+                Habilidades = updateUser.Habilidades,
+                ConfiguracionPrivacidad = updateUser.ConfiguracionPrivacidad,
+                ConfiguracionNotificaciones = updateUser.ConfiguracionNotificaciones,
+            };
+
+            if (updateUser.Foto != null)
+            {
+                var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Archivos", updateUser.Foto.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await updateUser.Foto.CopyToAsync(stream);
+                }
+
+                user.FotoPerfil = filePath;
+            }
+
+            _context.Usuarios.Add(user);
+            await _context.SaveChangesAsync();
         }
 
         private string ConvertSha256(string inputString)
