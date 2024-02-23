@@ -10,9 +10,9 @@ namespace ProyectoFinal.Models
             Asignaciones = new HashSet<Asignacione>();
             Asistencia = new HashSet<Asistencium>();
             Calificaciones = new HashSet<Calificacione>();
-            Carreras = new HashSet<Carrera>();
-            Estudiantes = new HashSet<Estudiante>();
-            Profesors = new HashSet<Profesore>();
+            CarrerasMateria = new HashSet<CarrerasMateria>();
+            EstudianteMateria = new HashSet<EstudianteMaterium>();
+            ProfesorMateria = new HashSet<ProfesorMaterium>();
         }
 
         public int MateriaId { get; set; }
@@ -21,9 +21,8 @@ namespace ProyectoFinal.Models
         public virtual ICollection<Asignacione> Asignaciones { get; set; }
         public virtual ICollection<Asistencium> Asistencia { get; set; }
         public virtual ICollection<Calificacione> Calificaciones { get; set; }
-
-        public virtual ICollection<Carrera> Carreras { get; set; }
-        public virtual ICollection<Estudiante> Estudiantes { get; set; }
-        public virtual ICollection<Profesore> Profesors { get; set; }
+        public virtual ICollection<CarrerasMateria> CarrerasMateria { get; set; }
+        public virtual ICollection<EstudianteMaterium> EstudianteMateria { get; set; }
+        public virtual ICollection<ProfesorMaterium> ProfesorMateria { get; set; }
     }
 }

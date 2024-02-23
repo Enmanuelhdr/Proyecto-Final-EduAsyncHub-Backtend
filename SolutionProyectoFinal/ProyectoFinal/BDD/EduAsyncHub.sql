@@ -221,3 +221,13 @@ CREATE TABLE Auditoria (
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
 
+CREATE TABLE Mensajes (
+    MensajeID INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioID INT NOT NULL,
+    Mensaje TEXT NOT NULL,
+    FechaEnvio DATETIME DEFAULT GETDATE(),
+    SeccionID INT,
+    FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
+);
+
+select * from Mensajes

@@ -18,7 +18,9 @@ builder.Services.AddCors(options =>
         {
             builder.AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .WithOrigins("http://127.0.0.1:5500")
+                .AllowCredentials();
         });
 });
 
@@ -31,6 +33,7 @@ builder.Services.GetDependencyInjections();
 
 // Añadir SignalR
 builder.Services.AddSignalR();
+
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(config =>
@@ -90,14 +93,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting(); // Agrega esta línea para configurar el middleware de enrutamiento de extremos
+
 app.UseCors(misReglasCors);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 // Mapeo del hub de SignalR
-app.MapHub<ChatService>("/chatHub");
-
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatService>("/chatHub"); // Aquí mapeamos el Hub
+    endpoints.MapControllers();
+});
 
 app.Run();

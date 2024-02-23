@@ -7,15 +7,14 @@ namespace ProyectoFinal.Models
     {
         public Carrera()
         {
+            CarrerasMateria = new HashSet<CarrerasMateria>();
             Estudiantes = new HashSet<Estudiante>();
-            Materia = new HashSet<Materia>();
         }
 
         public int CarreraId { get; set; }
         public string NombreCarrera { get; set; } = null!;
 
+        public virtual ICollection<CarrerasMateria> CarrerasMateria { get; set; }
         public virtual ICollection<Estudiante> Estudiantes { get; set; }
-
-        public virtual ICollection<Materia> Materia { get; set; }
     }
 }

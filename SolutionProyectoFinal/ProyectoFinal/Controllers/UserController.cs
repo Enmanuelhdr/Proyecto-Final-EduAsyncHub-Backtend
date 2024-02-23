@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using ProyectoFinal.Interfaces;
+using ProyectoFinal.Models;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 
 namespace ProyectoFinal.Controllers
@@ -10,6 +12,7 @@ namespace ProyectoFinal.Controllers
     {
         private readonly IUserService _userService;
         private readonly IValidationsManager _validationsManager;
+
 
         public UserController(IUserService userService, IValidationsManager validationsManager)
         {
@@ -113,6 +116,7 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
 
     }
 }
