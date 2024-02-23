@@ -8,6 +8,7 @@ namespace ProyectoFinal.Models
         public Usuario()
         {
             Auditoria = new HashSet<Auditorium>();
+            Mensajes = new HashSet<Mensaje>();
         }
 
         public int UsuarioId { get; set; }
@@ -27,5 +28,6 @@ namespace ProyectoFinal.Models
         public virtual Estudiante? Estudiante { get; set; }
         public virtual Profesore? Profesore { get; set; }
         public virtual ICollection<Auditorium> Auditoria { get; set; }
+        public virtual ICollection<Mensaje> Mensajes { get; set; }
     }
 }

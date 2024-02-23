@@ -10,7 +10,7 @@ namespace ProyectoFinal.Models
             Asignaciones = new HashSet<Asignacione>();
             Asistencia = new HashSet<Asistencium>();
             Calificaciones = new HashSet<Calificacione>();
-            ProfesorMateria = new HashSet<ProfesorMaterium>();
+            Materia = new HashSet<Materia>();
         }
 
         public int ProfesorId { get; set; }
@@ -20,6 +20,7 @@ namespace ProyectoFinal.Models
         public virtual ICollection<Asignacione> Asignaciones { get; set; }
         public virtual ICollection<Asistencium> Asistencia { get; set; }
         public virtual ICollection<Calificacione> Calificaciones { get; set; }
-        public virtual ICollection<ProfesorMaterium> ProfesorMateria { get; set; }
+
+        public virtual ICollection<Materia> Materia { get; set; }
     }
 }

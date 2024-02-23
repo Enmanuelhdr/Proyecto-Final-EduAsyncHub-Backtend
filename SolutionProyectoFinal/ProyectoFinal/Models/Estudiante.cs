@@ -9,8 +9,8 @@ namespace ProyectoFinal.Models
         {
             Asistencia = new HashSet<Asistencium>();
             Calificaciones = new HashSet<Calificacione>();
-            EstudianteMateria = new HashSet<EstudianteMaterium>();
             RespuestasEstudiantes = new HashSet<RespuestasEstudiante>();
+            Materia = new HashSet<Materia>();
         }
 
         public int EstudianteId { get; set; }
@@ -21,7 +21,8 @@ namespace ProyectoFinal.Models
         public virtual Usuario? Usuario { get; set; }
         public virtual ICollection<Asistencium> Asistencia { get; set; }
         public virtual ICollection<Calificacione> Calificaciones { get; set; }
-        public virtual ICollection<EstudianteMaterium> EstudianteMateria { get; set; }
         public virtual ICollection<RespuestasEstudiante> RespuestasEstudiantes { get; set; }
+
+        public virtual ICollection<Materia> Materia { get; set; }
     }
 }

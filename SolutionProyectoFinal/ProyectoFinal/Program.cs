@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProyectoFinal.Configuration;
 using ProyectoFinal.Context;
+using ProyectoFinal.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +14,12 @@ var misReglasCors = "ReglasCors";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: misReglasCors,
-                      builder =>
-                      {
-                          builder.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-
-
-                      });
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
 });
 
 string connectionString = builder.Configuration.GetConnectionString("Conex");
@@ -29,19 +29,17 @@ builder.Services.AddDbContext<EduAsyncHubContext>(options =>
 builder.Services.AddControllers();
 builder.Services.GetDependencyInjections();
 
+// Añadir SignalR
+builder.Services.AddSignalR();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication(config => {
-
+// Configure JWT Authentication
+builder.Services.AddAuthentication(config =>
+{
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-}).AddJwtBearer(config =>
+})
+.AddJwtBearer(config =>
 {
-
     config.RequireHttpsMetadata = false;
     config.SaveToken = true;
     config.TokenValidationParameters = new TokenValidationParameters
@@ -54,7 +52,7 @@ builder.Services.AddAuthentication(config => {
     };
 });
 
-
+// Configure Swagger/OpenAPI
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Proyecto Final", Version = "v1" });
@@ -74,8 +72,8 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}
@@ -93,12 +91,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(misReglasCors);
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
+
+// Mapeo del hub de SignalR
+app.MapHub<ChatService>("/chatHub");
 
 app.MapControllers();
 
