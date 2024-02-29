@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="BDD\" />
     <Folder Include="Archivos\" />
+    <Folder Include="wwwroot\fotos\" />
   </ItemGroup>
 
 </Project>
