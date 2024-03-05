@@ -13,7 +13,7 @@ using static ProyectoFinal.DTOs.FiltrosDTO;
 namespace ProyectoFinal.Validations
 {
 
-    public class ValidationsManager : IValidationsManager //probando git
+    public class ValidationsManager : IValidationsManager //probando gitsd
     {
 
             private readonly EduAsyncHubContext _context;
