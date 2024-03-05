@@ -50,32 +50,6 @@ namespace ProyectoFinal.Validations
                 IValidator<AssignmentsFilterRequestDto> validatorFilterAssignments,
                 IValidator<UpdateProfileRequestDto> validatorUpdateProfile
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 )
         {
                 _context = context;
