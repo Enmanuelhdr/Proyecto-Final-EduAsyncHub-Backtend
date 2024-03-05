@@ -6,7 +6,7 @@ namespace ProyectoFinal.Configuration
 {
     public static class DepencyInjection
     {
-        public static void GetDependencyInjections(this IServiceCollection services)
+        public static void GetDependencyInjections(this IServiceCollection services) //a
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAdminService, AdminService>();
