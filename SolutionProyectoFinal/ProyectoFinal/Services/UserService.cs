@@ -10,6 +10,8 @@ using System.Security.Cryptography;
 using System.Text;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 using static ProyectoFinal.DTOs.StudentDTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ProyectoFinal.Services
 {
@@ -27,7 +29,7 @@ namespace ProyectoFinal.Services
 
         }
 
-        public async Task RegisterUser(RegisterUserRequestDto usuario)
+        public async Task RegisterUser(RegisterUserRequestDto usuario, int gradoId = 0)
         {
             usuario.Contraseña = ConvertSha256(usuario.Contraseña);
 
@@ -37,25 +39,43 @@ namespace ProyectoFinal.Services
                 CorreoElectronico = usuario.CorreoElectronico,
                 Contraseña = usuario.Contraseña,
                 RolId = usuario.RolID,
-                Permisos = false,
             };
 
             _context.Usuarios.Add(user);
             await _context.SaveChangesAsync();
 
-            int id = await _context.Usuarios.Where(x => x.CorreoElectronico == usuario.CorreoElectronico).Select(x => x.UsuarioId).FirstOrDefaultAsync();
+            int id = await _context.Usuarios
+                .Where(x => x.CorreoElectronico == usuario.CorreoElectronico)
+                .Select(x => x.UsuarioId)
+                .FirstOrDefaultAsync();
 
-            if(usuario.RolID == 1)
+            if (gradoId > 0 && gradoId <= 12 && usuario.RolID == 1)
             {
-                var stundent = new Estudiante
+                var student = new Estudiante
                 {
                     UsuarioId = id,
-                    CarreraId = 6
+                    GradoId = gradoId
                 };
 
-                _context.Estudiantes.Add(stundent);
-            }
+                _context.Estudiantes.Add(student);
+                await _context.SaveChangesAsync();
 
+                var materias = await _context.Materias.ToListAsync();
+
+                foreach (var materia in materias)
+                {
+                    var estudianteMateria = new EstudianteMaterium
+                    {
+                        EstudianteId = student.EstudianteId,
+                        MateriaId = materia.MateriaId,
+                        GradoId = gradoId
+                    };
+
+                    _context.EstudianteMateria.Add(estudianteMateria);
+                }
+
+                await _context.SaveChangesAsync();
+            }
             else if (usuario.RolID == 2)
             {
                 var teacher = new Profesore
@@ -64,12 +84,10 @@ namespace ProyectoFinal.Services
                 };
 
                 _context.Profesores.Add(teacher);
-
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
-
         }
+
 
         public async Task<(bool, string)> LoginUser(LoginUserRequestDto request)
         {
@@ -116,17 +134,13 @@ namespace ProyectoFinal.Services
         {
             var userSelect = await _context.Usuarios.FirstOrDefaultAsync(u => u.UsuarioId == updateUser.UsuarioID);
 
-            var user = new Usuario
-            {
-                Nombre = updateUser.Nombre,
-                CorreoElectronico = updateUser.CorreoElectronico,
-                Contraseña = updateUser.Contraseña,
-                DescripcionBreve = updateUser.DescripcionBreve,
-                Intereses = updateUser.Intereses,
-                Habilidades = updateUser.Habilidades,
-                ConfiguracionPrivacidad = updateUser.ConfiguracionPrivacidad,
-                ConfiguracionNotificaciones = updateUser.ConfiguracionNotificaciones,
-            };
+            userSelect.Nombre = updateUser.Nombre;
+            userSelect.CorreoElectronico = updateUser.CorreoElectronico;
+            userSelect.Contraseña = ConvertSha256(updateUser.Contraseña);
+            userSelect.DescripcionBreve = updateUser.DescripcionBreve;
+            userSelect.Intereses = updateUser.Intereses;
+            userSelect.Habilidades = updateUser.Habilidades;
+           
 
             if (updateUser.Foto != null)
             {
@@ -137,10 +151,10 @@ namespace ProyectoFinal.Services
                     await updateUser.Foto.CopyToAsync(stream);
                 }
 
-                user.FotoPerfil = filePath;
+                userSelect.FotoPerfil = filePath;
             }
 
-            _context.Usuarios.Add(user);
+            _context.Usuarios.Update(userSelect);
             await _context.SaveChangesAsync();
         }
 

@@ -7,21 +7,20 @@ namespace ProyectoFinal.Models
     {
         public Estudiante()
         {
-            Asistencia = new HashSet<Asistencium>();
+            Asistencia = new HashSet<Asistencia>();
             Calificaciones = new HashSet<Calificacione>();
             EstudianteMateria = new HashSet<EstudianteMaterium>();
-            RespuestasEstudiantes = new HashSet<RespuestasEstudiante>();
         }
 
         public int EstudianteId { get; set; }
         public int? UsuarioId { get; set; }
-        public int? CarreraId { get; set; }
+        public int? GradoId { get; set; }
 
-        public virtual Carrera? Carrera { get; set; }
+        public virtual GradosEscolare? Grado { get; set; }
         public virtual Usuario? Usuario { get; set; }
-        public virtual ICollection<Asistencium> Asistencia { get; set; }
+        public virtual NotaTotal? NotaTotal { get; set; }
+        public virtual ICollection<Asistencia> Asistencia { get; set; }
         public virtual ICollection<Calificacione> Calificaciones { get; set; }
         public virtual ICollection<EstudianteMaterium> EstudianteMateria { get; set; }
-        public virtual ICollection<RespuestasEstudiante> RespuestasEstudiantes { get; set; }
     }
 }

@@ -80,152 +80,30 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Profesor")]
-        [HttpPost("CrearTarea")]
-        public async Task<IActionResult> CreateTask(TaskPublishRequestDto task)
+        [HttpGet("MostrarMisEstudiantesPorMaterias")]
+        public async Task<IActionResult> AllStudentsForSubjectsTaught([FromQuery] int teacherId)
         {
-            var validation = await _validationsManager.ValidateAsync(task);
 
-            if (!validation.IsValid)
-            {
-                return BadRequest(validation.Errors);
-            }
-
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(task.ProfesorId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacherId);
 
             if (!teacherExists)
             {
                 return BadRequest("El profesor no existe.");
             }
 
-            var subjectExists = await _validationsManager.ValidateTeacherSubjectExistAsync(task.ProfesorId, task.MateriaId);
-
-            if (!subjectExists)
-            {
-                return BadRequest("El profesor no tiene asignada esta materia o no existe.");
-            }
-
             try
             {
-                await _teacherService.CreateTask(task);
-                return Ok("Se ha publicado la tarea exitosamente.");
+                var lista = await _teacherService.ObtenerEstudiantesPorProfesor(teacherId);
+                return Ok(lista);
             }
 
             catch (Exception ex)
             {
-                return StatusCode(500, "Error interno del servidor: " + ex);
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
             }
         }
 
-        //[Authorize(Roles = "Profesor")]
-        [HttpPut("EditarTarea")]
-        public async Task<IActionResult> UpdateTask(TaskUpdatehRequestDto updateTask)
-        {
-            var validation = await _validationsManager.ValidateAsync(updateTask);
 
-            if (!validation.IsValid)
-            {
-                return BadRequest(validation.Errors);
-            }
-
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(updateTask.ProfesorId);
-
-            if (!teacherExists)
-            {
-                return BadRequest("El profesor no existe.");
-            }
-
-            var subjectExists = await _validationsManager.ValidateTeacherSubjectExistAsync(updateTask.ProfesorId, updateTask.MateriaId);
-
-            if (!subjectExists)
-            {
-                return BadRequest("El profesor no tiene asignada esta materia o no existe.");
-            }
-
-            var taskExists = await _validationsManager.ValidateTaskExistAsync(updateTask.TareaId);
-
-            if (!taskExists)
-            {
-                return BadRequest("No existe nignuna tarea con este id relacionado.");
-            }
-
-            try
-            {
-                await _teacherService.UpdateTask(updateTask);
-                return Ok("Se ha editado la tarea exitosamente.");
-            }
-
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error interno del servidor: " + ex);
-            }
-        }
-
-        //[Authorize(Roles = "Profesor")]
-        [HttpDelete("EliminarTarea")]
-        public async Task<IActionResult> DeleteTask(TaskDeleteRequestDto deleteTask)
-        {
-            var validation = await _validationsManager.ValidateAsync(deleteTask);
-
-            if (!validation.IsValid)
-            {
-                return BadRequest(validation.Errors);
-            }
-
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(deleteTask.ProfesorId);
-
-            if (!teacherExists)
-            {
-                return BadRequest("El profesor no existe.");
-            }
-
-            var subjectExists = await _validationsManager.ValidateTeacherSubjectExistAsync(deleteTask.ProfesorId, deleteTask.MateriaId);
-
-            if (!subjectExists)
-            {
-                return BadRequest("El profesor no tiene asignada esta materia o no existe.");
-            }
-
-            var taskExists = await _validationsManager.ValidateTaskExistAsync(deleteTask.TareaId);
-
-            if (!taskExists)
-            {
-                return BadRequest("No existe nignuna tarea con este id relacionado.");
-            }
-
-            try
-            {
-                await _teacherService.DeleteTask(deleteTask);
-                return Ok("Se ha eliminado la tarea exitosamente.");
-            }
-
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error interno del servidor: " + ex);
-            }
-        }
-
-        //[Authorize(Roles = "Profesor")]
-        [HttpPut("CalificarTarea")]
-        public async Task<IActionResult> QualificationAssignments(QualificationsAssignmentsRequestDTO qualificationAssignments)
-        {
-            var validation = await _validationsManager.ValidateAsync(qualificationAssignments);
-
-            if (!validation.IsValid)
-            {
-                return BadRequest(validation.Errors);
-            }
-
-            try
-            {
-                await _teacherService.QualificationsAssignments(qualificationAssignments);
-                return Ok("Se ha calificado la tarea exitosamente.");
-            }
-
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error interno del servidor: " + ex);
-            }
-        }
 
         //[Authorize(Roles = "Profesor")]
         [HttpPost("PublicarAsistencia")]
@@ -266,7 +144,7 @@ namespace ProyectoFinal.Controllers
         }
 
         //[Authorize(Roles = "Profesor")]
-        [HttpPost("PublicarCalificacionesTotales")]
+        [HttpPost("PublicarCalificacionesPeriodos")]
         public async Task<IActionResult> QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent)
         {
             var validation = await _validationsManager.ValidateAsync(qualificationsStudent);
@@ -288,6 +166,13 @@ namespace ProyectoFinal.Controllers
             if (!studentExists)
             {
                 return BadRequest("El estudiante no existe.");
+            }
+
+            var qualificationNotValid = await _validationsManager.ValidateQualificationExists(qualificationsStudent);
+
+            if (qualificationNotValid)
+            {
+                return BadRequest("Nota del periodo ya existe.");
             }
 
             try

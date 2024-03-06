@@ -9,17 +9,11 @@ namespace ProyectoFinal.Interfaces
 
         Task<List<object>> AllSubjectsTaught(AllSubjectsTaughtRequestDto teacher);
 
-        Task CreateTask(TaskPublishRequestDto newTask);
-
-        Task UpdateTask(TaskUpdatehRequestDto updateTask);
-
-        Task DeleteTask(TaskDeleteRequestDto deleteTask);
-
-        Task QualificationsAssignments(QualificationsAssignmentsRequestDTO qualificationsAssignments);
-
         Task PublishAssistance(AssistancePublishRequestDto assistance);
 
         Task QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent);
+
+        Task<List<object>> ObtenerEstudiantesPorProfesor(int profesorId);
 
     }
 }

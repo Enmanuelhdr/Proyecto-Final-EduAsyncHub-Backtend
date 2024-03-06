@@ -27,10 +27,7 @@
             public string DescripcionBreve { get; set; }
             public string Intereses { get; set; }
             public string Habilidades { get; set; }
-            public bool ConfiguracionPrivacidad { get; set; }
-            public bool ConfiguracionNotificaciones { get; set; }
             public int RolID { get; set; }
-            public bool Permisos { get; set; }
 
         }
 
@@ -43,9 +40,6 @@
             public string DescripcionBreve { get; set; }
             public string Intereses { get; set; }
             public string Habilidades { get; set; }
-            public bool ConfiguracionPrivacidad { get; set; }
-            public bool ConfiguracionNotificaciones { get; set; }
-
             public IFormFile Foto { get; set; }
         }
 
@@ -54,11 +48,6 @@
            public int UserId { get; set; }
         }
 
-        public class AssignPermissionsUserRequestDto
-        {
-            public int UserId { get; set; }
-            public bool Permissions { get; set; }
-        }
 
     }
 }
