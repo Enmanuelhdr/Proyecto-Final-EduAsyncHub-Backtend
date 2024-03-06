@@ -28,7 +28,7 @@ namespace ProyectoFinal.Validations
     {
         public UpdateUserValidator()
         {
-            RuleFor(x => x.UsuarioID).GreaterThan(0);
+            RuleFor(x => x.UsuarioID).NotEmpty();
             RuleFor(x => x.Nombre).NotEmpty().Length(1, 100);
             RuleFor(x => x.CorreoElectronico).NotEmpty().EmailAddress();
             RuleFor(x => x.Contraseña).NotEmpty().MinimumLength(8);
@@ -40,7 +40,7 @@ namespace ProyectoFinal.Validations
     {
         public DeleteUserValidator()
         {
-            RuleFor(x => x.UserId).GreaterThan(0);
+            RuleFor(x => x.UserId).NotEmpty();
         }
     }
 
@@ -48,11 +48,8 @@ namespace ProyectoFinal.Validations
     {
         public UpdateProfileValidator()
         {
-            RuleFor(x => x.UsuarioID).GreaterThan(0);
+            RuleFor(x => x.UsuarioID).NotEmpty();
             RuleFor(x => x.Nombre).NotEmpty().Length(1, 100);
-            RuleFor(x => x.DescripcionBreve).NotEmpty().Length(1, 100);
-            RuleFor(x => x.Intereses).NotEmpty().Length(1, 100);
-            RuleFor(x => x.Habilidades).NotEmpty().Length(1, 100);
             RuleFor(x => x.CorreoElectronico).NotEmpty().EmailAddress();
             RuleFor(x => x.Contraseña).NotEmpty().MinimumLength(8);
         }

@@ -3,10 +3,10 @@ using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 using static ProyectoFinal.DTOs.StudentDTO;
-using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using static ProyectoFinal.DTOs.TeacherDTO;
 using static ProyectoFinal.DTOs.FiltrosDTO;
+using ProyectoFinal.Context;
 
 
 
@@ -81,7 +81,7 @@ namespace ProyectoFinal.Validations
                 throw new InvalidOperationException($"Validator not registered for type {typeof(T)}. Please register a validator for this type.");
             }
 
-        public async Task<bool> ValidateUserExistAsync(int userId)
+        public async Task<bool> ValidateUserExistAsync(string userId)
         {
             var accountExists = await _context.Usuarios.AnyAsync(account => account.UsuarioId == userId);
 
@@ -105,6 +105,13 @@ namespace ProyectoFinal.Validations
         public async Task<bool> ValidateEmailExistAsync(string email)
         {
             var emailExists = await _context.Usuarios.AnyAsync(account => account.CorreoElectronico == email);
+
+            return emailExists;
+        }
+
+        public async Task<bool> ValidateUserEmailIsYourAsync(string userId, string email)
+        {
+            var emailExists = await _context.Usuarios.AnyAsync(account => account.CorreoElectronico == email && account.UsuarioId == userId);
 
             return emailExists;
         }

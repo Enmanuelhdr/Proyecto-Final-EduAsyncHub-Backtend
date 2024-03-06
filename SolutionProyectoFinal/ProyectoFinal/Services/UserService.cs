@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,6 +11,7 @@ using static ProyectoFinal.DTOs.UsuarioDTO;
 using static ProyectoFinal.DTOs.StudentDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProyectoFinal.Context;
 
 namespace ProyectoFinal.Services
 {
@@ -33,8 +33,18 @@ namespace ProyectoFinal.Services
         {
             usuario.Contraseña = ConvertSha256(usuario.Contraseña);
 
+            // Obtener el último usuario
+            var ultimoUsuario = await _context.Usuarios
+                .OrderByDescending(x => x.UsuarioId)
+                .FirstOrDefaultAsync();
+
+            int siguienteNumero = (ultimoUsuario != null) ? int.Parse(ultimoUsuario.UsuarioId.Substring(4)) + 1 : 1;
+
+            string nuevoId = $"EAH-{siguienteNumero:D4}";
+
             var user = new Usuario
             {
+                UsuarioId = nuevoId,
                 Nombre = usuario.Nombre,
                 CorreoElectronico = usuario.CorreoElectronico,
                 Contraseña = usuario.Contraseña,
@@ -44,16 +54,11 @@ namespace ProyectoFinal.Services
             _context.Usuarios.Add(user);
             await _context.SaveChangesAsync();
 
-            int id = await _context.Usuarios
-                .Where(x => x.CorreoElectronico == usuario.CorreoElectronico)
-                .Select(x => x.UsuarioId)
-                .FirstOrDefaultAsync();
-
             if (gradoId > 0 && gradoId <= 12 && usuario.RolID == 1)
             {
                 var student = new Estudiante
                 {
-                    UsuarioId = id,
+                    UsuarioId = nuevoId,
                     GradoId = gradoId
                 };
 
@@ -80,13 +85,14 @@ namespace ProyectoFinal.Services
             {
                 var teacher = new Profesore
                 {
-                    UsuarioId = id,
+                    UsuarioId = nuevoId,
                 };
 
                 _context.Profesores.Add(teacher);
                 await _context.SaveChangesAsync();
             }
         }
+
 
 
         public async Task<(bool, string)> LoginUser(LoginUserRequestDto request)
@@ -137,23 +143,7 @@ namespace ProyectoFinal.Services
             userSelect.Nombre = updateUser.Nombre;
             userSelect.CorreoElectronico = updateUser.CorreoElectronico;
             userSelect.Contraseña = ConvertSha256(updateUser.Contraseña);
-            userSelect.DescripcionBreve = updateUser.DescripcionBreve;
-            userSelect.Intereses = updateUser.Intereses;
-            userSelect.Habilidades = updateUser.Habilidades;
            
-
-            if (updateUser.Foto != null)
-            {
-                var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Archivos", updateUser.Foto.FileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await updateUser.Foto.CopyToAsync(stream);
-                }
-
-                userSelect.FotoPerfil = filePath;
-            }
-
             _context.Usuarios.Update(userSelect);
             await _context.SaveChangesAsync();
         }

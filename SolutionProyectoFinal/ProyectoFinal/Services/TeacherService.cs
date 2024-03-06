@@ -23,7 +23,6 @@ namespace ProyectoFinal.Services
             {
                 ProfesorId = teachMatter.ProfesorId,
                 MateriaId = teachMatter.MateriaId,
-                GradoId = teachMatter.GradoId
             };
 
 

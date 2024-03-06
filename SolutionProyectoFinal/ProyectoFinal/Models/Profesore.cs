@@ -13,7 +13,7 @@ namespace ProyectoFinal.Models
         }
 
         public int ProfesorId { get; set; }
-        public int? UsuarioId { get; set; }
+        public string? UsuarioId { get; set; }
 
         public virtual Usuario? Usuario { get; set; }
         public virtual ICollection<Asistencia> Asistencia { get; set; }

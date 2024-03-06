@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using System.Data;
@@ -8,6 +7,7 @@ using System;
 using static ProyectoFinal.DTOs.StudentDTO;
 using static ProyectoFinal.DTOs.TeacherDTO;
 using Microsoft.Extensions.Hosting.Internal;
+using ProyectoFinal.Context;
 
 namespace ProyectoFinal.Services
 {

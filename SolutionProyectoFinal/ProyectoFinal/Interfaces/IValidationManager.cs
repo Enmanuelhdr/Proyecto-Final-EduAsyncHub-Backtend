@@ -10,7 +10,7 @@ namespace ProyectoFinal.Interfaces
 
         Task<bool> ValidateEmailExistAsync(string email);
 
-        Task<bool> ValidateUserExistAsync(int userId);
+        Task<bool> ValidateUserExistAsync(string userId);
 
         Task<bool> ValidateStudentExistAsync(int studentId);
 
@@ -18,6 +18,6 @@ namespace ProyectoFinal.Interfaces
 
         Task<bool> ValidateQualificationExists(QualificationsStudentRequestDto qualificationsStudent);
 
-
+        Task<bool> ValidateUserEmailIsYourAsync(string userId, string email);
     }
 }

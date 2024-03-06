@@ -10,7 +10,7 @@ namespace ProyectoFinal.Validations
         {
             public UserFilterValidator()
             {
-                RuleFor(x => x.UserId).GreaterThan(0);
+                RuleFor(x => x.UserId).NotEmpty();
             }
         }
 
