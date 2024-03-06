@@ -37,13 +37,18 @@ namespace ProyectoFinal.Controllers
                 return BadRequest("El usuario no existe.");
             }
 
-            var emailExist = await _validationsManager.ValidateEmailExistAsync(usuario.CorreoElectronico);
+            var isMyEmail = await _validationsManager.ValidateUserEmailIsYourAsync(usuario.UsuarioID, usuario.CorreoElectronico);
 
-            if (emailExist)
+            if (!isMyEmail)
             {
-                return BadRequest("Ya existe un usuario creado con este email");
-            }
+                var emailExist = await _validationsManager.ValidateEmailExistAsync(usuario.CorreoElectronico);
 
+                if (emailExist)
+                {
+                    return BadRequest("Ya existe un usuario creado con este email");
+
+                }
+            }
 
             try
             {

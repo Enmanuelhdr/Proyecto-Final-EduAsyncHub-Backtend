@@ -70,7 +70,7 @@ namespace ProyectoFinal.Context
             modelBuilder.Entity<Calificacione>(entity =>
             {
                 entity.HasKey(e => e.CalificacionId)
-                    .HasName("PK__Califica__4CF54ABE557A31BB");
+                    .HasName("PK__Califica__4CF54ABEEEC5C331");
 
                 entity.Property(e => e.CalificacionId).HasColumnName("CalificacionID");
 
@@ -100,14 +100,17 @@ namespace ProyectoFinal.Context
 
             modelBuilder.Entity<Estudiante>(entity =>
             {
-                entity.HasIndex(e => e.UsuarioId, "UQ__Estudian__2B3DE799F0DE6BD5")
+                entity.HasIndex(e => e.UsuarioId, "UQ__Estudian__2B3DE79955BFC579")
                     .IsUnique();
 
                 entity.Property(e => e.EstudianteId).HasColumnName("EstudianteID");
 
                 entity.Property(e => e.GradoId).HasColumnName("GradoID");
 
-                entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+                entity.Property(e => e.UsuarioId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("UsuarioID");
 
                 entity.HasOne(d => d.Grado)
                     .WithMany(p => p.Estudiantes)
@@ -123,7 +126,7 @@ namespace ProyectoFinal.Context
             modelBuilder.Entity<EstudianteMaterium>(entity =>
             {
                 entity.HasKey(e => e.InscripcionMateriaId)
-                    .HasName("PK__Estudian__6352D9CDF6AF0029");
+                    .HasName("PK__Estudian__6352D9CDCBE35943");
 
                 entity.Property(e => e.InscripcionMateriaId).HasColumnName("InscripcionMateriaID");
 
@@ -136,23 +139,23 @@ namespace ProyectoFinal.Context
                 entity.HasOne(d => d.Estudiante)
                     .WithMany(p => p.EstudianteMateria)
                     .HasForeignKey(d => d.EstudianteId)
-                    .HasConstraintName("FK__Estudiant__Estud__75A278F5");
+                    .HasConstraintName("FK__Estudiant__Estud__6A30C649");
 
                 entity.HasOne(d => d.Grado)
                     .WithMany(p => p.EstudianteMateria)
                     .HasForeignKey(d => d.GradoId)
-                    .HasConstraintName("FK__Estudiant__Grado__778AC167");
+                    .HasConstraintName("FK__Estudiant__Grado__6C190EBB");
 
                 entity.HasOne(d => d.Materia)
                     .WithMany(p => p.EstudianteMateria)
                     .HasForeignKey(d => d.MateriaId)
-                    .HasConstraintName("FK__Estudiant__Mater__76969D2E");
+                    .HasConstraintName("FK__Estudiant__Mater__6B24EA82");
             });
 
             modelBuilder.Entity<GradosEscolare>(entity =>
             {
                 entity.HasKey(e => e.GradoId)
-                    .HasName("PK__GradosEs__5A8DF634CF65C76B");
+                    .HasName("PK__GradosEs__5A8DF63407F87D55");
 
                 entity.Property(e => e.GradoId)
                     .ValueGeneratedNever()
@@ -176,7 +179,7 @@ namespace ProyectoFinal.Context
             {
                 entity.ToTable("NotaTotal");
 
-                entity.HasIndex(e => e.EstudianteId, "UQ__NotaTota__6F7683390A250FC0")
+                entity.HasIndex(e => e.EstudianteId, "UQ__NotaTota__6F7683390C162360")
                     .IsUnique();
 
                 entity.Property(e => e.NotaTotalId).HasColumnName("NotaTotalID");
@@ -190,18 +193,18 @@ namespace ProyectoFinal.Context
                 entity.HasOne(d => d.Estudiante)
                     .WithOne(p => p.NotaTotal)
                     .HasForeignKey<NotaTotal>(d => d.EstudianteId)
-                    .HasConstraintName("FK__NotaTotal__Estud__71D1E811");
+                    .HasConstraintName("FK__NotaTotal__Estud__66603565");
 
                 entity.HasOne(d => d.Materia)
                     .WithMany(p => p.NotaTotals)
                     .HasForeignKey(d => d.MateriaId)
-                    .HasConstraintName("FK__NotaTotal__Mater__72C60C4A");
+                    .HasConstraintName("FK__NotaTotal__Mater__6754599E");
             });
 
             modelBuilder.Entity<ProfesorMaterium>(entity =>
             {
                 entity.HasKey(e => e.AsignacionProfesorId)
-                    .HasName("PK__Profesor__86354B59F24CA048");
+                    .HasName("PK__Profesor__86354B59969B0CEF");
 
                 entity.Property(e => e.AsignacionProfesorId).HasColumnName("AsignacionProfesorID");
 
@@ -214,30 +217,33 @@ namespace ProyectoFinal.Context
                 entity.HasOne(d => d.Grado)
                     .WithMany(p => p.ProfesorMateria)
                     .HasForeignKey(d => d.GradoId)
-                    .HasConstraintName("FK__ProfesorM__Grado__7C4F7684");
+                    .HasConstraintName("FK__ProfesorM__Grado__70DDC3D8");
 
                 entity.HasOne(d => d.Materia)
                     .WithMany(p => p.ProfesorMateria)
                     .HasForeignKey(d => d.MateriaId)
-                    .HasConstraintName("FK__ProfesorM__Mater__7B5B524B");
+                    .HasConstraintName("FK__ProfesorM__Mater__6FE99F9F");
 
                 entity.HasOne(d => d.Profesor)
                     .WithMany(p => p.ProfesorMateria)
                     .HasForeignKey(d => d.ProfesorId)
-                    .HasConstraintName("FK__ProfesorM__Profe__7A672E12");
+                    .HasConstraintName("FK__ProfesorM__Profe__6EF57B66");
             });
 
             modelBuilder.Entity<Profesore>(entity =>
             {
                 entity.HasKey(e => e.ProfesorId)
-                    .HasName("PK__Profesor__4DF3F02859B3D6CC");
+                    .HasName("PK__Profesor__4DF3F028C195D432");
 
-                entity.HasIndex(e => e.UsuarioId, "UQ__Profesor__2B3DE7994BCA4537")
+                entity.HasIndex(e => e.UsuarioId, "UQ__Profesor__2B3DE79991259658")
                     .IsUnique();
 
                 entity.Property(e => e.ProfesorId).HasColumnName("ProfesorID");
 
-                entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+                entity.Property(e => e.UsuarioId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("UsuarioID");
 
                 entity.HasOne(d => d.Usuario)
                     .WithOne(p => p.Profesore)
@@ -248,7 +254,7 @@ namespace ProyectoFinal.Context
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.HasKey(e => e.RolId)
-                    .HasName("PK__Roles__F92302D1D1E8698B");
+                    .HasName("PK__Roles__F92302D17D3BFAD9");
 
                 entity.Property(e => e.RolId)
                     .ValueGeneratedNever()
@@ -261,10 +267,13 @@ namespace ProyectoFinal.Context
 
             modelBuilder.Entity<Usuario>(entity =>
             {
-                entity.HasIndex(e => e.CorreoElectronico, "UQ__Usuarios__531402F3947492C0")
+                entity.HasIndex(e => e.CorreoElectronico, "UQ__Usuarios__531402F326943E3F")
                     .IsUnique();
 
-                entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+                entity.Property(e => e.UsuarioId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("UsuarioID");
 
                 entity.Property(e => e.Contraseña)
                     .HasMaxLength(255)
@@ -272,22 +281,6 @@ namespace ProyectoFinal.Context
 
                 entity.Property(e => e.CorreoElectronico)
                     .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DescripcionBreve)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FotoPerfil)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Habilidades)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Intereses)
-                    .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Nombre)

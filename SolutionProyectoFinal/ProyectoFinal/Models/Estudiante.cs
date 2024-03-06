@@ -13,7 +13,7 @@ namespace ProyectoFinal.Models
         }
 
         public int EstudianteId { get; set; }
-        public int? UsuarioId { get; set; }
+        public string? UsuarioId { get; set; }
         public int? GradoId { get; set; }
 
         public virtual GradosEscolare? Grado { get; set; }

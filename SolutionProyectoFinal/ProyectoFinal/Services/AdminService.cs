@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using static ProyectoFinal.DTOs.UsuarioDTO;
 using static ProyectoFinal.DTOs.StudentDTO;
+using System.Text;
+using System.Security.Cryptography;
+using ProyectoFinal.Context;
 
 
 namespace ProyectoFinal.Services
@@ -25,13 +27,11 @@ namespace ProyectoFinal.Services
         {
             var user = await _context.Usuarios.FindAsync(usuario.UsuarioID);
 
+            var claveEncriptada = ConvertSha256(usuario.Contraseña);
+
             user.Nombre = usuario.Nombre;
             user.CorreoElectronico = usuario.CorreoElectronico;
-            user.Contraseña = usuario.Contraseña;
-            user.FotoPerfil = usuario.pfp;
-            user.DescripcionBreve = usuario.DescripcionBreve;
-            user.Intereses = usuario.Intereses;
-            user.Habilidades = usuario.Habilidades;
+            user.Contraseña = claveEncriptada;
             user.RolId = usuario.RolID;
             await _context.SaveChangesAsync();
         }
@@ -82,6 +82,21 @@ namespace ProyectoFinal.Services
                 .ToListAsync();
 
             return estudiantes;
+        }
+
+        private string ConvertSha256(string inputString)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
 
     }

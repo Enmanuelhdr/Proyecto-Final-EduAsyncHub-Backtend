@@ -1,6 +1,4 @@
 
--- Crear la base de datos
-CREATE DATABASE EduAsyncHub;
 
 USE EduAsyncHub;
 
@@ -44,16 +42,13 @@ INSERT INTO GradosEscolares (GradoID, NombreGrado) VALUES
 -- Verificar grados escolares
 SELECT * FROM GradosEscolares;
 
+
 -- Tabla de Usuarios
 CREATE TABLE Usuarios (
-    UsuarioID INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioID VARCHAR(10) PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     CorreoElectronico VARCHAR(100) UNIQUE NOT NULL,
     Contraseña VARCHAR(255) NOT NULL,
-    FotoPerfil VARCHAR(255),
-    DescripcionBreve VARCHAR(255),
-    Intereses VARCHAR(255),
-    Habilidades VARCHAR(255),
     RolID INT,
     FOREIGN KEY (RolID) REFERENCES Roles(RolID)
 );
@@ -64,7 +59,7 @@ SELECT * FROM Usuarios;
 -- Tabla de Estudiantes
 CREATE TABLE Estudiantes (
     EstudianteID INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioID INT UNIQUE,
+    UsuarioID VARCHAR(10) UNIQUE,
     GradoID INT,
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
     FOREIGN KEY (GradoID) REFERENCES GradosEscolares(GradoID)
@@ -76,9 +71,10 @@ SELECT * FROM Estudiantes;
 -- Tabla de Profesores
 CREATE TABLE Profesores (
     ProfesorID INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioID INT UNIQUE,
+    UsuarioID VARCHAR(10) UNIQUE,
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
+
 
 -- Verificar Profesores
 SELECT * FROM Profesores;
@@ -151,26 +147,36 @@ CREATE TABLE NotaTotal (
 );
 
 -- Verificar NotasTotales
-SELECT * FROM NotasTotales;
+SELECT * FROM NotaTotal;
 
 
--- Tabla de ProfesorMateria
-CREATE TABLE ProfesorMateria (
-    AsignacionProfesorID INT PRIMARY KEY IDENTITY(1,1),
-    ProfesorID INT,
-    MateriaID INT,
-    FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID),
-    FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
-);
-
--- Tabla de EstudianteMateria
+-- Modificar la tabla EstudianteMateria
 CREATE TABLE EstudianteMateria (
     InscripcionMateriaID INT PRIMARY KEY IDENTITY(1,1),
     EstudianteID INT,
     MateriaID INT,
+    GradoID INT,
     FOREIGN KEY (EstudianteID) REFERENCES Estudiantes(EstudianteID),
-    FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID)
+    FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID),
+    FOREIGN KEY (GradoID) REFERENCES GradosEscolares(GradoID)
 );
 
 -- Verificar EstudianteMateria
 SELECT * FROM EstudianteMateria;
+
+-- Modificar la tabla ProfesorMateria
+CREATE TABLE ProfesorMateria (
+    AsignacionProfesorID INT PRIMARY KEY IDENTITY(1,1),
+    ProfesorID INT,
+    MateriaID INT,
+    GradoID INT,
+    FOREIGN KEY (ProfesorID) REFERENCES Profesores(ProfesorID),
+    FOREIGN KEY (MateriaID) REFERENCES Materias(MateriaID),
+    FOREIGN KEY (GradoID) REFERENCES GradosEscolares(GradoID)
+);
+
+
+-- Verificar EstudianteMateria
+SELECT * FROM ProfesorMateria;
+
+
