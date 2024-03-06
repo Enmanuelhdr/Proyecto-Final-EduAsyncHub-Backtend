@@ -8,8 +8,10 @@ namespace ProyectoFinal.Models
         public int InscripcionMateriaId { get; set; }
         public int? EstudianteId { get; set; }
         public int? MateriaId { get; set; }
+        public int? GradoId { get; set; }
 
         public virtual Estudiante? Estudiante { get; set; }
+        public virtual GradosEscolare? Grado { get; set; }
         public virtual Materia? Materia { get; set; }
     }
 }

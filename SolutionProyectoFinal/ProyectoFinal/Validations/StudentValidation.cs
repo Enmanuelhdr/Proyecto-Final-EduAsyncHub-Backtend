@@ -1,20 +1,11 @@
 ﻿using FluentValidation;
 using static ProyectoFinal.DTOs.StudentDTO;
+using static ProyectoFinal.DTOs.UsuarioDTO;
 
 namespace ProyectoFinal.Validations
 {
     public class StudentValidation
     {
-        public class EnrollCareerStudentValidator : AbstractValidator<EnrollCareerStudentRequestDto>
-        {
-            public EnrollCareerStudentValidator()
-            {
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
-                RuleFor(x => x.CarreraId).InclusiveBetween(1, 6);
-
-            }
-        }
-
         public class EnrollSubjectStudentValidator : AbstractValidator<EnrollSubjectStudentRequestDto>
         {
             public EnrollSubjectStudentValidator()
@@ -33,35 +24,6 @@ namespace ProyectoFinal.Validations
             }
         }
 
-        public class SubmitAssignmentValidator : AbstractValidator<SubmitAssignmentRequestDto>
-        {
-            public SubmitAssignmentValidator()
-            {
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
-                RuleFor(x => x.AsignacionId).GreaterThan(0);
-            }
-        }
-
-        public class EditAssignmentValidator : AbstractValidator<EditAssignmentRequestDto>
-        {
-            public EditAssignmentValidator()
-            {
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
-                RuleFor(x => x.AsignacionId).GreaterThan(0);
-                RuleFor(x => x.Respuesta).NotEmpty();
-            }
-        }
-
-        public class DeleteAssignmentValidator : AbstractValidator<DeleteAssignmentRequestDto>
-        {
-            public DeleteAssignmentValidator()
-            {
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
-                RuleFor(x => x.AsignacionId).GreaterThan(0);
-            }
-        }
-
-
         public class ViewQualificationsValidator : AbstractValidator<ViewQualificationsRequestDto>
         {
             public ViewQualificationsValidator()
@@ -77,6 +39,7 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.EstudianteId).GreaterThan(0);
             }
         }
+
 
     }
 }

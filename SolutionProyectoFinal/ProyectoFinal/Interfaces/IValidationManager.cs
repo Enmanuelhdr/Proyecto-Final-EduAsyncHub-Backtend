@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using static ProyectoFinal.DTOs.TeacherDTO;
 
 
 namespace ProyectoFinal.Interfaces
@@ -15,11 +16,7 @@ namespace ProyectoFinal.Interfaces
 
         Task<bool> ValidateTeacherExistAsync(int teacherId);
 
-        Task<bool> ValidateTeacherSubjectExistAsync(int professorId, int subjectId);
-
-        Task<bool> ValidateStudentSubjectExistAsync(int studentId, int subjectId);
-
-        Task<bool> ValidateTaskExistAsync(int taskId);
+        Task<bool> ValidateQualificationExists(QualificationsStudentRequestDto qualificationsStudent);
 
 
     }

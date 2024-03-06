@@ -22,7 +22,8 @@ namespace ProyectoFinal.Services
             var teacherSubject = new ProfesorMaterium
             {
                 ProfesorId = teachMatter.ProfesorId,
-                MateriaId = teachMatter.MateriaId
+                MateriaId = teachMatter.MateriaId,
+                GradoId = teachMatter.GradoId
             };
 
 
@@ -44,59 +45,40 @@ namespace ProyectoFinal.Services
             return subjectsTaught.Cast<object>().ToList();
         }
 
-        public async Task CreateTask(TaskPublishRequestDto newTask)
+        public async Task<List<object>> ObtenerEstudiantesPorProfesor(int profesorId)
         {
-            var task = new Asignacione
-            {
-                MateriaId = newTask.MateriaId,
-                ProfesorId = newTask.ProfesorId,
-                Titulo = newTask.Titulo,
-                Descripcion = newTask.Descripcion,
-                FechaVencimiento = newTask.FechaVencimiento
-            };
+            var materiasImpartidas = await _context.ProfesorMateria
+                .Where(pm => pm.ProfesorId == profesorId)
+                .Select(pm => pm.Materia)
+                .ToListAsync();
 
-            _context.Asignaciones.Add(task);
-            await _context.SaveChangesAsync();
+            var estudiantesInscritos = await _context.EstudianteMateria
+                .Where(em => materiasImpartidas.Contains(em.Materia))
+                .Select(em => new
+                {
+                    EstudianteId = em.EstudianteId,
+                    NombreEstudiante = _context.Usuarios
+                        .Where(u => u.UsuarioId == em.Estudiante.UsuarioId)
+                        .Select(u => u.Nombre)
+                        .FirstOrDefault(),
+                    MateriaId = em.Materia.MateriaId,
+                    GradoId = em.GradoId,
+                    Materia = em.Materia.NombreMateria,
+                    Grado = _context.GradosEscolares
+                        .Where(g => g.GradoId == em.GradoId)
+                        .Select(g => g.NombreGrado)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return estudiantesInscritos.Cast<object>().ToList();
         }
 
-        public async Task UpdateTask(TaskUpdatehRequestDto updateTask)
-        {
 
-            var taskSelect = await _context.Asignaciones.FirstOrDefaultAsync(u => u.AsignacionId == updateTask.TareaId);
-
-            taskSelect.Titulo = updateTask.Titulo;
-            taskSelect.Descripcion = updateTask.Descripcion;
-            taskSelect.FechaVencimiento = updateTask.FechaVencimiento;
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteTask(TaskDeleteRequestDto deleteTask)
-        {
-
-            var taskSelect = await _context.Asignaciones.FindAsync(deleteTask.TareaId);
-
-            _context.Asignaciones.Remove(taskSelect);
-            await _context.SaveChangesAsync();
-
-        }
-
-        public async Task QualificationsAssignments(QualificationsAssignmentsRequestDTO qualificationAssignments)
-        {
-
-            var assignmentsSelect = await _context.RespuestasEstudiantes.FirstOrDefaultAsync(u => u.RespuestaId == qualificationAssignments.RespuestaId);
-
-
-            assignmentsSelect.Calificacion = qualificationAssignments.Calificacion;
-            assignmentsSelect.ComentariosProfesor = qualificationAssignments.Comentarios;
-
-
-            await _context.SaveChangesAsync();
-        }
 
         public async Task PublishAssistance(AssistancePublishRequestDto assistance)
         {
-            var assistancePublish = new Asistencium
+            var assistancePublish = new Asistencia
             {
                 EstudianteId = assistance.EstudianteId,
                 MateriaId = assistance.MateriaId,
@@ -105,24 +87,57 @@ namespace ProyectoFinal.Services
                 Asistio = assistance.Asistio
             };
 
-            _context.Asistencia.Add(assistancePublish);
+            _context.Asistencias.Add(assistancePublish);
             await _context.SaveChangesAsync();
         }
 
         public async Task QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent)
         {
-
             var qualificationPublish = new Calificacione
             {
                 EstudianteId = qualificationsStudent.EstudianteId,
                 MateriaId = qualificationsStudent.MateriaId,
                 ProfesorId = qualificationsStudent.ProfesorId,
                 Calificacion = qualificationsStudent.Calificacion,
+                Periodo = qualificationsStudent.Periodo,
                 FechaPublicacion = DateTime.Now
             };
 
             _context.Calificaciones.Add(qualificationPublish);
             await _context.SaveChangesAsync();
+
+            var calificacionesEstudiante = await _context.Calificaciones
+                .Where(c => c.EstudianteId == qualificationsStudent.EstudianteId && c.MateriaId == qualificationsStudent.MateriaId)
+                .GroupBy(c => c.Periodo)
+                .Select(g => g.Average(c => c.Calificacion))
+                .ToListAsync();
+
+            if (calificacionesEstudiante.Count >= 4)
+            {
+                double notaTotal = (double)(calificacionesEstudiante.Sum() / calificacionesEstudiante.Count);
+
+                var notaTotalEntity = await _context.NotaTotals
+                    .Where(nt => nt.EstudianteId == qualificationsStudent.EstudianteId && nt.MateriaId == qualificationsStudent.MateriaId)
+                    .FirstOrDefaultAsync();
+
+                if (notaTotalEntity == null)
+                {
+                    _context.NotaTotals.Add(new NotaTotal
+                    {
+                        EstudianteId = qualificationsStudent.EstudianteId,
+                        MateriaId = qualificationsStudent.MateriaId,
+                        NotaTotal1 = notaTotal
+                    });
+                }
+                else
+                {
+                    notaTotalEntity.NotaTotal1 = notaTotal;
+                }
+
+                await _context.SaveChangesAsync();
+            }
         }
+
+
     }
 }

@@ -57,7 +57,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         [HttpDelete("EliminarUsuario")]
         public async Task<IActionResult> DeleteAnyUserAdmin(DeleteUserRequestDto usuario)
         {
@@ -79,36 +79,6 @@ namespace ProyectoFinal.Controllers
             {
                 await _adminService.DeleteAnyUserAdmin(usuario);
                 return Ok("El usuario ha sido eliminado");
-            }
-
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error interno del servidor: " + ex.Message);
-            }
-        }
-
-        [Authorize(Roles = "Administrador")]
-        [HttpPut("AsignarPermisos")]
-        public async Task<IActionResult> AsignPermissions(AssignPermissionsUserRequestDto permissionsRequest)
-        {
-            var validation = await _validationsManager.ValidateAsync(permissionsRequest);
-
-            if (!validation.IsValid)
-            {
-                return BadRequest(validation.Errors);
-            }
-
-            var userExists = await _validationsManager.ValidateUserExistAsync(permissionsRequest.UserId);
-
-            if (!userExists)
-            {
-                return BadRequest("El usuario no existe.");
-            }
-
-            try
-            {
-                await _adminService.AsignPermissions(permissionsRequest);
-                return Ok("Se le han asignado correctamente los permisos");
             }
 
             catch (Exception ex)

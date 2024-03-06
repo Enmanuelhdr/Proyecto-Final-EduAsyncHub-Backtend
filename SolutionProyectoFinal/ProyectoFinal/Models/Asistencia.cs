@@ -3,15 +3,14 @@ using System.Collections.Generic;
 
 namespace ProyectoFinal.Models
 {
-    public partial class Calificacione
+    public partial class Asistencia
     {
-        public int CalificacionId { get; set; }
+        public int AsistenciaId { get; set; }
         public int? EstudianteId { get; set; }
         public int? MateriaId { get; set; }
         public int? ProfesorId { get; set; }
-        public int? Periodo { get; set; }
-        public double Calificacion { get; set; }
-        public DateTime FechaPublicacion { get; set; }
+        public DateTime FechaAsistencia { get; set; }
+        public bool? Asistio { get; set; }
 
         public virtual Estudiante? Estudiante { get; set; }
         public virtual Materia? Materia { get; set; }

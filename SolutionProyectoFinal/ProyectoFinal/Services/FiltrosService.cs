@@ -36,25 +36,11 @@ namespace ProyectoFinal.Services
             return teacher;
         }
 
-        public async Task<Carrera> GetCareerForId(CareerFilterRequestDto careerFilter)
-        {
-            var career = await _context.Carreras.FirstOrDefaultAsync(u => u.CarreraId == careerFilter.CareerId);
-
-            return career;
-        }
-
         public async Task<Materia> GetSubjectForId(SubjectFilterRequestDto subjectFilter)
         {
             var subject = await _context.Materias.FirstOrDefaultAsync(u => u.MateriaId == subjectFilter.SubjectId);
 
             return subject;
-        }
-
-        public async Task<Asignacione> GetAssignmentForId(AssignmentsFilterRequestDto assignmentFilter)
-        {
-            var assignment = await _context.Asignaciones.FirstOrDefaultAsync(u => u.AsignacionId == assignmentFilter.AssignmentsId);
-
-            return assignment;
         }
 
     }

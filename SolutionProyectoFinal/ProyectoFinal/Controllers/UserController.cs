@@ -19,7 +19,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpPost("RegistrarUsuarios")]
-        public async Task<IActionResult> RegisterUser(RegisterUserRequestDto registerUsuario)
+        public async Task<IActionResult> RegisterUser(RegisterUserRequestDto registerUsuario, int gradoId = 0)
         {
             var validation = await _validationsManager.ValidateAsync(registerUsuario);
 
@@ -37,7 +37,7 @@ namespace ProyectoFinal.Controllers
 
             try
             {
-                await _userService.RegisterUser(registerUsuario);
+                await _userService.RegisterUser(registerUsuario, gradoId);
                 return Ok("Usuario registrado exitosamente.");
  
             }

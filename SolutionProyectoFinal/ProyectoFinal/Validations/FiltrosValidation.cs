@@ -30,13 +30,6 @@ namespace ProyectoFinal.Validations
             }
         }
 
-        public class CareerFilterValidator : AbstractValidator<CareerFilterRequestDto>
-        {
-            public CareerFilterValidator()
-            {
-                RuleFor(x => x.CareerId).InclusiveBetween(1,28);
-            }
-        }
 
         public class SubjectFilterValidator : AbstractValidator<SubjectFilterRequestDto>
         {
@@ -46,12 +39,5 @@ namespace ProyectoFinal.Validations
             }
         }
 
-        public class AssignmentsFilterValidator : AbstractValidator<AssignmentsFilterRequestDto>
-        {
-            public AssignmentsFilterValidator()
-            {
-                RuleFor(x => x.AssignmentsId).GreaterThan(0);
-            }
-        }
     }
 }

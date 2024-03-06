@@ -44,15 +44,6 @@ namespace ProyectoFinal.Validations
         }
     }
 
-    public class AssignUserValidator : AbstractValidator<AssignPermissionsUserRequestDto>
-    {
-        public AssignUserValidator()
-        {
-            RuleFor(x => x.UserId).GreaterThan(0);
-            RuleFor(x => x.Permissions).NotNull();
-        }
-    }
-
     public class UpdateProfileValidator : AbstractValidator<UpdateProfileRequestDto>
     {
         public UpdateProfileValidator()
@@ -64,8 +55,6 @@ namespace ProyectoFinal.Validations
             RuleFor(x => x.Habilidades).NotEmpty().Length(1, 100);
             RuleFor(x => x.CorreoElectronico).NotEmpty().EmailAddress();
             RuleFor(x => x.Contraseña).NotEmpty().MinimumLength(8);
-            RuleFor(x => x.ConfiguracionPrivacidad).NotNull();
-            RuleFor(x => x.ConfiguracionNotificaciones).NotNull();
         }
     }
 }

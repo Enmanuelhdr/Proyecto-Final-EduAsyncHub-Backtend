@@ -11,7 +11,9 @@ namespace ProyectoFinal.Validations
             public TeachMatterValidator()
             {
                 RuleFor(x => x.ProfesorId).GreaterThan(0);
-                RuleFor(x => x.MateriaId).InclusiveBetween(1, 28);
+                RuleFor(x => x.MateriaId).InclusiveBetween(1, 12);
+                RuleFor(x => x.GradoId).InclusiveBetween(1, 12);
+
             }
         }
 
@@ -20,53 +22,6 @@ namespace ProyectoFinal.Validations
             public AllSubjectsTaughtValidator()
             {
                 RuleFor(x => x.ProfesorId).GreaterThan(0);
-            }
-        }
-
-        public class TaskPublishValidator : AbstractValidator<TaskPublishRequestDto>
-        {
-            public TaskPublishValidator()
-            {
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
-                RuleFor(x => x.MateriaId).InclusiveBetween(1, 28);
-                RuleFor(x => x.Titulo).NotEmpty().Length(1, 100);
-                RuleFor(x => x.Descripcion).NotEmpty().Length(1, 500);
-                RuleFor(x => x.FechaVencimiento).NotEmpty();
-            }
-        }
-
-        public class TaskUpdateValidator : AbstractValidator<TaskUpdatehRequestDto>
-        {
-            public TaskUpdateValidator()
-            {
-                RuleFor(x => x.TareaId).GreaterThan(0);
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
-                RuleFor(x => x.MateriaId).GreaterThan(0);
-                RuleFor(x => x.Titulo).NotEmpty().Length(1, 100);
-                RuleFor(x => x.Descripcion).NotEmpty().Length(1, 500);
-                RuleFor(x => x.FechaVencimiento).NotEmpty();
-            }
-        }
-
-        public class TaskDeleteValidator : AbstractValidator<TaskDeleteRequestDto>
-        {
-            public TaskDeleteValidator()
-            {
-                RuleFor(x => x.TareaId).GreaterThan(0);
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
-                RuleFor(x => x.MateriaId).GreaterThan(0);
-            }
-        }
-
-        public class QualificationsAssignmentsValidator : AbstractValidator<QualificationsAssignmentsRequestDTO>
-        {
-            public QualificationsAssignmentsValidator()
-            {
-                RuleFor(x => x.RespuestaId).GreaterThan(0);
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
-                RuleFor(x => x.Calificacion).InclusiveBetween(0,100);
-                RuleFor(x => x.Comentarios).NotEmpty();
-
             }
         }
 
@@ -90,6 +45,7 @@ namespace ProyectoFinal.Validations
                 RuleFor(x => x.MateriaId).GreaterThan(0);
                 RuleFor(x => x.ProfesorId).GreaterThan(0);
                 RuleFor(x => x.Calificacion).InclusiveBetween(0, 100);
+                RuleFor(x => x.Periodo).InclusiveBetween(1, 4);
             }
         }
 

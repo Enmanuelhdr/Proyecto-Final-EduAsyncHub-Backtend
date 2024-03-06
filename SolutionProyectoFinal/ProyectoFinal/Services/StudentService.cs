@@ -22,16 +22,6 @@ namespace ProyectoFinal.Services
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task EnrollCareerStudent(EnrollCareerStudentRequestDto student)
-        {
-
-            var studentSelect = await _context.Estudiantes.FirstOrDefaultAsync(u => u.EstudianteId == student.EstudianteId);
-
-            studentSelect.CarreraId = student.CarreraId;
-
-            await _context.SaveChangesAsync();
-        }
-
         public async Task EnrollSubjectStudent(EnrollSubjectStudentRequestDto student)
         {
 
@@ -61,92 +51,36 @@ namespace ProyectoFinal.Services
             return subjectsEnrolled.Cast<object>().ToList();
         }
 
-        public async Task<List<object>> GetAllAssignmentsForStudent(AllSubjectsStudentRequestDto student)
-        {
-            var assignments = await _context.EstudianteMateria
-                .Where(em => em.EstudianteId == student.EstudianteId &&
-                             em.Materia.Asignaciones.Any()) 
-                .Select(em => new
-                {
-                    MateriaNombre = em.Materia.NombreMateria,
-                    Asignaciones = em.Materia.Asignaciones
-                        .Select(a => new
-                        {
-                            Titulo = a.Titulo,
-                            Descripcion = a.Descripcion,
-                            FechaPublicacion = a.FechaPublicacion,
-                            FechaVencimiento = a.FechaVencimiento
-                        })
-                        .ToList()
-                })
-                .ToListAsync();
-
-            return assignments.Cast<object>().ToList();
-        }
-
-        public async Task SubmitAssignment(SubmitAssignmentRequestDto submitAssignment)
-        {
-            var assignment = new RespuestasEstudiante
-            {
-                EstudianteId = submitAssignment.EstudianteId,
-                AsignacionId = submitAssignment.AsignacionId
-            };
-
-            if (submitAssignment.Archivo != null)
-            {
-                var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Archivos", submitAssignment.Archivo.FileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await submitAssignment.Archivo.CopyToAsync(stream);
-                }
-
-                assignment.Respuesta = filePath;
-            }
-
-            _context.RespuestasEstudiantes.Add(assignment);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task EditAssignment(EditAssignmentRequestDto editAssignment)
-        {
-
-            var assignmentSelect = await _context.RespuestasEstudiantes.FirstOrDefaultAsync(u => u.AsignacionId == editAssignment.AsignacionId && u.EstudianteId == editAssignment.EstudianteId);
-
-            assignmentSelect.Respuesta = editAssignment.Respuesta;
-
-            await _context.SaveChangesAsync();
-
-
-        }
-
-        public async Task DeleteAssignment(DeleteAssignmentRequestDto deleteAssignment)
-        {
-
-            var assignmentSelect = await _context.RespuestasEstudiantes.FirstOrDefaultAsync(u => u.AsignacionId == deleteAssignment.AsignacionId && u.EstudianteId == deleteAssignment.EstudianteId);
-
-            _context.RespuestasEstudiantes.Remove(assignmentSelect);
-            await _context.SaveChangesAsync();
-
-        }
-
         public async Task<List<object>> ViewQualifications(ViewQualificationsRequestDto viewQualifications)
-        { 
+        {
             var qualifications = await _context.Calificaciones
                 .Where(c => c.EstudianteId == viewQualifications.EstudianteId)
-                .Select(c => new
+                .GroupBy(c => c.MateriaId)
+                .Select(group => new
                 {
-                    Materia = c.Materia.NombreMateria,
-                    Calificacion = c.Calificacion,
+                    Materia = group.First().Materia.NombreMateria,
+                    Notas = group.Select(c => new
+                    {
+                        Periodo = c.Periodo,
+                        Calificacion = c.Calificacion
+                    }),
+                    NotaTotal = _context.NotaTotals
+                        .Where(nt => nt.EstudianteId == viewQualifications.EstudianteId && nt.MateriaId == group.Key)
+                        .Select(nt => nt.NotaTotal1)
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
-                
+
             return qualifications.Cast<object>().ToList();
         }
 
+
+
+
+
         public async Task<List<object>> ViewAssitance(ViewAssitanceRequestDto viewAssitance)
         {
-            var assistanceDetails = await _context.Asistencia
+            var assistanceDetails = await _context.Asistencias
                 .Where(a => a.EstudianteId == viewAssitance.EstudianteId)
                 .Select(a => new
                 {
@@ -156,10 +90,10 @@ namespace ProyectoFinal.Services
                 })
                 .ToListAsync();
 
-            var totalAssistances = await _context.Asistencia
+            var totalAssistances = await _context.Asistencias
                 .CountAsync(a => a.EstudianteId == viewAssitance.EstudianteId && a.Asistio == true);
 
-            var totalInassitances = await _context.Asistencia
+            var totalInassitances = await _context.Asistencias
                 .CountAsync(a => a.EstudianteId == viewAssitance.EstudianteId && a.Asistio == false);
 
             var result = new

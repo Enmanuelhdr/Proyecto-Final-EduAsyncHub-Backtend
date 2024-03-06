@@ -5,6 +5,8 @@ using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using static ProyectoFinal.DTOs.UsuarioDTO;
+using static ProyectoFinal.DTOs.StudentDTO;
+
 
 namespace ProyectoFinal.Services
 {
@@ -17,6 +19,8 @@ namespace ProyectoFinal.Services
             _context = dbContext;
         }
 
+
+
         public async Task EditAnyUserAdmin(UpdateUserRequestDto usuario)
         {
             var user = await _context.Usuarios.FindAsync(usuario.UsuarioID);
@@ -28,11 +32,7 @@ namespace ProyectoFinal.Services
             user.DescripcionBreve = usuario.DescripcionBreve;
             user.Intereses = usuario.Intereses;
             user.Habilidades = usuario.Habilidades;
-            user.ConfiguracionPrivacidad = usuario.ConfiguracionPrivacidad;
-            user.ConfiguracionNotificaciones = usuario.ConfiguracionNotificaciones;
             user.RolId = usuario.RolID;
-            user.Permisos = usuario.Permisos;
-
             await _context.SaveChangesAsync();
         }
 
@@ -40,20 +40,25 @@ namespace ProyectoFinal.Services
         {
             var user = await _context.Usuarios.FindAsync(usuario.UserId);
 
+            var student = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UsuarioId == usuario.UserId);
+
+            if (student != null)
+            {
+                _context.Estudiantes.Remove(student);
+            }
+
+            var teacher = await _context.Profesores.FirstOrDefaultAsync(p => p.UsuarioId == usuario.UserId);
+
+            if (teacher != null)
+            {
+                _context.Profesores.Remove(teacher);
+            }
+
             _context.Usuarios.Remove(user);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AsignPermissions(AssignPermissionsUserRequestDto permissionsRequest)
-        {
-            permissionsRequest.Permissions = true;
-
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.UsuarioId == permissionsRequest.UserId);
-
-            user.Permisos = permissionsRequest.Permissions;
 
             await _context.SaveChangesAsync();
         }
+
 
         public async Task<List<Usuario>> GetAllUsuarios()
         {

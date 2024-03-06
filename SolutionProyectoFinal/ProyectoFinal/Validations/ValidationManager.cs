@@ -25,19 +25,10 @@ namespace ProyectoFinal.Validations
                 IValidator<LoginUserRequestDto> validatorLoginUser,
                 IValidator<UpdateUserRequestDto> validatorUpdateUser,
                 IValidator<DeleteUserRequestDto> validatorDeleteUser,
-                IValidator<AssignPermissionsUserRequestDto> validateAssignPermissions,
-                IValidator<EnrollCareerStudentRequestDto> validateEnrollCareerStudent,
                 IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent,
                 IValidator<TeachMatterRequestDto> validateTeachMatter,
                 IValidator<AllSubjectsTaughtRequestDto> validateAllSubjectsTaught,
                 IValidator<AllSubjectsStudentRequestDto> validatellSubjectsStudent,
-                IValidator<TaskPublishRequestDto> validateTaskPublish,
-                IValidator<TaskUpdatehRequestDto> validateTaskUpdate,
-                IValidator<TaskDeleteRequestDto> validateTaskDelete,
-                IValidator<SubmitAssignmentRequestDto> validatorSubmitAssignment,
-                IValidator<EditAssignmentRequestDto> validatorEditAssignment,
-                IValidator<DeleteAssignmentRequestDto> validatorDeleteAssignment,
-                IValidator<QualificationsAssignmentsRequestDTO> validatorQualificationsAssignments,
                 IValidator<AssistancePublishRequestDto> validatorAssistance,
                 IValidator<QualificationsStudentRequestDto> validatorQualificationStudent,
                 IValidator<ViewQualificationsRequestDto> validatorViewQualification,
@@ -45,35 +36,8 @@ namespace ProyectoFinal.Validations
                 IValidator<UserFilterRequestDto> validatorFilterUser,
                 IValidator<StudentFilterRequestDto> validatorFilterStudent,
                 IValidator<TeacherFilterRequestDto> validatorFilterTeacher,
-                IValidator<CareerFilterRequestDto> validatorFilterCareer,
                 IValidator<SubjectFilterRequestDto> validatorFilterSubject,
-                IValidator<AssignmentsFilterRequestDto> validatorFilterAssignments,
                 IValidator<UpdateProfileRequestDto> validatorUpdateProfile
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 )
@@ -85,19 +49,10 @@ namespace ProyectoFinal.Validations
                 { typeof(LoginUserRequestDto), validatorLoginUser },
                 { typeof(UpdateUserRequestDto), validatorUpdateUser },
                 { typeof(DeleteUserRequestDto), validatorDeleteUser },
-                { typeof(AssignPermissionsUserRequestDto), validateAssignPermissions },
-                { typeof(EnrollCareerStudentRequestDto), validateEnrollCareerStudent },
                 { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent },
                 { typeof(TeachMatterRequestDto), validateTeachMatter },
                 { typeof(AllSubjectsTaughtRequestDto), validateAllSubjectsTaught },
                 { typeof(AllSubjectsStudentRequestDto), validatellSubjectsStudent },
-                { typeof(TaskPublishRequestDto), validateTaskPublish },
-                { typeof(TaskUpdatehRequestDto), validateTaskUpdate },
-                { typeof(TaskDeleteRequestDto), validateTaskDelete },
-                { typeof(SubmitAssignmentRequestDto), validatorSubmitAssignment },
-                { typeof(EditAssignmentRequestDto), validatorEditAssignment },
-                { typeof(DeleteAssignmentRequestDto), validatorDeleteAssignment },
-                { typeof(QualificationsAssignmentsRequestDTO), validatorQualificationsAssignments },
                 { typeof(AssistancePublishRequestDto), validatorAssistance },
                 { typeof(QualificationsStudentRequestDto), validatorQualificationStudent },
                 { typeof(ViewQualificationsRequestDto), validatorViewQualification },
@@ -105,15 +60,8 @@ namespace ProyectoFinal.Validations
                 { typeof(UserFilterRequestDto), validatorFilterUser },
                 { typeof(StudentFilterRequestDto), validatorFilterStudent },
                 { typeof(TeacherFilterRequestDto), validatorFilterTeacher },
-                { typeof(CareerFilterRequestDto), validatorFilterCareer },
                 { typeof(SubjectFilterRequestDto), validatorFilterSubject },
-                { typeof(AssignmentsFilterRequestDto), validatorFilterAssignments },
                 { typeof(UpdateProfileRequestDto), validatorUpdateProfile }
-
-
-
-
-
             };
             }
 
@@ -153,37 +101,23 @@ namespace ProyectoFinal.Validations
 
             return teacherExist;
         }
-        public async Task<bool> ValidateTeacherSubjectExistAsync(int professorId, int subjectId)
-        {
-            var subjectTeacherExist = await _context.ProfesorMateria
-                .AnyAsync(pm => pm.ProfesorId == professorId && pm.MateriaId == subjectId);
-
-            return subjectTeacherExist;
-        }
-
-        public async Task<bool> ValidateStudentSubjectExistAsync(int studentId, int subjectId)
-        {
-            var subjectStudentExist = await _context.EstudianteMateria
-                .AnyAsync(pm => pm.EstudianteId == studentId && pm.MateriaId == subjectId);
-
-            return subjectStudentExist;
-        }
-
-        public async Task<bool> ValidateTaskExistAsync(int taskId)
-        {
-            var subjectExist = await _context.Asignaciones
-                .AnyAsync(pm => pm.AsignacionId == taskId);
-
-            return subjectExist;
-        }
-
 
         public async Task<bool> ValidateEmailExistAsync(string email)
-            {
-                var emailExists = await _context.Usuarios.AnyAsync(account => account.CorreoElectronico == email);
+        {
+            var emailExists = await _context.Usuarios.AnyAsync(account => account.CorreoElectronico == email);
 
-                return emailExists;
-            }
+            return emailExists;
+        }
+
+        public async Task<bool> ValidateQualificationExists(QualificationsStudentRequestDto qualificationsStudent)
+        {
+            var exists = await _context.Calificaciones
+                .AnyAsync(c => c.EstudianteId == qualificationsStudent.EstudianteId &&
+                               c.MateriaId == qualificationsStudent.MateriaId &&
+                               c.Periodo == qualificationsStudent.Periodo);
+
+            return exists;
+        }
 
 
 
