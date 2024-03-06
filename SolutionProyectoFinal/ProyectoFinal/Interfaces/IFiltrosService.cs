@@ -7,9 +7,9 @@ namespace ProyectoFinal.Interfaces
     {
         Task<Usuario> GetUserForId(UserFilterRequestDto userFilter);
 
-        Task<Estudiante> GetStudentForId(StudentFilterRequestDto studentFilter);
+        Task<Estudiante> GetStudentForId(UserFilterRequestDto studentFilter);
 
-        Task<Profesore> GetTeacherForId(TeacherFilterRequestDto teacherFilter);
+        Task<Profesore> GetTeacherForId(UserFilterRequestDto teacherFilter);
 
         Task<Materia> GetSubjectForId(SubjectFilterRequestDto subjectFilter);
 
