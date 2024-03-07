@@ -12,9 +12,9 @@ namespace ProyectoFinal.Interfaces
 
         Task<bool> ValidateUserExistAsync(string userId);
 
-        Task<bool> ValidateStudentExistAsync(int studentId);
+        Task<bool> ValidateStudentExistAsync(string studentId);
 
-        Task<bool> ValidateTeacherExistAsync(int teacherId);
+        Task<bool> ValidateTeacherExistAsync(string teacherId);
 
         Task<bool> ValidateQualificationExists(QualificationsStudentRequestDto qualificationsStudent);
 

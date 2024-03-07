@@ -57,7 +57,7 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var studentExists = await _validationsManager.ValidateUserExistAsync(studentFilter.UserId);
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(studentFilter.UserId);
 
             if (!studentExists)
             {
@@ -86,7 +86,7 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var teacherExists = await _validationsManager.ValidateUserExistAsync(teacherFilter.UserId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacherFilter.UserId);
 
             if (!teacherExists)
             {

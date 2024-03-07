@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using static ProyectoFinal.DTOs.UsuarioDTO;
-using static ProyectoFinal.DTOs.StudentDTO;
 using System.Text;
 using System.Security.Cryptography;
 using ProyectoFinal.Context;
