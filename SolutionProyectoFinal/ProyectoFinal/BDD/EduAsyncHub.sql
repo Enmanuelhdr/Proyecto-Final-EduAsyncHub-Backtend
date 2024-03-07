@@ -25,18 +25,18 @@ CREATE TABLE GradosEscolares (
 
 -- Inserción de grados escolares
 INSERT INTO GradosEscolares (GradoID, NombreGrado) VALUES
-    (1, 'Primero'),
-    (2, 'Segundo'),
-    (3, 'Tercero'),
-    (4, 'Cuarto'),
-    (5, 'Quinto'),
-    (6, 'Sexto'),
-    (7, 'Septimo'),
-    (8, 'Octavo'),
-    (9, 'Primero de bachiller'),
-    (10, 'Segundo de bachiller'),
-    (11, 'Tercero de bachiller'),
-    (12, 'Cuarto de bachiller');
+    (1, 'Primero de Primaria'),
+    (2, 'Segundo de Primaria'),
+    (3, 'Tercero de Primaria'),
+    (4, 'Cuarto de Primaria'),
+    (5, 'Quinto de Primaria'),
+    (6, 'Sexto de Primaria'),
+    (7, 'Primero de Secundaria'),
+    (8, 'Segundo de Secundaria'),
+    (9, 'Tercero de Secundaria'),
+    (10, 'Cuarto de Secundaria'),
+    (11, 'Quinto de Secundaria'),
+    (12, 'Sexto de Secundaria');
 
 
 -- Verificar grados escolares
