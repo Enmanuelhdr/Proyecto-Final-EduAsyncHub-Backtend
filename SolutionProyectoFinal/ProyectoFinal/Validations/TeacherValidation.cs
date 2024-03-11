@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using static ProyectoFinal.DTOs.StudentDTO;
 using static ProyectoFinal.DTOs.TeacherDTO;
 
 namespace ProyectoFinal.Validations
@@ -10,18 +9,10 @@ namespace ProyectoFinal.Validations
         {
             public TeachMatterValidator()
             {
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.TeacherUserId).NotEmpty();
                 RuleFor(x => x.MateriaId).InclusiveBetween(1, 12);
                 RuleFor(x => x.GradoId).InclusiveBetween(1, 12);
 
-            }
-        }
-
-        public class AllSubjectsTaughtValidator : AbstractValidator<AllSubjectsTaughtRequestDto>
-        {
-            public AllSubjectsTaughtValidator()
-            {
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
             }
         }
 
@@ -29,9 +20,9 @@ namespace ProyectoFinal.Validations
         {
             public AssistancePublishValidator()
             {
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.StundentUserId).NotEmpty();
                 RuleFor(x => x.MateriaId).GreaterThan(0);
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.TeacherUserId).NotEmpty();
                 RuleFor(x => x.Asistio).NotNull();
                 
             }
@@ -41,9 +32,9 @@ namespace ProyectoFinal.Validations
         {
             public QualificationsStudentValidator()
             {
-                RuleFor(x => x.EstudianteId).GreaterThan(0);
+                RuleFor(x => x.StundentUserId).NotEmpty();
                 RuleFor(x => x.MateriaId).GreaterThan(0);
-                RuleFor(x => x.ProfesorId).GreaterThan(0);
+                RuleFor(x => x.TeacherUserId).NotEmpty();
                 RuleFor(x => x.Calificacion).InclusiveBetween(0, 100);
                 RuleFor(x => x.Periodo).InclusiveBetween(1, 4);
             }

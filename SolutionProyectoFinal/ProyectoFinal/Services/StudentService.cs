@@ -4,8 +4,8 @@ using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using System.Data;
 using System;
-using static ProyectoFinal.DTOs.StudentDTO;
 using static ProyectoFinal.DTOs.TeacherDTO;
+using static ProyectoFinal.DTOs.FiltrosDTO;
 using Microsoft.Extensions.Hosting.Internal;
 using ProyectoFinal.Context;
 
@@ -22,25 +22,10 @@ namespace ProyectoFinal.Services
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task EnrollSubjectStudent(EnrollSubjectStudentRequestDto student)
-        {
-
-            var stundentSubject = new EstudianteMaterium
-            {
-                EstudianteId = student.EstudianteId,
-                MateriaId = student.MateriaId
-            };
-
-
-            _context.EstudianteMateria.Add(stundentSubject);
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<object>> SubjectsEnrolledByStudent(AllSubjectsStudentRequestDto student)
+        public async Task<List<object>> SubjectsEnrolledByStudent(UserFilterRequestDto student)
         {
             var subjectsEnrolled = await _context.EstudianteMateria
-                .Where(em => em.EstudianteId == student.EstudianteId)
+                .Where(em => em.Estudiante.UsuarioId == student.UserId)
                 .Select(em => new
                 {
                     materiaId = em.Materia.MateriaId,
@@ -51,10 +36,10 @@ namespace ProyectoFinal.Services
             return subjectsEnrolled.Cast<object>().ToList();
         }
 
-        public async Task<List<object>> ViewQualifications(ViewQualificationsRequestDto viewQualifications)
+        public async Task<List<object>> ViewQualifications(UserFilterRequestDto viewQualifications)
         {
             var qualifications = await _context.Calificaciones
-                .Where(c => c.EstudianteId == viewQualifications.EstudianteId)
+                .Where(c => c.Estudiante.UsuarioId == viewQualifications.UserId)
                 .GroupBy(c => c.MateriaId)
                 .Select(group => new
                 {
@@ -65,7 +50,7 @@ namespace ProyectoFinal.Services
                         Calificacion = c.Calificacion
                     }),
                     NotaTotal = _context.NotaTotals
-                        .Where(nt => nt.EstudianteId == viewQualifications.EstudianteId && nt.MateriaId == group.Key)
+                        .Where(nt => nt.Estudiante.UsuarioId == viewQualifications.UserId && nt.MateriaId == group.Key)
                         .Select(nt => nt.NotaTotal1)
                         .FirstOrDefault()
                 })
@@ -78,10 +63,10 @@ namespace ProyectoFinal.Services
 
 
 
-        public async Task<List<object>> ViewAssitance(ViewAssitanceRequestDto viewAssitance)
+        public async Task<List<object>> ViewAssitance(UserFilterRequestDto viewAssitance)
         {
             var assistanceDetails = await _context.Asistencias
-                .Where(a => a.EstudianteId == viewAssitance.EstudianteId)
+                .Where(a => a.Estudiante.UsuarioId == viewAssitance.UserId)
                 .Select(a => new
                 {
                     Materia = a.Materia.NombreMateria,
@@ -91,10 +76,10 @@ namespace ProyectoFinal.Services
                 .ToListAsync();
 
             var totalAssistances = await _context.Asistencias
-                .CountAsync(a => a.EstudianteId == viewAssitance.EstudianteId && a.Asistio == true);
+                .CountAsync(a => a.Estudiante.UsuarioId == viewAssitance.UserId && a.Asistio == true);
 
             var totalInassitances = await _context.Asistencias
-                .CountAsync(a => a.EstudianteId == viewAssitance.EstudianteId && a.Asistio == false);
+                .CountAsync(a => a.Estudiante.UsuarioId == viewAssitance.UserId && a.Asistio == false);
 
             var result = new
             {

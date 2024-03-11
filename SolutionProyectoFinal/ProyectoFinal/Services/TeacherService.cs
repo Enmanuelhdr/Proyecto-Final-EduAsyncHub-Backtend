@@ -2,7 +2,7 @@
 using ProyectoFinal.Context;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
-using static ProyectoFinal.DTOs.StudentDTO;
+using static ProyectoFinal.DTOs.FiltrosDTO;
 using static ProyectoFinal.DTOs.TeacherDTO;
 
 namespace ProyectoFinal.Services
@@ -19,21 +19,25 @@ namespace ProyectoFinal.Services
         public async Task TeachMatterSubject(TeachMatterRequestDto teachMatter)
         {
 
-            var teacherSubject = new ProfesorMaterium
-            {
-                ProfesorId = teachMatter.ProfesorId,
-                MateriaId = teachMatter.MateriaId,
-            };
+            var profesorId = await _context.Profesores
+                .Where(p => p.UsuarioId == teachMatter.TeacherUserId)
+                .Select(p => p.ProfesorId)
+                .FirstOrDefaultAsync();
 
+                var teacherSubject = new ProfesorMaterium
+                {
+                    ProfesorId = profesorId,
+                    MateriaId = teachMatter.MateriaId,
+                };
 
-            _context.ProfesorMateria.Add(teacherSubject);
-            await _context.SaveChangesAsync();
+                _context.ProfesorMateria.Add(teacherSubject);
+                await _context.SaveChangesAsync();
         }
 
-        public async Task<List<object>> AllSubjectsTaught(AllSubjectsTaughtRequestDto teacher)
+        public async Task<List<object>> AllSubjectsTaught(UserFilterRequestDto teacher)
         {
             var subjectsTaught = await _context.ProfesorMateria
-                .Where(pm => pm.ProfesorId == teacher.ProfesorId)
+                .Where(pm => pm.Profesor.UsuarioId == teacher.UserId)
                 .Select(pm => new
                 {
                     materiaId = pm.Materia.MateriaId,
@@ -44,8 +48,13 @@ namespace ProyectoFinal.Services
             return subjectsTaught.Cast<object>().ToList();
         }
 
-        public async Task<List<object>> ObtenerEstudiantesPorProfesor(int profesorId)
+        public async Task<List<object>> ObtenerEstudiantesPorProfesor(string TeacherUserId)
         {
+            var profesorId = await _context.Profesores
+                .Where(p => p.UsuarioId == TeacherUserId)
+                .Select(p => p.ProfesorId)
+                .FirstOrDefaultAsync();
+
             var materiasImpartidas = await _context.ProfesorMateria
                 .Where(pm => pm.ProfesorId == profesorId)
                 .Select(pm => pm.Materia)
@@ -77,26 +86,47 @@ namespace ProyectoFinal.Services
 
         public async Task PublishAssistance(AssistancePublishRequestDto assistance)
         {
-            var assistancePublish = new Asistencia
-            {
-                EstudianteId = assistance.EstudianteId,
-                MateriaId = assistance.MateriaId,
-                ProfesorId = assistance.ProfesorId,
-                FechaAsistencia = DateTime.Now,
-                Asistio = assistance.Asistio
-            };
+            var estudianteId = await _context.Estudiantes
+                .Where(e => e.UsuarioId == assistance.StundentUserId)
+                .Select(e => e.EstudianteId)
+                .FirstOrDefaultAsync();
 
-            _context.Asistencias.Add(assistancePublish);
-            await _context.SaveChangesAsync();
+            var profesorId = await _context.Profesores
+                .Where(p => p.UsuarioId == assistance.TeacherUserId)
+                .Select(p => p.ProfesorId)
+                .FirstOrDefaultAsync();
+
+                var assistancePublish = new Asistencia
+                {
+                    EstudianteId = estudianteId,
+                    MateriaId = assistance.MateriaId,
+                    ProfesorId = profesorId,
+                    FechaAsistencia = DateTime.Now,
+                    Asistio = assistance.Asistio
+                };
+
+                _context.Asistencias.Add(assistancePublish);
+                await _context.SaveChangesAsync();        
         }
+
 
         public async Task QualificationsStudents(QualificationsStudentRequestDto qualificationsStudent)
         {
+            var estudianteId = await _context.Estudiantes
+                .Where(e => e.UsuarioId == qualificationsStudent.StundentUserId)
+                .Select(e => e.EstudianteId)
+                .FirstOrDefaultAsync();
+
+            var profesorId = await _context.Profesores
+                .Where(p => p.UsuarioId == qualificationsStudent.TeacherUserId)
+                .Select(p => p.ProfesorId)
+                .FirstOrDefaultAsync();
+
             var qualificationPublish = new Calificacione
             {
-                EstudianteId = qualificationsStudent.EstudianteId,
+                EstudianteId = estudianteId,
                 MateriaId = qualificationsStudent.MateriaId,
-                ProfesorId = qualificationsStudent.ProfesorId,
+                ProfesorId = profesorId,
                 Calificacion = qualificationsStudent.Calificacion,
                 Periodo = qualificationsStudent.Periodo,
                 FechaPublicacion = DateTime.Now
@@ -106,7 +136,7 @@ namespace ProyectoFinal.Services
             await _context.SaveChangesAsync();
 
             var calificacionesEstudiante = await _context.Calificaciones
-                .Where(c => c.EstudianteId == qualificationsStudent.EstudianteId && c.MateriaId == qualificationsStudent.MateriaId)
+                .Where(c => c.EstudianteId == estudianteId && c.MateriaId == qualificationsStudent.MateriaId)
                 .GroupBy(c => c.Periodo)
                 .Select(g => g.Average(c => c.Calificacion))
                 .ToListAsync();
@@ -116,14 +146,14 @@ namespace ProyectoFinal.Services
                 double notaTotal = (double)(calificacionesEstudiante.Sum() / calificacionesEstudiante.Count);
 
                 var notaTotalEntity = await _context.NotaTotals
-                    .Where(nt => nt.EstudianteId == qualificationsStudent.EstudianteId && nt.MateriaId == qualificationsStudent.MateriaId)
+                    .Where(nt => nt.EstudianteId == estudianteId && nt.MateriaId == qualificationsStudent.MateriaId)
                     .FirstOrDefaultAsync();
 
                 if (notaTotalEntity == null)
                 {
                     _context.NotaTotals.Add(new NotaTotal
                     {
-                        EstudianteId = qualificationsStudent.EstudianteId,
+                        EstudianteId = estudianteId,
                         MateriaId = qualificationsStudent.MateriaId,
                         NotaTotal1 = notaTotal
                     });

@@ -22,16 +22,16 @@ namespace ProyectoFinal.Services
             return user;
         }
 
-        public async Task<Estudiante> GetStudentForId(StudentFilterRequestDto studentFilter)
+        public async Task<Estudiante> GetStudentForId(UserFilterRequestDto studentFilter)
         {
-            var student = await _context.Estudiantes.FirstOrDefaultAsync(u => u.EstudianteId == studentFilter.StudentId);
+            var student = await _context.Estudiantes.FirstOrDefaultAsync(u => u.UsuarioId == studentFilter.UserId);
 
             return student;
         }
 
-        public async Task<Profesore> GetTeacherForId(TeacherFilterRequestDto teacherFilter)
+        public async Task<Profesore> GetTeacherForId(UserFilterRequestDto teacherFilter)
         {
-            var teacher = await _context.Profesores.FirstOrDefaultAsync(u => u.ProfesorId == teacherFilter.TeacherId);
+            var teacher = await _context.Profesores.FirstOrDefaultAsync(u => u.UsuarioId == teacherFilter.UserId);
 
             return teacher;
         }

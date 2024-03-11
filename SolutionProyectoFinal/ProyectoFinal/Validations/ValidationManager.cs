@@ -2,7 +2,6 @@
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using static ProyectoFinal.DTOs.UsuarioDTO;
-using static ProyectoFinal.DTOs.StudentDTO;
 using ProyectoFinal.Interfaces;
 using static ProyectoFinal.DTOs.TeacherDTO;
 using static ProyectoFinal.DTOs.FiltrosDTO;
@@ -25,17 +24,10 @@ namespace ProyectoFinal.Validations
                 IValidator<LoginUserRequestDto> validatorLoginUser,
                 IValidator<UpdateUserRequestDto> validatorUpdateUser,
                 IValidator<DeleteUserRequestDto> validatorDeleteUser,
-                IValidator<EnrollSubjectStudentRequestDto> validateEnrollSubjectStudent,
                 IValidator<TeachMatterRequestDto> validateTeachMatter,
-                IValidator<AllSubjectsTaughtRequestDto> validateAllSubjectsTaught,
-                IValidator<AllSubjectsStudentRequestDto> validatellSubjectsStudent,
                 IValidator<AssistancePublishRequestDto> validatorAssistance,
                 IValidator<QualificationsStudentRequestDto> validatorQualificationStudent,
-                IValidator<ViewQualificationsRequestDto> validatorViewQualification,
-                IValidator<ViewAssitanceRequestDto> validatorViewAssistance,
                 IValidator<UserFilterRequestDto> validatorFilterUser,
-                IValidator<StudentFilterRequestDto> validatorFilterStudent,
-                IValidator<TeacherFilterRequestDto> validatorFilterTeacher,
                 IValidator<SubjectFilterRequestDto> validatorFilterSubject,
                 IValidator<UpdateProfileRequestDto> validatorUpdateProfile
 
@@ -49,17 +41,10 @@ namespace ProyectoFinal.Validations
                 { typeof(LoginUserRequestDto), validatorLoginUser },
                 { typeof(UpdateUserRequestDto), validatorUpdateUser },
                 { typeof(DeleteUserRequestDto), validatorDeleteUser },
-                { typeof(EnrollSubjectStudentRequestDto), validateEnrollSubjectStudent },
                 { typeof(TeachMatterRequestDto), validateTeachMatter },
-                { typeof(AllSubjectsTaughtRequestDto), validateAllSubjectsTaught },
-                { typeof(AllSubjectsStudentRequestDto), validatellSubjectsStudent },
                 { typeof(AssistancePublishRequestDto), validatorAssistance },
                 { typeof(QualificationsStudentRequestDto), validatorQualificationStudent },
-                { typeof(ViewQualificationsRequestDto), validatorViewQualification },
-                { typeof(ViewAssitanceRequestDto), validatorViewAssistance },
                 { typeof(UserFilterRequestDto), validatorFilterUser },
-                { typeof(StudentFilterRequestDto), validatorFilterStudent },
-                { typeof(TeacherFilterRequestDto), validatorFilterTeacher },
                 { typeof(SubjectFilterRequestDto), validatorFilterSubject },
                 { typeof(UpdateProfileRequestDto), validatorUpdateProfile }
             };
@@ -88,16 +73,16 @@ namespace ProyectoFinal.Validations
             return accountExists;
         }
 
-        public async Task<bool> ValidateStudentExistAsync(int studentId)
+        public async Task<bool> ValidateStudentExistAsync(string userId)
         {
-            var studentExist = await _context.Estudiantes.AnyAsync(u => u.EstudianteId == studentId);
+            var studentExist = await _context.Estudiantes.AnyAsync(u => u.UsuarioId == userId);
 
             return studentExist;
         }
 
-        public async Task<bool> ValidateTeacherExistAsync(int teacherId)
+        public async Task<bool> ValidateTeacherExistAsync(string userId)
         {
-            var teacherExist = await _context.Profesores.AnyAsync(u => u.ProfesorId == teacherId);
+            var teacherExist = await _context.Profesores.AnyAsync(u => u.UsuarioId == userId);
 
             return teacherExist;
         }
@@ -118,12 +103,29 @@ namespace ProyectoFinal.Validations
 
         public async Task<bool> ValidateQualificationExists(QualificationsStudentRequestDto qualificationsStudent)
         {
-            var exists = await _context.Calificaciones
-                .AnyAsync(c => c.EstudianteId == qualificationsStudent.EstudianteId &&
-                               c.MateriaId == qualificationsStudent.MateriaId &&
-                               c.Periodo == qualificationsStudent.Periodo);
+            var studentId = await _context.Estudiantes
+                .Where(e => e.UsuarioId == qualificationsStudent.StundentUserId)
+                .Select(e => e.EstudianteId)
+                .FirstOrDefaultAsync();
 
-            return exists;
+            var teacherId = await _context.Profesores
+                .Where(p => p.UsuarioId == qualificationsStudent.TeacherUserId)
+                .Select(p => p.ProfesorId)
+                .FirstOrDefaultAsync();
+
+            if (studentId != 0 && teacherId != 0)
+            {
+                var exists = await _context.Calificaciones
+                    .AnyAsync(c => c.EstudianteId == studentId &&
+                                   c.MateriaId == qualificationsStudent.MateriaId &&
+                                   c.Periodo == qualificationsStudent.Periodo);
+
+                return exists;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 

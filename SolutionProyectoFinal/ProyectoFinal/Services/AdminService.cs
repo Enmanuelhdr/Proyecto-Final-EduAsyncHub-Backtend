@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
 using static ProyectoFinal.DTOs.UsuarioDTO;
-using static ProyectoFinal.DTOs.StudentDTO;
 using System.Text;
 using System.Security.Cryptography;
 using ProyectoFinal.Context;
@@ -40,10 +39,20 @@ namespace ProyectoFinal.Services
         {
             var user = await _context.Usuarios.FindAsync(usuario.UserId);
 
+
             var student = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UsuarioId == usuario.UserId);
 
             if (student != null)
             {
+                var estudianteId = student.EstudianteId;
+
+                var estudianteMateriaRecords = await _context.EstudianteMateria
+                    .Where(em => em.EstudianteId == estudianteId)
+                    .ToListAsync();
+
+                _context.EstudianteMateria.RemoveRange(estudianteMateriaRecords);
+                await _context.SaveChangesAsync();
+
                 _context.Estudiantes.Remove(student);
             }
 
@@ -51,11 +60,20 @@ namespace ProyectoFinal.Services
 
             if (teacher != null)
             {
+                var profesorId = teacher.ProfesorId;
+
+                var profesorMateriaRecords = await _context.ProfesorMateria
+                    .Where(em => em.ProfesorId == profesorId)
+                    .ToListAsync();
+
+                _context.ProfesorMateria.RemoveRange(profesorMateriaRecords);
+                await _context.SaveChangesAsync();
+
                 _context.Profesores.Remove(teacher);
             }
 
-            _context.Usuarios.Remove(user);
 
+            _context.Usuarios.Remove(user);
             await _context.SaveChangesAsync();
         }
 

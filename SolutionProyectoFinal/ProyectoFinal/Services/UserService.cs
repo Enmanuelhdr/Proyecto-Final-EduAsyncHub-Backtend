@@ -8,7 +8,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using static ProyectoFinal.DTOs.UsuarioDTO;
-using static ProyectoFinal.DTOs.StudentDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Context;

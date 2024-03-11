@@ -48,7 +48,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet("ObtenerEstudiantePorID")]
-        public async Task<IActionResult> GetStudentForId([FromQuery] StudentFilterRequestDto studentFilter)
+        public async Task<IActionResult> GetStudentForId([FromQuery] UserFilterRequestDto studentFilter)
         {
             var validation = await _validationsManager.ValidateAsync(studentFilter);
 
@@ -57,7 +57,7 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var studentExists = await _validationsManager.ValidateStudentExistAsync(studentFilter.StudentId);
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(studentFilter.UserId);
 
             if (!studentExists)
             {
@@ -77,7 +77,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet("ObtenerProfesorPorID")]
-        public async Task<IActionResult> GetTeacherForId([FromQuery] TeacherFilterRequestDto teacherFilter)
+        public async Task<IActionResult> GetTeacherForId([FromQuery] UserFilterRequestDto teacherFilter)
         {
             var validation = await _validationsManager.ValidateAsync(teacherFilter);
 
@@ -86,7 +86,7 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacherFilter.TeacherId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacherFilter.UserId);
 
             if (!teacherExists)
             {

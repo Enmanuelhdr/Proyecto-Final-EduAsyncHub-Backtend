@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Interfaces;
+using static ProyectoFinal.DTOs.FiltrosDTO;
 using static ProyectoFinal.DTOs.TeacherDTO;
 
 namespace ProyectoFinal.Controllers
@@ -30,7 +31,7 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.ProfesorId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.TeacherUserId);
 
             if (!teacherExists)
             {
@@ -51,7 +52,7 @@ namespace ProyectoFinal.Controllers
 
         //[Authorize(Roles = "Profesor")]
         [HttpGet("MostrarMisMateriasImpartidas")]
-        public async Task<IActionResult> AllSubjectsTaught([FromQuery] AllSubjectsTaughtRequestDto teacher)
+        public async Task<IActionResult> AllSubjectsTaught([FromQuery] UserFilterRequestDto teacher)
         {
             var validation = await _validationsManager.ValidateAsync(teacher);
 
@@ -60,7 +61,7 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.ProfesorId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.UserId);
 
             if (!teacherExists)
             {
@@ -81,10 +82,10 @@ namespace ProyectoFinal.Controllers
 
         //[Authorize(Roles = "Profesor")]
         [HttpGet("MostrarMisEstudiantesPorMaterias")]
-        public async Task<IActionResult> AllStudentsForSubjectsTaught([FromQuery] int teacherId)
+        public async Task<IActionResult> AllStudentsForSubjectsTaught([FromQuery] UserFilterRequestDto teacher)
         {
 
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacherId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.UserId);
 
             if (!teacherExists)
             {
@@ -93,7 +94,7 @@ namespace ProyectoFinal.Controllers
 
             try
             {
-                var lista = await _teacherService.ObtenerEstudiantesPorProfesor(teacherId);
+                var lista = await _teacherService.ObtenerEstudiantesPorProfesor(teacher.UserId);
                 return Ok(lista);
             }
 
@@ -117,14 +118,14 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(assistance.ProfesorId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(assistance.TeacherUserId);
 
             if (!teacherExists)
             {
                 return BadRequest("El profesor no existe.");
             }
 
-            var studentExists = await _validationsManager.ValidateStudentExistAsync(assistance.EstudianteId);
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(assistance.StundentUserId);
 
             if (!studentExists)
             {
@@ -154,14 +155,14 @@ namespace ProyectoFinal.Controllers
                 return BadRequest(validation.Errors);
             }
 
-            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(qualificationsStudent.ProfesorId);
+            var teacherExists = await _validationsManager.ValidateTeacherExistAsync(qualificationsStudent.TeacherUserId);
 
             if (!teacherExists)
             {
                 return BadRequest("El profesor no existe.");
             }
 
-            var studentExists = await _validationsManager.ValidateStudentExistAsync(qualificationsStudent.EstudianteId);
+            var studentExists = await _validationsManager.ValidateStudentExistAsync(qualificationsStudent.StundentUserId);
 
             if (!studentExists)
             {
