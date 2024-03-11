@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProyectoFinal.Configuration;
 using ProyectoFinal.Context;
+using ProyectoFinal.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,10 +17,8 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-
-
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod();
                       });
 });
 
@@ -27,21 +27,15 @@ builder.Services.AddDbContext<EduAsyncHubContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
-builder.Services.GetDependencyInjections();
 
+builder.Services.AddSignalR();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication(config => {
-
+builder.Services.AddAuthentication(config =>
+{
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
 }).AddJwtBearer(config =>
 {
-
     config.RequireHttpsMetadata = false;
     config.SaveToken = true;
     config.TokenValidationParameters = new TokenValidationParameters
@@ -53,7 +47,6 @@ builder.Services.AddAuthentication(config => {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["settings:Key"]))
     };
 });
-
 
 builder.Services.AddSwaggerGen(option =>
 {
@@ -74,8 +67,8 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}
@@ -85,21 +78,26 @@ builder.Services.AddSwaggerGen(option =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors(misReglasCors);
-
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseRouting(); 
 
+app.UseCors(misReglasCors);
+
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/chat");
+});
 
 app.Run();
+
