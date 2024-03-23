@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Interfaces;
-using ProyectoFinal.Models;
 using System.Data;
 using System;
 using static ProyectoFinal.DTOs.TeacherDTO;

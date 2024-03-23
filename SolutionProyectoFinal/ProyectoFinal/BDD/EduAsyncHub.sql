@@ -179,4 +179,27 @@ CREATE TABLE ProfesorMateria (
 -- Verificar EstudianteMateria
 SELECT * FROM ProfesorMateria;
 
+-- Tabla de Noticias
+CREATE TABLE Noticias (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    img VARCHAR(255),
+    title VARCHAR(255),
+    date DATE,
+    description VARCHAR(MAX)
+);
+
+-- Verificar la tabla de Noticias
+SELECT * FROM Noticias;
+
+-- Tabla de Eventos
+CREATE TABLE Eventos (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    img VARCHAR(255),
+    title VARCHAR(255),
+    date DATE,
+    description VARCHAR(MAX)
+);
+
+-- Verificar la tabla de Eventos
+SELECT * FROM Eventos;
 

@@ -21,9 +21,11 @@ namespace ProyectoFinal.Context
         public virtual DbSet<Calificacione> Calificaciones { get; set; } = null!;
         public virtual DbSet<Estudiante> Estudiantes { get; set; } = null!;
         public virtual DbSet<EstudianteMaterium> EstudianteMateria { get; set; } = null!;
+        public virtual DbSet<Evento> Eventos { get; set; } = null!;
         public virtual DbSet<GradosEscolare> GradosEscolares { get; set; } = null!;
         public virtual DbSet<Materia> Materias { get; set; } = null!;
         public virtual DbSet<NotaTotal> NotaTotals { get; set; } = null!;
+        public virtual DbSet<Noticia> Noticias { get; set; } = null!;
         public virtual DbSet<ProfesorMaterium> ProfesorMateria { get; set; } = null!;
         public virtual DbSet<Profesore> Profesores { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
@@ -33,7 +35,8 @@ namespace ProyectoFinal.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                base.OnConfiguring(optionsBuilder);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=ADALBERTO\\SQLEXPRESS;Database=EduAsyncHub;Trusted_Connection=True;");
             }
         }
 
@@ -152,6 +155,30 @@ namespace ProyectoFinal.Context
                     .HasConstraintName("FK__Estudiant__Mater__6B24EA82");
             });
 
+            modelBuilder.Entity<Evento>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Date)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("date");
+
+                entity.Property(e => e.Description)
+                    .IsUnicode(false)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Img)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("img");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("title");
+            });
+
             modelBuilder.Entity<GradosEscolare>(entity =>
             {
                 entity.HasKey(e => e.GradoId)
@@ -199,6 +226,30 @@ namespace ProyectoFinal.Context
                     .WithMany(p => p.NotaTotals)
                     .HasForeignKey(d => d.MateriaId)
                     .HasConstraintName("FK__NotaTotal__Mater__6754599E");
+            });
+
+            modelBuilder.Entity<Noticia>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Date)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("date");
+
+                entity.Property(e => e.Description)
+                    .IsUnicode(false)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Img)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("img");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("title");
             });
 
             modelBuilder.Entity<ProfesorMaterium>(entity =>
