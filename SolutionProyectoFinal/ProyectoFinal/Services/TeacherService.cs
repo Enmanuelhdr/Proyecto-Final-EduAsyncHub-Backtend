@@ -28,6 +28,7 @@ namespace ProyectoFinal.Services
                 {
                     ProfesorId = profesorId,
                     MateriaId = teachMatter.MateriaId,
+                    GradoId = teachMatter.GradoId
                 };
 
                 _context.ProfesorMateria.Add(teacherSubject);
@@ -41,7 +42,8 @@ namespace ProyectoFinal.Services
                 .Select(pm => new
                 {
                     materiaId = pm.Materia.MateriaId,
-                    nombreMateria = pm.Materia.NombreMateria
+                    nombreMateria = pm.Materia.NombreMateria,
+                    gradoId = pm.GradoId
                 })
                 .ToListAsync();
 

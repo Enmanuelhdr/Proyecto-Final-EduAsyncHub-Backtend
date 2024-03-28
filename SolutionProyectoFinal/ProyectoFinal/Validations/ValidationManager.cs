@@ -6,6 +6,7 @@ using ProyectoFinal.Interfaces;
 using static ProyectoFinal.DTOs.TeacherDTO;
 using static ProyectoFinal.DTOs.FiltrosDTO;
 using ProyectoFinal.Context;
+using ProyectoFinal.Models;
 
 
 
@@ -126,6 +127,14 @@ namespace ProyectoFinal.Validations
             {
                 return false;
             }
+        }
+
+        public async Task<bool> ProfesorImparteMateria(string userId, int materiaId, int gradoId)
+        {
+            var profesorImparte = await _context.ProfesorMateria
+                .AnyAsync(pm => pm.Profesor.UsuarioId == userId && pm.MateriaId == materiaId && pm.GradoId == gradoId);
+
+            return profesorImparte;
         }
 
 

@@ -184,7 +184,7 @@ CREATE TABLE Noticias (
     id INT PRIMARY KEY IDENTITY(1,1),
     img VARCHAR(255),
     title VARCHAR(255),
-    date DATE,
+    date VARCHAR(100),
     description VARCHAR(MAX)
 );
 
@@ -196,10 +196,11 @@ CREATE TABLE Eventos (
     id INT PRIMARY KEY IDENTITY(1,1),
     img VARCHAR(255),
     title VARCHAR(255),
-    date DATE,
+    date VARCHAR(100),
     description VARCHAR(MAX)
 );
 
 -- Verificar la tabla de Eventos
 SELECT * FROM Eventos;
+
 

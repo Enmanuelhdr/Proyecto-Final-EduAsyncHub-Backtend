@@ -19,5 +19,7 @@ namespace ProyectoFinal.Interfaces
         Task<bool> ValidateQualificationExists(QualificationsStudentRequestDto qualificationsStudent);
 
         Task<bool> ValidateUserEmailIsYourAsync(string userId, string email);
+
+        Task<bool> ProfesorImparteMateria(string userId, int materiaId, int gradoId);
     }
 }

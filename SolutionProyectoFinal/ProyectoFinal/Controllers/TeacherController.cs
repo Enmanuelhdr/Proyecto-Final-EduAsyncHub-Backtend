@@ -38,6 +38,19 @@ namespace ProyectoFinal.Controllers
                 return BadRequest("El profesor no existe.");
             }
 
+            var profesorImparte = await _validationsManager.ProfesorImparteMateria(teacher.TeacherUserId, teacher.MateriaId, teacher.GradoId);
+
+            if (profesorImparte)
+            {
+                return BadRequest("El profesor ya imparte esta materia.");
+            }
+
+
+            if (!teacherExists)
+            {
+                return BadRequest("El profesor no existe.");
+            }
+
             try
             {
                 await _teacherService.TeachMatterSubject(teacher);
