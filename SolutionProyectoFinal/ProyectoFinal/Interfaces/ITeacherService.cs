@@ -16,5 +16,7 @@ namespace ProyectoFinal.Interfaces
 
         Task<List<object>> ObtenerEstudiantesPorProfesor(string profesorId);
 
+        Task<List<object>> ObtenerEstudiantesPorMateriaYGrado(int MateriaId, int GradoId);
+
     }
 }

@@ -16,6 +16,16 @@ namespace ProyectoFinal.Validations
             }
         }
 
+        public class TeachStudentsValidator : AbstractValidator<TeachStudentsRequestDto>
+        {
+            public TeachStudentsValidator()
+            {
+                RuleFor(x => x.MateriaId).InclusiveBetween(1, 12);
+                RuleFor(x => x.GradoId).InclusiveBetween(1, 12);
+
+            }
+        }
+
         public class AssistancePublishValidator : AbstractValidator<AssistancePublishRequestDto>
         {
             public AssistancePublishValidator()

@@ -97,6 +97,12 @@ namespace ProyectoFinal.Controllers
         [HttpGet("MostrarMisEstudiantesPorMaterias")]
         public async Task<IActionResult> AllStudentsForSubjectsTaught([FromQuery] UserFilterRequestDto teacher)
         {
+            var validation = await _validationsManager.ValidateAsync(teacher);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
 
             var teacherExists = await _validationsManager.ValidateTeacherExistAsync(teacher.UserId);
 
@@ -108,6 +114,30 @@ namespace ProyectoFinal.Controllers
             try
             {
                 var lista = await _teacherService.ObtenerEstudiantesPorProfesor(teacher.UserId);
+                return Ok(lista);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.InnerException);
+            }
+        }
+
+        //[Authorize(Roles = "Profesor")]
+        [HttpGet("MostrarEstudiantesMateriaYGrado")]
+        public async Task<IActionResult> AllStudentsForSubjectsTaught([FromQuery] TeachStudentsRequestDto teacher)
+        {
+
+            var validation = await _validationsManager.ValidateAsync(teacher);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
+
+            try
+            {
+                var lista = await _teacherService.ObtenerEstudiantesPorMateriaYGrado(teacher.MateriaId, teacher.GradoId);
                 return Ok(lista);
             }
 

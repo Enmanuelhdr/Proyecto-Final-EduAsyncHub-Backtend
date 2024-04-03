@@ -84,6 +84,32 @@ namespace ProyectoFinal.Services
             return estudiantesInscritos.Cast<object>().ToList();
         }
 
+        public async Task<List<object>> ObtenerEstudiantesPorMateriaYGrado(int MateriaId, int GradoId)
+        {
+            var estudiantesInscritos = await _context.EstudianteMateria
+                .Where(em => em.MateriaId == MateriaId && em.GradoId == GradoId)
+                .Select(em => new
+                {
+                    EstudianteId = em.EstudianteId,
+                    UserId = em.Estudiante.UsuarioId, 
+                    NombreEstudiante = _context.Usuarios
+                        .Where(u => u.UsuarioId == em.Estudiante.UsuarioId)
+                        .Select(u => u.Nombre)
+                        .FirstOrDefault(),
+                    MateriaId = em.Materia.MateriaId,
+                    GradoId = em.GradoId,
+                    Materia = em.Materia.NombreMateria,
+                    Grado = _context.GradosEscolares
+                        .Where(g => g.GradoId == em.GradoId)
+                        .Select(g => g.NombreGrado)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return estudiantesInscritos.Cast<object>().ToList();
+        }
+
+
 
 
         public async Task PublishAssistance(AssistancePublishRequestDto assistance)

@@ -11,8 +11,12 @@ namespace ProyectoFinal.DTOs
             public string TeacherUserId { get; set; }
             public int MateriaId { get; set; }
             public int GradoId { get; set; }
+        }
 
-
+        public class TeachStudentsRequestDto
+        {
+            public int MateriaId { get; set; }
+            public int GradoId { get; set; }
         }
 
         public class AssistancePublishRequestDto
