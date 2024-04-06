@@ -32,7 +32,7 @@ namespace ProyectoFinal.Context
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
@@ -40,7 +40,7 @@ namespace ProyectoFinal.Context
                 optionsBuilder.UseSqlServer("Server=MSI-KATANAGF66\\SQLEXPRESS; Database=EduAsyncHub; Trusted_Connection=SSPI; Encrypt=false; TrustServerCertificate=true");
             }
         }
-
+       */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Asistencia>(entity =>
