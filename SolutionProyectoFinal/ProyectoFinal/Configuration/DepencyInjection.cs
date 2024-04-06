@@ -15,6 +15,7 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IFiltrosService, FiltrosService>();
             services.AddScoped<INoticiasService, NoticiasService>();
             services.AddScoped<IEventoService, EventosService>();
+            services.AddScoped<ICalendarioEspecificoService, CalendarioEspecificoService>();
 
 
 

@@ -204,3 +204,11 @@ CREATE TABLE Eventos (
 SELECT * FROM Eventos;
 
 
+CREATE TABLE CalendarioEspecifico (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    title VARCHAR(255),
+    date  varchar(100),
+    hora varchar(100)
+);
+
+select* from CalendarioEspecifico;
