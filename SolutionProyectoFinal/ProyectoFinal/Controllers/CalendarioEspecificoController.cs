@@ -53,5 +53,33 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error al editar la actividad: {ex.Message}");
             }
         }
+        [HttpGet("MostrarActividades")]
+        public IActionResult MostrarActividades()
+        {
+            try
+            {
+                var actividades = _calendarioService.MostrarTodasLasActividades();
+                return Ok(actividades);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error al mostrar las actividades: {ex.Message}");
+            }
+        }
+        [HttpDelete("EliminarActividad/{id}")]
+        public IActionResult EliminarActividad(int id)
+        {
+            try
+            {
+                _calendarioService.EliminarActividad(id);
+                return Ok("Actividad eliminada correctamente");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error al eliminar la actividad: {ex.Message}");
+            }
+        }
+
+
     }
 }
