@@ -111,17 +111,11 @@ namespace ProyectoFinal.Services
 
         private async Task CreateUserFromAdmision(SolicitudAdmision admision)
         {
-            var ultimoUsuario = _context.Usuarios.OrderByDescending(x => x.UsuarioId).FirstOrDefault();
-            int siguienteNumero = (ultimoUsuario != null) ? int.Parse(ultimoUsuario.UsuarioId.Substring(4)) + 1 : 1;
-            string nuevoId = $"EAH-{siguienteNumero:D4}";
-
-            string contraseña = ConvertSha256(nuevoId);
-
             var usuario = new RegisterUserRequestDto
             {
                 Nombre = admision.NombreEstudiante,
                 CorreoElectronico = admision.CorreoElectronico,
-                Contraseña = contraseña,
+                Contraseña = "12345678",
                 RolID = 1 
             };
 
