@@ -212,3 +212,24 @@ CREATE TABLE CalendarioEspecifico (
 );
 
 select* from CalendarioEspecifico;
+
+CREATE TABLE SolicitudAdmision (
+    SolicitudID INT PRIMARY KEY IDENTITY(1,1),
+    NombreEstudiante VARCHAR(100),
+    FechaNacimiento DATE,
+    Genero VARCHAR(20),
+    DireccionEstudiante VARCHAR(255),
+    Grado INT,
+    EscuelaActual VARCHAR(100),
+    NombrePadreTutor VARCHAR(100),
+    RelacionEstudiante VARCHAR(100),
+    DireccionPadreTutor VARCHAR(255),
+    NumeroTelefono VARCHAR(20),
+    CorreoElectronico VARCHAR(100),
+    FechaHoraSolicitud DATETIME DEFAULT CURRENT_TIMESTAMP,
+    EstadoSolicitud VARCHAR(20),
+    NotasComentarios TEXT
+);
+
+select* from SolicitudAdmision;
+
