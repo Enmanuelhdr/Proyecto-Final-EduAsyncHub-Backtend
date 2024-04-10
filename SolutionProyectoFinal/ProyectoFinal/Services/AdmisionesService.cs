@@ -36,6 +36,22 @@ namespace ProyectoFinal.Services
 
         public async Task CreateAdmision(SolicitudAdmision admision)
         {
+            var existingEmail = await _context.SolicitudAdmisions
+       .FirstOrDefaultAsync(a => a.CorreoElectronico == admision.CorreoElectronico);
+
+            if (existingEmail != null)
+            {
+                throw new ArgumentException("El correo electrónico ya está registrado en otra solicitud de admisión");
+            }
+
+            var existingEmailInUsers = await _context.Usuarios
+        .FirstOrDefaultAsync(u => u.CorreoElectronico == admision.CorreoElectronico);
+
+            if (existingEmailInUsers != null)
+            {
+                throw new ArgumentException("El correo electrónico ya está registrado en otro usuario");
+            }
+
             admision.EstadoSolicitud = "pendiente";
             _context.SolicitudAdmisions.Add(admision);
             await _context.SaveChangesAsync();
@@ -49,6 +65,21 @@ namespace ProyectoFinal.Services
                 throw new ArgumentException("Solicitud de admisión no encontrada");
             }
 
+            var existingEmail = await _context.SolicitudAdmisions
+       .FirstOrDefaultAsync(a => a.CorreoElectronico == admision.CorreoElectronico && a.SolicitudId != id);
+
+            if (existingEmail != null)
+            {
+                throw new ArgumentException("El correo electrónico ya está registrado en otra solicitud de admisión");
+            }
+
+            var existingEmailInUsers = await _context.Usuarios
+        .FirstOrDefaultAsync(u => u.CorreoElectronico == admision.CorreoElectronico);
+
+            if (existingEmailInUsers != null)
+            {
+                throw new ArgumentException("El correo electrónico ya está registrado en otro usuario");
+            }
 
             existingAdmision.NombreEstudiante = admision.NombreEstudiante;
             existingAdmision.FechaNacimiento = admision.FechaNacimiento;
