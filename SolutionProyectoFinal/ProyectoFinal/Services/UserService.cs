@@ -102,6 +102,7 @@ namespace ProyectoFinal.Services
                 .Include(u => u.Rol)
                 .Where(u => u.CorreoElectronico == request.CorreoElectronico && u.Contraseña == claveEncriptada)
                 .FirstOrDefaultAsync(); 
+           
 
             if (usuario != null)
             {
@@ -111,6 +112,8 @@ namespace ProyectoFinal.Services
                 claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()));
 
                 claims.AddClaim(new Claim(ClaimTypes.Name, usuario.CorreoElectronico));
+
+                claims.AddClaim(new Claim("UserName", usuario.Nombre));
 
                 var rolNombre = await _context.Roles.Where(r => r.RolId == usuario.RolId).Select(r => r.NombreRol).FirstOrDefaultAsync();
                 claims.AddClaim(new Claim(ClaimTypes.Role, rolNombre));
