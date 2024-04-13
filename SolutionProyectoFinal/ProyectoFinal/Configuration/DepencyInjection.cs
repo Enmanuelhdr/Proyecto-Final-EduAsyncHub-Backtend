@@ -17,6 +17,8 @@ namespace ProyectoFinal.Configuration
             services.AddScoped<IEventoService, EventosService>();
             services.AddScoped<ICalendarioEspecificoService, CalendarioEspecificoService>();
             services.AddScoped<IAdmisionesService, AdmisionesService>();
+            services.AddScoped<ISalasService, SalasService>();
+
 
 
 

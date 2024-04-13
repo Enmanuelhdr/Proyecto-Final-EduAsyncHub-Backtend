@@ -233,3 +233,11 @@ CREATE TABLE SolicitudAdmision (
 
 select* from SolicitudAdmision;
 
+CREATE TABLE Salas (
+    Id VARCHAR(255) PRIMARY KEY,
+    Nombre VARCHAR(255),
+    Fecha VARCHAR(255)
+);
+
+
+select * from Salas
