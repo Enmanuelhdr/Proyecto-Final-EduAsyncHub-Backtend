@@ -5,7 +5,7 @@ namespace ProyectoFinal.Models
 {
     public partial class Sala
     {
-        public string Id { get; set; } = null!;
+        public int Id { get; set; }
         public string? Nombre { get; set; }
         public string? Fecha { get; set; }
     }

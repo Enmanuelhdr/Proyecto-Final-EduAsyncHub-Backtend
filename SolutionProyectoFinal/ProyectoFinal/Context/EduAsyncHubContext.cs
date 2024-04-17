@@ -343,10 +343,6 @@ namespace ProyectoFinal.Context
 
             modelBuilder.Entity<Sala>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Fecha)
                     .HasMaxLength(255)
                     .IsUnicode(false);

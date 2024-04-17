@@ -1,11 +1,12 @@
-﻿using ProyectoFinal.Models;
+﻿using ProyectoFinal.DTOs;
+using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Interfaces
 {
     public interface ISalasService
     {
 
-        Task CrearSalaAsync(Sala sala);
+        Task CrearSalaAsync(SalasDTOcs sala);
         Task<List<Sala>> ObtenerSalasAsync();
 
     }

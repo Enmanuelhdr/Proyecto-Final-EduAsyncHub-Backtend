@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal.Interfaces;
 using ProyectoFinal.Models;
+using static ProyectoFinal.DTOs.SalasDTOcs;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ProyectoFinal.DTOs;
 
 namespace ProyectoFinal.Controllers
 {
@@ -19,11 +22,12 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearSala([FromBody] Sala sala)
+        public async Task<IActionResult> CrearSala([FromBody] SalasDTOcs salaDto)
         {
             try
             {
-                await _salasService.CrearSalaAsync(sala);
+
+                await _salasService.CrearSalaAsync(salaDto);
                 return Ok("Sala creada exitosamente");
             }
             catch (Exception ex)
@@ -31,6 +35,7 @@ namespace ProyectoFinal.Controllers
                 return StatusCode(500, $"Error al crear la sala: {ex.Message}");
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ObtenerSalas()

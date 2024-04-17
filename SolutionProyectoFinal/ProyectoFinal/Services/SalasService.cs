@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Context;
+using ProyectoFinal.DTOs;
 using ProyectoFinal.Interfaces;
+using static ProyectoFinal.DTOs.SalasDTOcs;
 using ProyectoFinal.Models;
+
 
 
 public class SalasService : ISalasService
@@ -17,11 +20,18 @@ public class SalasService : ISalasService
         _context = dbContext;
     }
 
-    public async Task CrearSalaAsync(Sala sala)
+    public async Task CrearSalaAsync(SalasDTOcs salaDto)
     {
-        _context.Salas.Add(sala);
+        Sala nuevaSala = new Sala
+        {
+            Nombre = salaDto.Nombre,
+            Fecha = salaDto.Fecha
+        };
+
+        _context.Salas.Add(nuevaSala);
         await _context.SaveChangesAsync();
     }
+
 
     public async Task<List<Sala>> ObtenerSalasAsync()
     {

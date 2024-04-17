@@ -234,10 +234,11 @@ CREATE TABLE SolicitudAdmision (
 select* from SolicitudAdmision;
 
 CREATE TABLE Salas (
-    Id VARCHAR(255) PRIMARY KEY,
+    Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre VARCHAR(255),
     Fecha VARCHAR(255)
 );
 
+drop table Salas
 
 select * from Salas

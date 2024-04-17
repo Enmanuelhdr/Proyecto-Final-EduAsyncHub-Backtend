@@ -46,14 +46,23 @@ namespace ProyectoFinal.Services
             {
                 var estudianteId = student.EstudianteId;
 
+                var calificacionesRecords = await _context.Calificaciones
+                    .Where(c => c.EstudianteId == estudianteId)
+                    .ToListAsync();
+
+                _context.Calificaciones.RemoveRange(calificacionesRecords);
+
+                await _context.SaveChangesAsync();
+
                 var estudianteMateriaRecords = await _context.EstudianteMateria
                     .Where(em => em.EstudianteId == estudianteId)
                     .ToListAsync();
 
                 _context.EstudianteMateria.RemoveRange(estudianteMateriaRecords);
-                await _context.SaveChangesAsync();
 
                 _context.Estudiantes.Remove(student);
+
+                await _context.SaveChangesAsync();
             }
 
             var teacher = await _context.Profesores.FirstOrDefaultAsync(p => p.UsuarioId == usuario.UserId);
